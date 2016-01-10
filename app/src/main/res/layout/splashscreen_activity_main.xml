@@ -24,6 +24,6 @@
         android:id="@+id/appTitle"
         android:layout_below="@+id/appLogo"
         android:layout_centerHorizontal="true"
-        android:fontFamily="sans-serif-light"
+        android:fontFamily="sans-serif"
         android:textSize="150px"/>
 </RelativeLayout>
