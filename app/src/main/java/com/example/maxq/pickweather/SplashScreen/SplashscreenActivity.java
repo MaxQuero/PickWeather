@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
-import com.example.maxq.pickweather.Home.HomeActivity;
+import com.example.maxq.pickweather.Home.MainActivity;
 import com.example.maxq.pickweather.R;
 
 public class SplashscreenActivity extends Activity {
@@ -27,7 +27,7 @@ public class SplashscreenActivity extends Activity {
             @Override
             public void run() {
                 /* Create an Intent that will start the Menu-Activity. */
-                Intent mainIntent = new Intent(SplashscreenActivity.this, HomeActivity.class);
+                Intent mainIntent = new Intent(SplashscreenActivity.this, MainActivity.class);
                 SplashscreenActivity.this.startActivity(mainIntent);
                 //We call finish() function to prevent user to come back to splashScreen
                 SplashscreenActivity.this.finish();
