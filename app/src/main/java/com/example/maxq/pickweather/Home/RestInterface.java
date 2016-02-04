@@ -20,5 +20,5 @@ public interface RestInterface {
     Callback<Model> searchWeather(@Query("q") String city);
 
     @GET("/weather")
-    void getWeather(@Query("q") String city, @Query("APPID") String appid,  Callback<Model> callback);
+    void getWeatherReport(@Query("q") String city, @Query("APPID") String appid,  Callback<Model> callback);
 }
