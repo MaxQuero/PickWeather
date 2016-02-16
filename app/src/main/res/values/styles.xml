@@ -1,15 +1,14 @@
 <resources>
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="android:Theme.NoTitleBar">
-        <!-- Customize your theme here. -->
+    <!-- your theme inherits from the material theme -->
+    <style name="AppTheme" parent="android:Theme.Material">
+        <!-- theme customizations -->
     </style>
 
-    <style name="FullscreenTheme" parent="android:Theme.NoTitleBar">
+    <style name="FullscreenTheme" parent="android:Theme.Material.Wallpaper.NoTitleBar">
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:windowBackground">@null</item>
-        <item name="metaButtonBarStyle">@style/ButtonBar</item>
-        <item name="metaButtonBarButtonStyle">@style/ButtonBarButton</item>
+
     </style>
 
     <!-- Backward-compatible version of ?android:attr/buttonBarStyle -->
