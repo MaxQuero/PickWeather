@@ -9,7 +9,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:showDividers="middle"
-    tools:context="com.example.maxq.epsi.Home.MainActivity">
+    tools:context="com.example.epsi.pickweather.Home.MainActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
