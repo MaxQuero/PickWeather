@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.maxq.pickweather.Home.HomeActivity">
+    tools:context="com.example.maxq.epsi.Home.HomeActivity">
 
     <TextView
         android:id="@+id/txt_city"

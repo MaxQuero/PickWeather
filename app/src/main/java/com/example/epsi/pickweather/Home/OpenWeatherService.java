@@ -1,4 +1,4 @@
-package com.example.maxq.pickweather.Home;
+package com.example.epsi.pickweather.Home;
 
 /**
  * Created by MaxQ on 27/01/2016.

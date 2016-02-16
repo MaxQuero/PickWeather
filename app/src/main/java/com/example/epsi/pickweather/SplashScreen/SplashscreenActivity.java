@@ -1,11 +1,12 @@
-package com.example.maxq.pickweather.SplashScreen;
+package com.example.epsi.pickweather.SplashScreen;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
-import com.example.maxq.pickweather.Home.MainActivity;
-import com.example.maxq.pickweather.R;
+import com.example.epsi.pickweather.Home.MainActivity;
+import com.example.epsi.pickweather.R;
 
 public class SplashscreenActivity extends Activity {
 

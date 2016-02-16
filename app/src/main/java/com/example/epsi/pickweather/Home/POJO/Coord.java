@@ -1,4 +1,4 @@
-package com.example.maxq.pickweather.Home.POJO;
+package com.example.epsi.pickweather.Home.POJO;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
