@@ -1,7 +1,7 @@
 package com.example.epsi.pickweather.Home;
 
+import android.app.Activity;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -14,7 +14,7 @@ import retrofit.RetrofitError;
 import retrofit.android.AndroidLog;
 import retrofit.client.Response;
 
-public class MainActivity extends FragmentActivity {
+public class MainActivity extends Activity {
 
     TextView city, status, humidity, pressure;
     String url = "http://api.openweathermap.org/data/2.5";
