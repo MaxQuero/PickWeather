@@ -1,8 +1,5 @@
 package com.example.epsi.pickweather.Home;
 
-import android.content.Context;
-import android.location.LocationManager;
-import android.location.LocationProvider;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
@@ -13,8 +10,7 @@ import android.widget.Toast;
 
 import com.example.epsi.pickweather.Home.POJO.CurrentWeather;
 import com.example.epsi.pickweather.R;
-
-import java.util.ArrayList;
+import com.google.android.gms.common.api.GoogleApiClient;
 
 import retrofit.Callback;
 import retrofit.RestAdapter;
@@ -23,6 +19,10 @@ import retrofit.android.AndroidLog;
 import retrofit.client.Response;
 
 public class MainActivity extends ActionBarActivity {
+    GoogleApiClient mGoogleApiClient;
+
+
+
 
     TextView city, status, humidity, pressure;
     String url = "http://api.openweathermap.org/data/2.5";
@@ -63,6 +63,8 @@ public class MainActivity extends ActionBarActivity {
             }
         });
 
+
+
     }
 
     @Override
@@ -87,18 +89,7 @@ public class MainActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void getLocation() {
-        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        ArrayList<LocationProvider> providers = new ArrayList<LocationProvider>();
 
-        //ArrayList<String> names = locationManager.getProviders(true);
-
-
-        /*for (String name : names){
-            providers.add(locationManager.getProvider(name));
-        }*/
-
-    }
 
     public RestInterface callAPI(String url) {
         //making object of RestAdapter
@@ -113,4 +104,9 @@ public class MainActivity extends ActionBarActivity {
 
         return restInterface;
     }
+
+
+
+
 }
+
