@@ -1,8 +1,12 @@
 <resources>
 
     <!-- your theme inherits from the material theme -->
-    <style name="AppTheme" parent="android:Theme.Material">
-        <!-- theme customizations -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Main theme colors -->
+        <!--   your app branding color for the app bar -->
+        <item name="colorPrimary">@color/ColorPrimary</item>
+        <!--   darker variant for the status bar and contextual app bars -->
+        <item name="colorPrimaryDark">@color/ColorPrimaryDark</item>
     </style>
 
     <style name="FullscreenTheme" parent="android:Theme.Material.Wallpaper.NoTitleBar">
@@ -10,6 +14,7 @@
         <item name="android:windowBackground">@null</item>
 
     </style>
+
 
     <!-- Backward-compatible version of ?android:attr/buttonBarStyle -->
     <style name="ButtonBar">
