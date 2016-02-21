@@ -1,5 +1,8 @@
 package com.example.epsi.pickweather.Home;
 
+import android.content.Context;
+import android.location.LocationManager;
+import android.location.LocationProvider;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
@@ -10,6 +13,8 @@ import android.widget.Toast;
 
 import com.example.epsi.pickweather.Home.POJO.CurrentWeather;
 import com.example.epsi.pickweather.R;
+
+import java.util.ArrayList;
 
 import retrofit.Callback;
 import retrofit.RestAdapter;
@@ -22,7 +27,6 @@ public class MainActivity extends ActionBarActivity {
     TextView city, status, humidity, pressure;
     String url = "http://api.openweathermap.org/data/2.5";
     private Toolbar toolbar;                              // Declaring the Toolbar Object
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,19 +40,11 @@ public class MainActivity extends ActionBarActivity {
         status = (TextView) findViewById(R.id.txt_status);
         humidity = (TextView) findViewById(R.id.txt_humidity);
         pressure = (TextView) findViewById(R.id.txt_press);
+        RestInterface ri = callAPI(url);
 
-        //making object of RestAdapter
-        RestAdapter adapter = new RestAdapter.Builder()
-                .setEndpoint(url)
-                .setLog(new AndroidLog("retrofit"))
-                .setLogLevel(RestAdapter.LogLevel.FULL)
-                .build();
-
-        //Creating Rest Services
-        RestInterface restInterface = adapter.create(RestInterface.class);
 
         //Calling method to get whether report
-        restInterface.getWeatherReport("Madagascar", "f48fbd8a004dce121b1720eb6fac9fc7", new Callback<CurrentWeather>() {
+        ri.getWeatherReport("Madagascar", "f48fbd8a004dce121b1720eb6fac9fc7", new Callback<CurrentWeather>() {
             @Override
             public void success(CurrentWeather weather, Response response) {
                 Toast.makeText(getApplicationContext(), String.format("OK"), Toast.LENGTH_SHORT).show();
@@ -89,5 +85,32 @@ public class MainActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void getLocation() {
+        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        ArrayList<LocationProvider> providers = new ArrayList<LocationProvider>();
+
+        //ArrayList<String> names = locationManager.getProviders(true);
+
+
+        /*for (String name : names){
+            providers.add(locationManager.getProvider(name));
+        }*/
+
+    }
+
+    public RestInterface callAPI(String url) {
+        //making object of RestAdapter
+        RestAdapter adapter = new RestAdapter.Builder()
+                .setEndpoint(url)
+                .setLog(new AndroidLog("retrofit"))
+                .setLogLevel(RestAdapter.LogLevel.FULL)
+                .build();
+
+        //Creating Rest Services
+        RestInterface restInterface = adapter.create(RestInterface.class);
+
+        return restInterface;
     }
 }
