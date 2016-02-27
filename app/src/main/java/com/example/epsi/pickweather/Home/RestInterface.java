@@ -11,14 +11,11 @@ import retrofit.http.Query;
  */
 public interface RestInterface {
 
-
-    @GET("/weather?q=Madagascar&APPID=f48fbd8a004dce121b1720eb6fac9fc7")
-    void getWheatherReport(Callback<CurrentWeather> cb);
-
-
-    @GET("/data/2.5/weather?q={city}&APPID={appid}f48fbd8a004dce121b1720eb6fac9fc7")
-    Callback<CurrentWeather> searchWeather(@Query("q") String city);
+    @GET("/weather")
+    void getWeatherReportByCityName(@Query("q") String city, @Query("APPID") String appid,  Callback<CurrentWeather> callback);
 
     @GET("/weather")
-    void getWeatherReport(@Query("q") String city, @Query("APPID") String appid,  Callback<CurrentWeather> callback);
+    void getWeatherReportByCoord(@Query("lat") String lat, @Query("lon") String lon, @Query("APPID") String appid,  Callback<CurrentWeather> callback);
+    //http://api.openweathermap.org/data/2.5/weather?lat=50.3724754&lon=3.0872311&APPID=f48fbd8a004dce121b1720eb6fac9fc7
+
 }

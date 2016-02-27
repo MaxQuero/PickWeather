@@ -16,7 +16,7 @@
                 android:id="@+id/txt_humidity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="30dp"
+                android:layout_marginBottom="130dp"
                 android:text="Humidity" />
 
             <TextView
@@ -41,12 +41,28 @@
                 android:text="Status" />
 
             <TextView
-                android:id="@+id/textview1"
+                android:id="@+id/mLatitude"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 android:text="@string/hello_world" />
+
+                <TextView
+                    android:id="@+id/mLongitude"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:text="@string/hello_world" />
+
+                <TextView
+                    android:id="@+id/cityNameFromCoord"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:text="@string/hello_world" />
     </LinearLayout>
 
 </RelativeLayout>
