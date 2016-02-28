@@ -1,14 +1,17 @@
 package com.example.epsi.pickweather.Home;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.hardware.Sensor;
+import android.hardware.SensorManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,9 +37,15 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
     GoogleApiClient mGoogleApiClient;
 
     TextView city, status, weather_icon, celcius_icon, humidity, pressure, temp, nameFromLocation;
+    String currentCityName;
     int icon, weatherCode;
     String url = "http://api.openweathermap.org/data/2.5";
+
     private Toolbar toolbar;                              // Declaring the Toolbar Object
+    // The following are used for the shake detection
+    private SensorManager mSensorManager;
+    private Sensor mAccelerometer;
+    private ShakeDetector mShakeDetector;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,13 +78,30 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
                     .addApi(LocationServices.API)
                     .build();
         }
+
+        // ShakeDetector initialization
+        mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        mAccelerometer = mSensorManager
+                .getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        mShakeDetector = new ShakeDetector();
+        mShakeDetector.setOnShakeListener(new ShakeDetector.OnShakeListener() {
+
+            @Override
+            public void onShake(int count) {
+                handleShakeEvent();
+
+            }
+        });
+    }
+
+    public void handleShakeEvent(){
+        Toast.makeText(getApplicationContext(), "Refreshing " + currentCityName + " weather", Toast.LENGTH_SHORT).show();
         RestInterface ri = callAPI(url);
 
         //Calling method to get weather report from city name
-        ri.getWeatherReportByCityName("Quebec", "f48fbd8a004dce121b1720eb6fac9fc7", new Callback<CurrentWeather>() {
+        ri.getWeatherReportByCityName("Marseille", "f48fbd8a004dce121b1720eb6fac9fc7", new Callback<CurrentWeather>() {
             @Override
-            public void success(CurrentWeather weather, Response response) {
-                Toast.makeText(getApplicationContext(), String.format("OK"), Toast.LENGTH_SHORT).show();
+            public void success(CurrentWeather weather, Response response) {Toast.makeText(getApplicationContext(), String.format("OK"), Toast.LENGTH_SHORT).show();
                 System.out.println(response.toString());
 
                 city.setText(weather.getName() + ", " + weather.getSys().getCountry());
@@ -95,34 +121,38 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
                 String merror = error.getMessage();
             }
         });
-
     }
 
     public void putWeatherIcons(CurrentWeather weather){
         weatherCode = weather.getWeather().get(0).getId();
         double c = weather.getMain().getTemp().intValue() - 273;
         int celcius_degree = (int) c;
-        View view = weather_icon.getRootView();
-
+             LinearLayout view = (LinearLayout) findViewById(R.id.im);
+        int bottom = view.getPaddingBottom();
+        int top = view.getPaddingTop();
+        int right = view.getPaddingRight();
+        int left = view.getPaddingLeft();
         switch (weatherCode){
             case 500 :
                 icon=R.string.light_rain;
                 weather_icon.setTextColor(Color.parseColor("#0091ea"));
-                view.setBackgroundColor(Color.parseColor("#82b2e4"));
+                view.setBackgroundResource(R.drawable.light_rain);
+                break;
             case 800:
                 icon = R.string.sunny;
-                weather_icon.setTextColor(Color.parseColor("#fbea2b"));
-                view.setBackgroundColor(Color.parseColor("#0091ea"));
+                weather_icon.setTextColor(Color.parseColor("#ffeb3b"));
+                view.setBackgroundResource(R.drawable.sunny);
+
                 break;
             case 801:
                 icon = R.string.few_clouds;
-                weather_icon.setTextColor(Color.parseColor("#ffffff"));
-                view.setBackgroundColor(Color.parseColor("#9e9e9e"));
+                weather_icon.setTextColor(Color.parseColor("#ffeb3b"));
+                view.setBackgroundResource(R.drawable.few_clouds);
                 break;
             case 905:
                 icon = R.string.windy;
                 weather_icon.setTextColor(Color.parseColor("#ffffff"));
-                view.setBackgroundColor(Color.parseColor("#9e9e9e"));
+                view.setBackgroundResource(R.drawable.windy);
                 break;
             default :
                 int simpleId = weatherCode/100;
@@ -142,7 +172,7 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
                     case 5:
                         icon = R.string.rainy;
                         weather_icon.setTextColor(Color.parseColor("#82b2e4"));
-                        view.setBackgroundColor(Color.parseColor("#9e9e9e"));
+                        view.setBackgroundResource(R.drawable.rainy);
 
                         break;
                     case 6:
@@ -159,12 +189,16 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
                     case 8:
                         icon = R.string.cloudy;
                         weather_icon.setTextColor(Color.parseColor("#ffffff"));
-                        view.setBackgroundColor(Color.parseColor("#9e9e9e"));
+
+                        view.setBackgroundResource(R.drawable.clouds);
 
                         break;
                 }
         }
+        view.setPadding(left, top, right, bottom);
         weather_icon.setText(icon);
+
+
         temp.setText(String.valueOf(celcius_degree));
         celcius_icon.setText(R.string.celcius);
 
@@ -239,25 +273,30 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
         Location mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
                 mGoogleApiClient);
         if (mLastLocation != null) {
-            String mLatitude, mLongitude;
-            mLatitude = String.valueOf(mLastLocation.getLatitude());
-            mLongitude = String.valueOf(mLastLocation.getLongitude());
+            TextView mLatitudeText, mLongitudeText;
+            mLatitudeText = (TextView) findViewById(R.id.mLatitude);
+            mLongitudeText = (TextView) findViewById(R.id.mLongitude);
+            mLatitudeText.setText(String.valueOf(mLastLocation.getLatitude()));
+            mLongitudeText.setText(String.valueOf(mLastLocation.getLongitude()));
+            String mLat, mLon;
+            mLat = String.valueOf(mLastLocation.getLatitude());
+            mLon = String.valueOf(mLastLocation.getLongitude());
+            RestInterface r = callAPI(url);
 
-            RestInterface ri = callAPI(url);
-
-            ri.getWeatherReportByCoord(mLatitude, mLongitude, "f48fbd8a004dce121b1720eb6fac9fc7", new Callback<CurrentWeather>() {
+            r.getWeatherReportByCoord(mLat, mLon, "f48fbd8a004dce121b1720eb6fac9fc7", new Callback<CurrentWeather>() {
                 @Override
                 public void success(CurrentWeather weather, Response response) {
-                   /* Toast.makeText(getApplicationContext(), String.format("OK"), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), String.format("OK"), Toast.LENGTH_SHORT).show();
                     System.out.println(response.toString());
 
                     city.setText(weather.getName() + ", " + weather.getSys().getCountry());
+                    setWeatherName(weather.getName());
                     //Get simple weather code -> first number says wich type of weather it is
                     status.setText("Current Weather : " + weather.getWeather().get(0).getDescription());
                     humidity.setText("humidity : " + weather.getMain().getHumidity().toString());
                     pressure.setText("pressure : " + weather.getMain().getPressure().toString());
 
-                    putWeatherIcons(weather);*/
+                    putWeatherIcons(weather);
 
                 }
 
@@ -269,7 +308,10 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
                 }
             });
         }
+    }
 
+    public void setWeatherName(String name){
+        currentCityName = name;
     }
 
     @Override
@@ -280,6 +322,20 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        // Add the following line to register the Session Manager Listener onResume
+        mSensorManager.registerListener(mShakeDetector, mAccelerometer,	SensorManager.SENSOR_DELAY_UI);
+    }
+
+    @Override
+    public void onPause() {
+        // Add the following line to unregister the Sensor Manager onPause
+        mSensorManager.unregisterListener(mShakeDetector);
+        super.onPause();
     }
 }
 

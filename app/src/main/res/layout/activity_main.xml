@@ -1,11 +1,15 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark"
+
     android:layout_height="match_parent"
     tools:context="com.example.epsi.pickweather.Home.MainActivity">
+
     <include android:id="@+id/tool_bar" layout="@layout/tool_bar"></include>
 
         <LinearLayout
+            android:id="@+id/im"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
@@ -19,14 +23,14 @@
                 android:text="City"
                 android:layout_gravity="center_horizontal"
                 android:textAlignment="gravity"
-                android:textSize="80px" />
+                android:textSize="120px" />
 
             <TextView
                 android:id="@+id/weather_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:textSize="500px"
+                android:textSize="550px"
                 android:textColor="#a0dfe4de"
                 android:textIsSelectable="false" />
             <TextView
@@ -41,13 +45,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Humidity"
-                android:layout_gravity="center_horizontal" />
+                android:layout_gravity="center_horizontal"
+                android:textSize="40px" />
+
             <TextView
                 android:id="@+id/txt_press"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Pressure"
-                android:layout_gravity="center_horizontal" />
+                android:layout_gravity="center_horizontal"
+                android:textSize="40px" />
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -60,7 +68,7 @@
                     android:layout_height="wrap_content"
                     android:text="Pressure"
                     android:layout_gravity="center_horizontal"
-                    android:textSize="70px"
+                    android:textSize="120px"
                     android:textColor="#a0e42a00" />
                 <TextView
                     android:id="@+id/celcius_icon"
@@ -68,7 +76,7 @@
                     android:layout_height="wrap_content"
                     android:text="Pressure"
                     android:layout_gravity="center_horizontal"
-                    android:textSize="70px"
+                    android:textSize="120px"
                     android:textColor="#a0e42a00" />
             </LinearLayout>
 
