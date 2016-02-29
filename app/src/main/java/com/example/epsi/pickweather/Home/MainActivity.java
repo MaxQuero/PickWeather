@@ -99,7 +99,7 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
         RestInterface ri = callAPI(url);
 
         //Calling method to get weather report from city name
-        ri.getWeatherReportByCityName("Marseille", "f48fbd8a004dce121b1720eb6fac9fc7", new Callback<CurrentWeather>() {
+        ri.getWeatherReportByCityName("Plouagat", "f48fbd8a004dce121b1720eb6fac9fc7", new Callback<CurrentWeather>() {
             @Override
             public void success(CurrentWeather weather, Response response) {Toast.makeText(getApplicationContext(), String.format("OK"), Toast.LENGTH_SHORT).show();
                 System.out.println(response.toString());
@@ -160,38 +160,32 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
                     case 2:
                         icon = R.string.thunder;
                         weather_icon.setTextColor(Color.parseColor("#fbea2b"));
-                        view.setBackgroundColor(Color.parseColor("#9e9e9e"));
-
+                        view.setBackgroundResource(R.drawable.thunder);
                         break;
                     case 3:
                         icon = R.string.drizzle;
                         weather_icon.setTextColor(Color.parseColor("#ffffff"));
-                        view.setBackgroundColor(Color.parseColor("#9e9e9e"));
-
+                        view.setBackgroundResource(R.drawable.drizzle);
                         break;
                     case 5:
                         icon = R.string.rainy;
                         weather_icon.setTextColor(Color.parseColor("#82b2e4"));
                         view.setBackgroundResource(R.drawable.rainy);
-
                         break;
                     case 6:
                         icon = R.string.snowy;
                         weather_icon.setTextColor(Color.parseColor("#a0dfe4de"));
-                        view.setBackgroundColor(Color.parseColor("#9e9e9e"));
-
+                        view.setBackgroundResource(R.drawable.snowy);
                         break;
                     case 7 : icon = R.string.foggy;
                         weather_icon.setTextColor(Color.parseColor("#ffffff"));
                         view.setBackgroundColor(Color.parseColor("#9e9e9e"));
-
+                        view.setBackgroundResource(R.drawable.foggy);
                         break;
                     case 8:
                         icon = R.string.cloudy;
                         weather_icon.setTextColor(Color.parseColor("#ffffff"));
-
-                        view.setBackgroundResource(R.drawable.clouds);
-
+                        view.setBackgroundResource(R.drawable.cloudy);
                         break;
                 }
         }
