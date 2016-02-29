@@ -1,6 +1,7 @@
 package com.example.epsi.pickweather.Home;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.hardware.Sensor;
@@ -232,8 +233,6 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
             default :
                 return super.onOptionsItemSelected(item);
         }
-
-        return super.onOptionsItemSelected(item);
     }
 
 

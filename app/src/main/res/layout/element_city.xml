@@ -38,13 +38,17 @@
         android:id="@+id/tv_temp"
         android:layout_weight="0"
         android:autoText="false"
-        android:layout_gravity="left|center_vertical" />
+        android:layout_gravity="left|center_vertical"
+        android:layout_marginRight="70px" />
+
+
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/iv_Fav"
         android:src="@drawable/ic_favorite_border_black_24dp"
-        android:layout_weight="0" />
+        android:layout_weight="0"
+        android:layout_marginRight="10px" />
 
 </LinearLayout>

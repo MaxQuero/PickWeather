@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -47,7 +46,7 @@ public class ListCityAdapter extends ArrayAdapter<List>{
     }
 
     public static class ViewHolder {
-        public TextView mytextviewname, mytextviewcountry, mytextviewtemp;
+        public TextView mytextviewname, mytextviewcountry, mytextviewtemp, celcius_icon;
         public ImageView myimageview;
     }
 
@@ -70,10 +69,11 @@ public class ListCityAdapter extends ArrayAdapter<List>{
         {
             holder = (ViewHolder) myview.getTag();
         }
-
+        double c = this.myArray.get(position).getMain().getTemp().intValue();
+        int celcius_degree = (int) c;
         holder.mytextviewname.setText(this.myArray.get(position).getName());
         holder.mytextviewcountry.setText(this.myArray.get(position).getSys().getCountry());
-        holder.mytextviewtemp.setText(String.valueOf( this.myArray.get(position).getMain().getTemp().toString()) + "°C");
+        holder.mytextviewtemp.setText(String.valueOf(celcius_degree) + "°C");
 
         return myview;
     }
