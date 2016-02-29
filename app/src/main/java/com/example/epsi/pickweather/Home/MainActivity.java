@@ -40,7 +40,6 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
     String currentCityName;
     int icon, weatherCode;
     String url = "http://api.openweathermap.org/data/2.5";
-
     private Toolbar toolbar;                              // Declaring the Toolbar Object
     // The following are used for the shake detection
     private SensorManager mSensorManager;
@@ -221,14 +220,17 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+        switch (item.getItemId() ){
+            case R.id.action_search :
+                Intent myIntent = new Intent(MainActivity.this, SearchCityActivity.class);
+                startActivity(myIntent);
+                return true;
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+            case R.id.action_settings :
+                return true;
+
+            default :
+                return super.onOptionsItemSelected(item);
         }
 
         return super.onOptionsItemSelected(item);
@@ -332,4 +334,3 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
         super.onPause();
     }
 }
-
