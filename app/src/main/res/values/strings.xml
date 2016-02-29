@@ -8,4 +8,23 @@
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="title_activity_main">MainActivity</string>
+
+    <string name="sunny">&#xe028;</string>
+    <string name="cloudy">&#xe000;</string>
+    <string name="few_clouds">&#xe001;</string>
+    <string name="clear_night">&#xe02d;</string>
+    <string name="foggy">&#xe01b;</string>
+    <string name="cloud">&#xe000;</string>
+    <string name="light_rain">&#xe004;</string>
+    <string name="rainy">&#xe003;</string>
+    <string name="snowy">&#xe018;</string>
+    <string name="thunder">&#xe025;</string>
+    <string name="drizzle">&#xe00c;</string>
+    <string name="windy">&#xe021;</string>
+
+    <string name="celcius">&#xe03e;</string>
+
+
+
+
 </resources>
