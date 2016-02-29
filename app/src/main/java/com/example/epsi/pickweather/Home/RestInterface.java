@@ -1,10 +1,14 @@
 package com.example.epsi.pickweather.Home;
 
 import com.example.epsi.pickweather.Home.POJO.CurrentWeather;
+import com.example.epsi.pickweather.Home.POJO2.SearchWeather;
+
+import java.util.Map;
 
 import retrofit.Callback;
 import retrofit.http.GET;
 import retrofit.http.Query;
+import retrofit.http.QueryMap;
 
 /**
  * Created by MaxQuero on 29/01/2016.
@@ -21,4 +25,7 @@ public interface RestInterface {
 
     @GET("/weather")
     void getWeatherReport(@Query("q") String city, @Query("APPID") String appid,  Callback<CurrentWeather> callback);
+
+    @GET("/find")
+    void getCity(@QueryMap Map<String, String> c, Callback<SearchResult> callback);
 }
