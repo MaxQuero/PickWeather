@@ -10,7 +10,7 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.example.epsi.pickweather.Home.POJO2.List;
+import com.example.epsi.pickweather.Home.POJO.List;
 import com.example.epsi.pickweather.Home.POJO.WeatherGenerator;
 import com.example.epsi.pickweather.R;
 
@@ -40,7 +40,7 @@ public class SearchCityActivity extends AppCompatActivity{
         this.mylistview = (ListView) findViewById(R.id.listViewCity);
         this.myedittext = (EditText) findViewById(R.id.et_search);
 
-        final RestInterface myrestinterface = WeatherGenerator.createAutoCompletCity(RestInterface.class);
+        final RestInterface myrestinterface = WeatherGenerator.callAPI(RestInterface.class);
 
             myimagebtn.setOnClickListener(new View.OnClickListener() {
               @Override
@@ -60,13 +60,13 @@ public class SearchCityActivity extends AppCompatActivity{
                           public void success(SearchResult searchResult, Response response) {
                               //System.out.println(response.toString());
                               //System.out.println(sw.getMessage().toString());
-                              final ArrayList<List> myarray = new ArrayList<>();
-                              // Toast.makeText(getApplicationContext(), sw.getMessage().toString(), Toast.LENGTH_LONG).show();
+                              ArrayList<List> myarray = new ArrayList<>();
+                             // Toast.makeText(getApplicationContext(), sw.getMessage().toString(), Toast.LENGTH_LONG).show();
                               for (List currentw : searchResult.getMyresult()) {
                                   myarray.add(currentw);
                               }
-                              final ListCityAdapter myadapt = new ListCityAdapter(SearchCityActivity.this, R.layout.element_city, myarray);
-                              mylistview.setAdapter(myadapt);
+                              myadapt = new ListCityAdapter(SearchCityActivity.this, R.layout.element_city, myarray);
+                             mylistview.setAdapter(myadapt);
 
                               mylistview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                   public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
@@ -77,10 +77,11 @@ public class SearchCityActivity extends AppCompatActivity{
 
 
                                       Intent i = new Intent(SearchCityActivity.this, MainActivity.class);
-                                      i.putExtra("obj", myarray.get(position).getId());
+                                      i.putExtra("id", myarray.get(position).getId());
                                       startActivity(i);
                                   }
                               });
+
                           }
 
                           @Override
@@ -89,9 +90,6 @@ public class SearchCityActivity extends AppCompatActivity{
                           }
 
                       });
-
-
-
 
 
                       /*final retrofit.Callback<SearchResult> callback = new Callback<SearchResult>() {

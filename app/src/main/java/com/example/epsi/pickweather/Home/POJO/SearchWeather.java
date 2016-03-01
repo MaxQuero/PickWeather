@@ -1,8 +1,9 @@
-package com.example.epsi.pickweather.Home.POJO2;
+package com.example.epsi.pickweather.Home.POJO;
 
-import java.util.ArrayList;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
+import java.util.ArrayList;
 
 /**
  * Created by Camille on 28/02/2016.
@@ -19,7 +20,7 @@ public class SearchWeather {
     private Integer count;
     @SerializedName("list")
     @Expose
-    private java.util.List<com.example.epsi.pickweather.Home.POJO2.List> list = new ArrayList<com.example.epsi.pickweather.Home.POJO2.List>();
+    private java.util.List<List> list = new ArrayList<List>();
 
     /**
      *
@@ -80,7 +81,7 @@ public class SearchWeather {
      * @return
      * The list
      */
-    public java.util.List<com.example.epsi.pickweather.Home.POJO2.List> getList() {
+    public java.util.List<List> getList() {
         return list;
     }
 
@@ -89,7 +90,7 @@ public class SearchWeather {
      * @param list
      * The list
      */
-    public void setList(java.util.List<com.example.epsi.pickweather.Home.POJO2.List> list) {
+    public void setList(java.util.List<List> list) {
         this.list = list;
     }
 }

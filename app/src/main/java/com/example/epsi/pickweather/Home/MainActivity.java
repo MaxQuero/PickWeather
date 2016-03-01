@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.epsi.pickweather.Home.POJO.CurrentWeather;
+import com.example.epsi.pickweather.Home.POJO.WeatherGenerator;
 import com.example.epsi.pickweather.R;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -25,9 +26,7 @@ import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListe
 import com.google.android.gms.location.LocationServices;
 
 import retrofit.Callback;
-import retrofit.RestAdapter;
 import retrofit.RetrofitError;
-import retrofit.android.AndroidLog;
 import retrofit.client.Response;
 
 /**
@@ -35,11 +34,11 @@ import retrofit.client.Response;
  */
 
 public class MainActivity extends AppCompatActivity implements ConnectionCallbacks, OnConnectionFailedListener {
-    GoogleApiClient mGoogleApiClient;
+    GoogleApiClient mGoogleApiClient=null;
 
     TextView city, status, weather_icon, celcius_icon, humidity, pressure, temp, nameFromLocation;
-    String currentCityName;
-    int icon, weatherCode;
+    String currentCityName, mLat, mLon;
+    int icon, weatherCode, cityId;
     String url = "http://api.openweathermap.org/data/2.5";
     private Toolbar toolbar;                              // Declaring the Toolbar Object
     // The following are used for the shake detection
@@ -78,9 +77,7 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
         //Set toolbar as action bar
         toolbar = (Toolbar) findViewById(R.id.tool_bar); // Attaching the layout to the toolbar object
         setSupportActionBar(toolbar);
-
-
-        // Start Google Location API
+// Start Google Location API
         if (mGoogleApiClient == null) {
             mGoogleApiClient = new GoogleApiClient.Builder(this)
                     .addConnectionCallbacks(this)
@@ -88,6 +85,51 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
                     .addApi(LocationServices.API)
                     .build();
         }
+
+        Intent i = getIntent();
+
+        Integer test = (Integer) i.getSerializableExtra("id");
+
+
+            // and get whatever type user account id is
+
+            if (test== null) {
+
+            Toast.makeText(getApplicationContext(), "null", Toast.LENGTH_LONG).show();
+        } else {
+                final RestInterface rs = WeatherGenerator.callAPI(RestInterface.class);
+            rs.getWeatherReportById(test, "f48fbd8a004dce121b1720eb6fac9fc7", new Callback<CurrentWeather>() {
+                @Override
+                public void success(CurrentWeather weather, Response response) {
+                    Toast.makeText(getApplicationContext(), String.format("OK"), Toast.LENGTH_SHORT).show();
+                    System.out.println(response.toString());
+                    setWeatherName(weather.getName());
+                    setWeatherId(weather.getId());
+                    city.setText(weather.getName() + ", " + weather.getSys().getCountry());
+                    //Get simple weather code -> first number says wich type of weather it is
+                    status.setText("Current Weather : " + weather.getWeather().get(0).getDescription());
+                    humidity.setText("humidity : " + weather.getMain().getHumidity().toString());
+                    pressure.setText("pressure : " + weather.getMain().getPressure().toString());
+
+                    putWeatherIcons(weather);
+
+                }
+
+                @Override
+                public void failure(RetrofitError error) {
+                    Toast.makeText(getApplicationContext(), String.format("KO"), Toast.LENGTH_SHORT).show();
+
+                    String merror = error.getMessage();
+                }
+            });
+
+        Toast.makeText(getApplicationContext(), String.valueOf(test), Toast.LENGTH_LONG).show();
+
+    }
+
+
+
+
 
         // ShakeDetector initialization
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
@@ -106,14 +148,16 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
 
     public void handleShakeEvent(){
         Toast.makeText(getApplicationContext(), "Refreshing " + currentCityName + " weather", Toast.LENGTH_SHORT).show();
-        RestInterface ri = callAPI(url);
+        final RestInterface ri = WeatherGenerator.callAPI(RestInterface.class);
 
         //Calling method to get weather report from city name
-        ri.getWeatherReportByCityName("Plouagat", "f48fbd8a004dce121b1720eb6fac9fc7", new Callback<CurrentWeather>() {
+        ri.getWeatherReportById(cityId, "f48fbd8a004dce121b1720eb6fac9fc7", new Callback<CurrentWeather>() {
             @Override
-            public void success(CurrentWeather weather, Response response) {Toast.makeText(getApplicationContext(), String.format("OK"), Toast.LENGTH_SHORT).show();
+            public void success(CurrentWeather weather, Response response) {
+                Toast.makeText(getApplicationContext(), String.format("OK"), Toast.LENGTH_SHORT).show();
                 System.out.println(response.toString());
-
+                setWeatherName(weather.getName());
+                setWeatherId(weather.getId());
                 city.setText(weather.getName() + ", " + weather.getSys().getCountry());
                 //Get simple weather code -> first number says wich type of weather it is
                 status.setText("Current Weather : " + weather.getWeather().get(0).getDescription());
@@ -137,7 +181,7 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
         weatherCode = weather.getWeather().get(0).getId();
         double c = weather.getMain().getTemp().intValue() - 273;
         int celcius_degree = (int) c;
-             LinearLayout view = (LinearLayout) findViewById(R.id.im);
+             LinearLayout view = (LinearLayout) findViewById(R.id.lin_layout);
         int bottom = view.getPaddingBottom();
         int top = view.getPaddingTop();
         int right = view.getPaddingRight();
@@ -209,10 +253,10 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
             if (celcius_degree < 10){
                 temp.setTextColor(Color.parseColor("#0091ea"));
                 celcius_icon.setTextColor(Color.parseColor("#0091ea"));
-            } else if (11<celcius_degree & celcius_degree<20){
+            } else if (10<=celcius_degree & celcius_degree<=20){
                 temp.setTextColor(Color.parseColor("#4caf50"));
                 celcius_icon.setTextColor(Color.parseColor("#4caf50"));
-            } else if (21<celcius_degree & celcius_degree<30){
+            } else if (20<celcius_degree & celcius_degree<=30){
                 temp.setTextColor(Color.parseColor("#e65100"));
                 celcius_icon.setTextColor(Color.parseColor("#e65100"));
             } else {
@@ -245,24 +289,6 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
         }
     }
 
-
-    //Function to initialize OpenWeather API call. Create adapter which will be use to call
-    //specific url.
-    public RestInterface callAPI(String url) {
-        //making object of RestAdapter
-        RestAdapter adapter = new RestAdapter.Builder()
-                .setEndpoint(url)
-                .setLog(new AndroidLog("retrofit"))
-                .setLogLevel(RestAdapter.LogLevel.FULL)
-                .build();
-
-        //Creating Rest Services
-        RestInterface restInterface = adapter.create(RestInterface.class);
-
-        return restInterface;
-    }
-
-
     protected void onStart() {
         mGoogleApiClient.connect();
         super.onStart();
@@ -275,49 +301,60 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
 
     @Override
     public void onConnected(Bundle connectionHint) {
-        Location mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
-                mGoogleApiClient);
-        if (mLastLocation != null) {
-            TextView mLatitudeText, mLongitudeText;
-            mLatitudeText = (TextView) findViewById(R.id.mLatitude);
-            mLongitudeText = (TextView) findViewById(R.id.mLongitude);
-            mLatitudeText.setText(String.valueOf(mLastLocation.getLatitude()));
-            mLongitudeText.setText(String.valueOf(mLastLocation.getLongitude()));
-            String mLat, mLon;
-            mLat = String.valueOf(mLastLocation.getLatitude());
-            mLon = String.valueOf(mLastLocation.getLongitude());
-            RestInterface r = callAPI(url);
+        Intent i = getIntent();
+        Integer test = (Integer) i.getSerializableExtra("id");
+        if (test == null) {
+            Location mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
+                    mGoogleApiClient);
+            if (mLastLocation != null) {
+                TextView mLatitudeText, mLongitudeText;
+                mLatitudeText = (TextView) findViewById(R.id.mLatitude);
+                mLongitudeText = (TextView) findViewById(R.id.mLongitude);
+                mLatitudeText.setText(String.valueOf(mLastLocation.getLatitude()));
+                mLongitudeText.setText(String.valueOf(mLastLocation.getLongitude()));
 
-            r.getWeatherReportByCoord(mLat, mLon, "f48fbd8a004dce121b1720eb6fac9fc7", new Callback<CurrentWeather>() {
-                @Override
-                public void success(CurrentWeather weather, Response response) {
-                    Toast.makeText(getApplicationContext(), String.format("OK"), Toast.LENGTH_SHORT).show();
-                    System.out.println(response.toString());
+                mLat = String.valueOf(mLastLocation.getLatitude());
+                mLon = String.valueOf(mLastLocation.getLongitude());
 
-                    city.setText(weather.getName() + ", " + weather.getSys().getCountry());
-                    setWeatherName(weather.getName());
-                    //Get simple weather code -> first number says wich type of weather it is
-                    status.setText("Current Weather : " + weather.getWeather().get(0).getDescription());
-                    humidity.setText("humidity : " + weather.getMain().getHumidity().toString());
-                    pressure.setText("pressure : " + weather.getMain().getPressure().toString());
+                final RestInterface r = WeatherGenerator.callAPI(RestInterface.class);
+                r.getWeatherReportByCoord(mLat, mLon, "f48fbd8a004dce121b1720eb6fac9fc7", new Callback<CurrentWeather>() {
+                    @Override
+                    public void success(CurrentWeather weather, Response response) {
+                        Toast.makeText(getApplicationContext(), String.format("OK"), Toast.LENGTH_SHORT).show();
+                        System.out.println(response.toString());
 
-                    putWeatherIcons(weather);
+                        city.setText(weather.getName() + ", " + weather.getSys().getCountry());
+                        setWeatherName(weather.getName());
+                        setWeatherId(weather.getId());
+                        //Get simple weather code -> first number says wich type of weather it is
+                        status.setText("Current Weather : " + weather.getWeather().get(0).getDescription());
+                        humidity.setText("humidity : " + weather.getMain().getHumidity().toString());
+                        pressure.setText("pressure : " + weather.getMain().getPressure().toString());
 
-                }
+                        putWeatherIcons(weather);
 
-                @Override
-                public void failure(RetrofitError error) {
-                    Toast.makeText(getApplicationContext(), String.format("KO"), Toast.LENGTH_SHORT).show();
+                    }
 
-                    String merror = error.getMessage();
-                }
-            });
+                    @Override
+                    public void failure(RetrofitError error) {
+                        Toast.makeText(getApplicationContext(), String.format("KO"), Toast.LENGTH_SHORT).show();
+
+                        String merror = error.getMessage();
+                    }
+                });
+            }
         }
     }
 
     public void setWeatherName(String name){
         currentCityName = name;
     }
+
+    public void setWeatherId(int id){
+        cityId = id;
+    }
+
+
 
     @Override
     public void onConnectionSuspended(int i) {
