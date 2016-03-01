@@ -18,7 +18,7 @@ public class WeatherGenerator {
             .setLogLevel(RestAdapter.LogLevel.FULL)
             .setClient(new OkClient(new OkHttpClient()));
 
-    public static <S> S createAutoCompletCity(Class<S> serviceClass)
+    public static <S> S callAPI(Class<S> serviceClass)
     {
         RestAdapter adapter = builderAutoCompletionCity.build();
         return adapter.create(serviceClass);

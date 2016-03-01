@@ -1,6 +1,6 @@
 package com.example.epsi.pickweather.Home;
 
-import com.example.epsi.pickweather.Home.POJO2.List;
+import com.example.epsi.pickweather.Home.POJO.List;
 
 /**
  * Created by Camille on 27/02/2016.

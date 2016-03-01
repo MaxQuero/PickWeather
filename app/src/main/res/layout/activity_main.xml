@@ -9,7 +9,7 @@
     <include android:id="@+id/tool_bar" layout="@layout/tool_bar"></include>
 
         <LinearLayout
-            android:id="@+id/im"
+            android:id="@+id/lin_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
@@ -100,7 +100,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
-                android:text="@string/hello_world" />
+                android:text="@string/hello_world"/>
 
     </LinearLayout>
 

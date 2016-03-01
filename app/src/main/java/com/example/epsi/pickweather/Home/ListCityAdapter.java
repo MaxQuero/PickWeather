@@ -9,7 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.epsi.pickweather.Home.POJO2.List;
+import com.example.epsi.pickweather.Home.POJO.List;
 import com.example.epsi.pickweather.R;
 
 import java.util.ArrayList;
@@ -38,6 +38,11 @@ public class ListCityAdapter extends ArrayAdapter<List>{
     @Override
     public List getItem(int position) {
         return this.myArray.get(position);
+    }
+
+
+    public String getNameItem(int position) {
+        return this.myArray.get(position).getName();
     }
 
     @Override

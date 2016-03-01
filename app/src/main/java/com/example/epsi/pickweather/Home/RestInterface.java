@@ -21,6 +21,9 @@ public interface RestInterface {
     void getWeatherReportByCoord(@Query("lat") String lat, @Query("lon") String lon, @Query("APPID") String appid,  Callback<CurrentWeather> callback);
     //http://api.openweathermap.org/data/2.5/weather?lat=50.3724754&lon=3.0872311&APPID=f48fbd8a004dce121b1720eb6fac9fc7
 
+    @GET("/weather")
+    void getWeatherReportById(@Query("id") int id , @Query("APPID") String appid,  Callback<CurrentWeather> callback);
+
     @GET("/find")
     void getCity(@QueryMap Map<String, String> c, Callback<SearchResult> callback);
 }
