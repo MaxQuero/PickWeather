@@ -50,17 +50,6 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Intent i = getIntent();
-        Integer test = (Integer) i.getSerializableExtra("obj");
-
-        if (test == null)
-        {
-            Toast.makeText(getApplicationContext(), "null", Toast.LENGTH_LONG).show();
-        }
-        else{
-            Toast.makeText(getApplicationContext(), String.valueOf(test), Toast.LENGTH_LONG).show();
-        }
-
         city = (TextView) findViewById(R.id.txt_city);
         weather_icon = (TextView) findViewById(R.id.weather_icon);
         status = (TextView) findViewById(R.id.txt_status);

@@ -60,13 +60,13 @@ public class SearchCityActivity extends AppCompatActivity{
                           public void success(SearchResult searchResult, Response response) {
                               //System.out.println(response.toString());
                               //System.out.println(sw.getMessage().toString());
-                              ArrayList<List> myarray = new ArrayList<>();
-                             // Toast.makeText(getApplicationContext(), sw.getMessage().toString(), Toast.LENGTH_LONG).show();
+                              final ArrayList<List> myarray = new ArrayList<>();
+                              // Toast.makeText(getApplicationContext(), sw.getMessage().toString(), Toast.LENGTH_LONG).show();
                               for (List currentw : searchResult.getMyresult()) {
                                   myarray.add(currentw);
                               }
-                              myadapt = new ListCityAdapter(SearchCityActivity.this, R.layout.element_city, myarray);
-                             mylistview.setAdapter(myadapt);
+                              final ListCityAdapter myadapt = new ListCityAdapter(SearchCityActivity.this, R.layout.element_city, myarray);
+                              mylistview.setAdapter(myadapt);
 
                               mylistview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                   public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
