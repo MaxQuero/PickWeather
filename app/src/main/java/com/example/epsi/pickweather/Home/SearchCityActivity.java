@@ -1,14 +1,16 @@
 package com.example.epsi.pickweather.Home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.example.epsi.pickweather.Home.POJO2.List;
+import com.example.epsi.pickweather.Home.POJO.List;
 import com.example.epsi.pickweather.Home.POJO.WeatherGenerator;
 import com.example.epsi.pickweather.R;
 
@@ -27,7 +29,8 @@ public class SearchCityActivity extends AppCompatActivity{
     private ImageButton myimagebtn;
     private ListView mylistview;
     private EditText myedittext;
-
+    ListCityAdapter myadapt;
+    ArrayList<List> myarray;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,7 +41,7 @@ public class SearchCityActivity extends AppCompatActivity{
         this.mylistview = (ListView) findViewById(R.id.listViewCity);
         this.myedittext = (EditText) findViewById(R.id.et_search);
 
-        final RestInterface myrestinterface = WeatherGenerator.createAutoCompletCity(RestInterface.class);
+        final RestInterface myrestinterface = WeatherGenerator.callAPI(RestInterface.class);
 
             myimagebtn.setOnClickListener(new View.OnClickListener() {
               @Override
@@ -58,13 +61,28 @@ public class SearchCityActivity extends AppCompatActivity{
                           public void success(SearchResult searchResult, Response response) {
                               //System.out.println(response.toString());
                               //System.out.println(sw.getMessage().toString());
-                              ArrayList<List> myarray = new ArrayList<>();
+                             myarray = new ArrayList<>();
                              // Toast.makeText(getApplicationContext(), sw.getMessage().toString(), Toast.LENGTH_LONG).show();
                               for (List currentw : searchResult.getMyresult()) {
                                   myarray.add(currentw);
                               }
-                              final ListCityAdapter myadapt = new ListCityAdapter(SearchCityActivity.this, R.layout.element_city, myarray);
+                              myadapt = new ListCityAdapter(SearchCityActivity.this, R.layout.element_city, myarray);
                              mylistview.setAdapter(myadapt);
+
+                              mylistview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                  public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+                                      Toast.makeText(getApplicationContext(), String.valueOf(id), Toast.LENGTH_LONG).show();
+
+
+                                      // Toast.makeText(getApplicationContext(), String.valueOf(myresult.getMyresult().length), Toast.LENGTH_SHORT).show();
+
+
+                                      Intent i = new Intent(SearchCityActivity.this, MainActivity.class);
+                                      i.putExtra("id", myarray.get(position).getId());
+                                      startActivity(i);
+                                  }
+                              });
+
                           }
 
                           @Override
@@ -73,8 +91,6 @@ public class SearchCityActivity extends AppCompatActivity{
                           }
 
                       });
-
-
                       /*final retrofit.Callback<SearchResult> callback = new Callback<SearchResult>() {
                           @Override
                           public void success(SearchResult searchresult, Response response) {

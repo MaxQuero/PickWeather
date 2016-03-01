@@ -1,8 +1,9 @@
-package com.example.epsi.pickweather.Home.POJO2;
+package com.example.epsi.pickweather.Home.POJO;
 
-import java.util.ArrayList;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
+import java.util.ArrayList;
 
 /**
  * Created by Camille on 28/02/2016.
@@ -16,25 +17,25 @@ public class List {
     private String name;
     @SerializedName("coord")
     @Expose
-    private Coord coord;
+    private com.example.epsi.pickweather.Home.POJO.Coord coord;
     @SerializedName("main")
     @Expose
-    private Main main;
+    private com.example.epsi.pickweather.Home.POJO.Main main;
     @SerializedName("dt")
     @Expose
     private Integer dt;
     @SerializedName("wind")
     @Expose
-    private Wind wind;
+    private com.example.epsi.pickweather.Home.POJO.Wind wind;
     @SerializedName("sys")
     @Expose
-    private Sys sys;
+    private com.example.epsi.pickweather.Home.POJO.Sys sys;
     @SerializedName("clouds")
     @Expose
-    private Clouds clouds;
+    private com.example.epsi.pickweather.Home.POJO.Clouds clouds;
     @SerializedName("weather")
     @Expose
-    private java.util.List<Weather> weather = new ArrayList<Weather>();
+    private java.util.List<com.example.epsi.pickweather.Home.POJO.Weather> weather = new ArrayList<com.example.epsi.pickweather.Home.POJO.Weather>();
 
     /**
      *
@@ -77,7 +78,7 @@ public class List {
      * @return
      * The coord
      */
-    public Coord getCoord() {
+    public com.example.epsi.pickweather.Home.POJO.Coord getCoord() {
         return coord;
     }
 
@@ -86,7 +87,7 @@ public class List {
      * @param coord
      * The coord
      */
-    public void setCoord(Coord coord) {
+    public void setCoord(com.example.epsi.pickweather.Home.POJO.Coord coord) {
         this.coord = coord;
     }
 
@@ -95,7 +96,7 @@ public class List {
      * @return
      * The main
      */
-    public Main getMain() {
+    public com.example.epsi.pickweather.Home.POJO.Main getMain() {
         return main;
     }
 
@@ -131,7 +132,7 @@ public class List {
      * @return
      * The wind
      */
-    public Wind getWind() {
+    public com.example.epsi.pickweather.Home.POJO.Wind getWind() {
         return wind;
     }
 
@@ -149,7 +150,7 @@ public class List {
      * @return
      * The sys
      */
-    public Sys getSys() {
+    public com.example.epsi.pickweather.Home.POJO.Sys getSys() {
         return sys;
     }
 
@@ -167,7 +168,7 @@ public class List {
      * @return
      * The clouds
      */
-    public Clouds getClouds() {
+    public com.example.epsi.pickweather.Home.POJO.Clouds getClouds() {
         return clouds;
     }
 
@@ -185,7 +186,7 @@ public class List {
      * @return
      * The weather
      */
-    public java.util.List<Weather> getWeather() {
+    public java.util.List<com.example.epsi.pickweather.Home.POJO.Weather> getWeather() {
         return weather;
     }
 
