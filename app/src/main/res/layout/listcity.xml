@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/aroundtheworld"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark"
     android:id="@+id/linearCity">
 
     <LinearLayout
@@ -18,11 +20,13 @@
             android:layout_weight="1" />
 
         <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:id="@+id/btn_search"
-            android:background="@drawable/ic_check_black_24dp"
-            android:adjustViewBounds="false" />
+            android:background="@drawable/ic_check_white_128dp"
+            android:adjustViewBounds="false"
+            android:layout_marginRight="15px"
+            android:layout_marginLeft="7px"/>
     </LinearLayout>
 
     <LinearLayout

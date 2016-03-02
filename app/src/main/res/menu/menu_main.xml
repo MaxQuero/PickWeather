@@ -2,12 +2,28 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
     <item android:id="@+id/action_settings" android:title="@string/action_settings"
-        android:orderInCategory="100" app:showAsAction="never" />
+        android:orderInCategory="100" app:showAsAction="never" android:icon="@drawable/ic_more_vert_white_18dp"/>
+
+    <item
+        android:id="@+id/action_geoloc"
+        android:orderInCategory="199"
+        android:title="Geolocation"
+        android:icon="@drawable/ic_my_location_white_18dp"
+        app:showAsAction="always"
+        ></item>
+    <item
+        android:id="@+id/action_favorite"
+        android:orderInCategory="200"
+        android:title="Favorite"
+        android:icon="@drawable/ic_favorite_white_18dp"
+        app:showAsAction="always"
+        ></item>
+
     <item
         android:id="@+id/action_search"
-        android:orderInCategory="200"
+        android:orderInCategory="201"
         android:title="Search"
-        android:icon="@drawable/abc_ic_search_api_mtrl_alpha"
-        app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_search_white_18dp"
+        app:showAsAction="always"
         ></item>
 </menu>
