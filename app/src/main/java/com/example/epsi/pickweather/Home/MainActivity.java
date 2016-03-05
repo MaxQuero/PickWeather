@@ -132,8 +132,7 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
                 return true;
 
             case R.id.action_settings :
-                Toast.makeText(this, "Settings selected", Toast.LENGTH_SHORT)
-                        .show();
+                Toast.makeText(this, "Settings selected", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.action_favorite :
                 Toast.makeText(getApplicationContext(), String.format("bite"), Toast.LENGTH_SHORT).show();
@@ -146,7 +145,7 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
                     Toast.makeText(getApplicationContext(), currentWeather.getName() + " a bien été rajouté à vos favoris", Toast.LENGTH_LONG).show();
 
                 } catch (Exception e) {
-
+                    Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_LONG).show();
                 } finally {
                     myaccess.close();
                 }
