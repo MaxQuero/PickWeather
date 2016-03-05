@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.example.epsi.pickweather.Home.POJO.CurrentWeather;
 import com.example.epsi.pickweather.Home.POJO.WeatherGenerator;
+import com.example.epsi.pickweather.Home.SQlite.AccessBDDCity;
 import com.example.epsi.pickweather.R;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -38,9 +39,12 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
 
     TextView city, status, weather_icon, celcius_icon, humidity, pressure, temp, nameFromLocation, mLatitude, mLongitude;
     String currentCityName, mLat, mLon;
+    CurrentWeather currentWeather;
     int icon, weatherCode, cityId;
     String url = "http://api.openweathermap.org/data/2.5";
-    Toolbar toolbar;                              // Declaring the Toolbar Object
+    Toolbar toolbar;
+    private Context mycontext;
+    // Declaring the Toolbar Object
     // The following are used for the shake detection
     private SensorManager mSensorManager;
     private Sensor mAccelerometer;
@@ -96,6 +100,8 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
                         System.out.println(response.toString());
                         setWeatherName(weather.getName());
                         setWeatherId(weather.getId());
+                        setWeather(weather);
+
                         city.setText(weather.getName() + ", " + weather.getSys().getCountry());
                         //Get simple weather code -> first number says wich type of weather it is
                         status.setText("Current Weather : " + weather.getWeather().get(0).getDescription());
@@ -172,13 +178,6 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId() ){
             case R.id.action_search :
@@ -189,6 +188,22 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
             case R.id.action_settings :
                 Toast.makeText(this, "Settings selected", Toast.LENGTH_SHORT)
                         .show();
+                return true;
+            case R.id.action_favorite :
+                Toast.makeText(getApplicationContext(), String.format("bite"), Toast.LENGTH_SHORT).show();
+
+
+                AccessBDDCity myaccess = new AccessBDDCity(this);
+                myaccess.open();
+                try {
+                    myaccess.createFav(currentWeather);
+                    Toast.makeText(getApplicationContext(), currentWeather.getName() + "a bien été rajouté à vos favoris", Toast.LENGTH_LONG).show();
+
+                } catch (Exception e) {
+
+                } finally {
+                    myaccess.close();
+                }
                 return true;
             case R.id.action_fav :
                 Intent i = new Intent(MainActivity.this, FavCityActivity.class);
@@ -226,6 +241,9 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
 
     public void setWeatherId(int id){
         cityId = id;
+    }
+    public void setWeather(CurrentWeather w){
+        currentWeather = w;
     }
 
 
@@ -292,6 +310,7 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
                 city.setText(weather.getName() + ", " + weather.getSys().getCountry());
                 setWeatherName(weather.getName());
                 setWeatherId(weather.getId());
+                setWeather(weather);
                 //Get simple weather code -> first number says wich type of weather it is
                 status.setText("Current Weather : " + weather.getWeather().get(0).getDescription());
                 humidity.setText("humidity : " + weather.getMain().getHumidity().toString());
