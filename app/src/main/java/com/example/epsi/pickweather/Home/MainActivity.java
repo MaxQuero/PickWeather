@@ -93,34 +93,7 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
 
             // and get whatever type user account id is
             if (myid != null) {
-                final RestInterface rs = WeatherGenerator.callAPI(RestInterface.class);
-                rs.getWeatherReportById(myid, "f48fbd8a004dce121b1720eb6fac9fc7", new Callback<CurrentWeather>() {
-                    @Override
-                    public void success(CurrentWeather weather, Response response) {
-                        System.out.println(response.toString());
-                        setWeatherName(weather.getName());
-                        setWeatherId(weather.getId());
-                        setWeather(weather);
-
-                        city.setText(weather.getName() + ", " + weather.getSys().getCountry());
-                        //Get simple weather code -> first number says wich type of weather it is
-                        status.setText("Current Weather : " + weather.getWeather().get(0).getDescription());
-                        humidity.setText("humidity : " + weather.getMain().getHumidity().toString());
-                        pressure.setText("pressure : " + weather.getMain().getPressure().toString());
-                        mLongitude.setText("Longitude : " + weather.getCoord().getLon());
-                        mLatitude.setText("Latitude : "+ weather.getCoord().getLat());
-
-                        putWeatherIcons(weather);
-                    }
-
-                    @Override
-                    public void failure(RetrofitError error) {
-                        Toast.makeText(getApplicationContext(), String.format("Problème lors du chargement"), Toast.LENGTH_SHORT).show();
-
-                        String merror = error.getMessage();
-                    }
-                });
-
+                getWeatherById(myid);
     }
 
         // ShakeDetector initialization
@@ -139,35 +112,9 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
     }
 
     public void handleShakeEvent(){
+        getWeatherById(cityId);
         Toast.makeText(getApplicationContext(), "Raffraichissement de " + currentCityName + " .", Toast.LENGTH_SHORT).show();
-        final RestInterface ri = WeatherGenerator.callAPI(RestInterface.class);
 
-        //Calling method to get weather report from city name
-        ri.getWeatherReportById(cityId, "f48fbd8a004dce121b1720eb6fac9fc7", new Callback<CurrentWeather>() {
-            @Override
-            public void success(CurrentWeather weather, Response response) {
-                Toast.makeText(getApplicationContext(), String.format("OK"), Toast.LENGTH_SHORT).show();
-                System.out.println(response.toString());
-                setWeatherName(weather.getName());
-                setWeatherId(weather.getId());
-                city.setText(weather.getName() + ", " + weather.getSys().getCountry());
-                //Get simple weather code -> first number says wich type of weather it is
-                status.setText("Current Weather : " + weather.getWeather().get(0).getDescription());
-                humidity.setText("humidity : " + weather.getMain().getHumidity().toString());
-                pressure.setText("pressure : " + weather.getMain().getPressure().toString());
-
-
-                putWeatherIcons(weather);
-
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-                Toast.makeText(getApplicationContext(), String.format("KO"), Toast.LENGTH_SHORT).show();
-
-                String merror = error.getMessage();
-            }
-        });
     }
 
     @Override
@@ -210,6 +157,9 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
                 startActivity(i);
                 return true;
 
+            case R.id.action_geoloc :
+                displayLocation();
+                return true;
             default :
                 return super.onOptionsItemSelected(item);
         }
@@ -329,6 +279,36 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
         });
     }
 
+    public void getWeatherById(int id) {
+        final RestInterface ri = WeatherGenerator.callAPI(RestInterface.class);
+
+        //Calling method to get weather report from city name
+        ri.getWeatherReportById(id, "f48fbd8a004dce121b1720eb6fac9fc7", new Callback<CurrentWeather>() {
+            @Override
+            public void success(CurrentWeather weather, Response response) {
+                Toast.makeText(getApplicationContext(), String.format("OK"), Toast.LENGTH_SHORT).show();
+                System.out.println(response.toString());
+                setWeatherName(weather.getName());
+                setWeatherId(weather.getId());
+                city.setText(weather.getName() + ", " + weather.getSys().getCountry());
+                //Get simple weather code -> first number says wich type of weather it is
+                status.setText("Current Weather : " + weather.getWeather().get(0).getDescription());
+                humidity.setText("humidity : " + weather.getMain().getHumidity().toString());
+                pressure.setText("pressure : " + weather.getMain().getPressure().toString());
+
+
+                putWeatherIcons(weather);
+
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Toast.makeText(getApplicationContext(), String.format("KO"), Toast.LENGTH_SHORT).show();
+
+                String merror = error.getMessage();
+            }
+        });
+    }
     public void putWeatherIcons(CurrentWeather weather){
         weatherCode = weather.getWeather().get(0).getId();
         double c = weather.getMain().getTemp().intValue() - 273;
