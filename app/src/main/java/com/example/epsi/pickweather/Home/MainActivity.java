@@ -172,6 +172,13 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId() ){
             case R.id.action_search :
@@ -180,11 +187,14 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
                 return true;
 
             case R.id.action_settings :
+                Toast.makeText(this, "Settings selected", Toast.LENGTH_SHORT)
+                        .show();
+                return true;
+            case R.id.action_fav :
+                Intent i = new Intent(MainActivity.this, FavCityActivity.class);
+                startActivity(i);
                 return true;
 
-            case R.id.action_geoloc :
-                displayLocation();
-                return true;
             default :
                 return super.onOptionsItemSelected(item);
         }
@@ -271,7 +281,7 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
         }
     }
 
-    public void getWeatherLocation(String lat, String lon){
+    public void getWeatherLocation(String lat, String lon) {
         final RestInterface r = WeatherGenerator.callAPI(RestInterface.class);
         r.getWeatherReportByCoord(lat, lon, "f48fbd8a004dce121b1720eb6fac9fc7", new Callback<CurrentWeather>() {
             @Override
