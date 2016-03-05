@@ -5,14 +5,18 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-feature android:name="android.hardware.sensor.accelerometer" android:required="true" />
+
+    <uses-feature
+        android:name="android.hardware.sensor.accelerometer"
+        android:required="true" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/logo2"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.example.epsi.pickweather.SplashScreen.SplashscreenActivity"
+            android:name=".SplashScreen.SplashscreenActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:theme="@style/FullscreenTheme" >
             <intent-filter>
@@ -22,16 +26,20 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.example.epsi.pickweather.Home.MainActivity"
+            android:name=".Home.MainActivity"
             android:label="@string/title_activity_main"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.example.epsi.pickweather.Home.SearchCityActivity"
+            android:name=".Home.SearchCityActivity"
             android:label="@string/title_activity_main"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".Home.FavCityActivity"
+            android:label="@string/title_activity_main"
+            android:screenOrientation="portrait" >
         </activity>
     </application>
-
 
 </manifest>

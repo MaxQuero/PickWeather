@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Medium Text"
+            android:id="@+id/tv_cityname_fav"
+            android:layout_weight="1"
+            android:textStyle="bold"
+            android:layout_gravity="center_horizontal" />
+
+        <ImageButton
+            android:layout_width="49dp"
+            android:layout_height="49dp"
+            android:id="@+id/ib_Fav_delete"
+            android:layout_marginRight="10px"
+            android:background="@drawable/ic_delete_black_48dp"
+            android:layout_gravity="right" />
+
+
+</LinearLayout>

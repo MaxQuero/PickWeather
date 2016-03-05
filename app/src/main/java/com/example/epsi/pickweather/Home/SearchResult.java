@@ -1,23 +1,23 @@
 package com.example.epsi.pickweather.Home;
 
-import com.example.epsi.pickweather.Home.POJO.List;
+import com.example.epsi.pickweather.Home.POJO.CurrentWeather;
 
 /**
  * Created by Camille on 27/02/2016.
  */
 public class SearchResult {
-    private List[] list;
+    private CurrentWeather[] list;
 
 
-    public SearchResult(List[] myres) {
+    public SearchResult(CurrentWeather[] myres) {
         this.list = myres;
     }
 
-    public List[] getMyresult() {
+    public CurrentWeather[] getMyresult() {
         return list;
     }
 
-    public void setMyresult(List[] myres) {
+    public void setMyresult(CurrentWeather[] myres) {
         this.list = myres;
     }
 }

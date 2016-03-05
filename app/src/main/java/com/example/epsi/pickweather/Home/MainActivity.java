@@ -36,7 +36,7 @@ import retrofit.client.Response;
 public class MainActivity extends AppCompatActivity implements ConnectionCallbacks, OnConnectionFailedListener {
     GoogleApiClient mGoogleApiClient=null;
 
-    TextView city, status, weather_icon, celcius_icon, humidity, pressure, temp, nameFromLocation;
+    TextView city, status, weather_icon, celcius_icon, humidity, pressure, temp, nameFromLocation, mLatitude, mLongitude;
     String currentCityName, mLat, mLon;
     int icon, weatherCode, cityId;
     String url = "http://api.openweathermap.org/data/2.5";
@@ -55,7 +55,8 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
         status = (TextView) findViewById(R.id.txt_status);
         humidity = (TextView) findViewById(R.id.txt_humidity);
         pressure = (TextView) findViewById(R.id.txt_press);
-        nameFromLocation = (TextView) findViewById(R.id.cityNameFromCoord);
+        mLatitude = (TextView) findViewById(R.id.mLatitude);
+        mLongitude = (TextView) findViewById(R.id.mLongitude);
         temp = (TextView) findViewById(R.id.temp);
         weather_icon = (TextView) findViewById(R.id.weather_icon);
         celcius_icon = (TextView) findViewById(R.id.celcius_icon);
@@ -63,10 +64,12 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
         Typeface font = Typeface.createFromAsset(getAssets(), "climacons_webfont.ttf");
         weather_icon.setTypeface(font);
         celcius_icon.setTypeface(font);
+
         //Set toolbar as action bar
         toolbar = (Toolbar) findViewById(R.id.tool_bar); // Attaching the layout to the toolbar object
         setSupportActionBar(toolbar);
-// Start Google Location API
+
+        // Start Google Location API
         if (mGoogleApiClient == null) {
             mGoogleApiClient = new GoogleApiClient.Builder(this)
                     .addConnectionCallbacks(this)
@@ -75,50 +78,40 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
                     .build();
         }
 
+        //Get parameters from searchcity activity
         Intent i = getIntent();
 
-        Integer test = (Integer) i.getSerializableExtra("id");
-
+        Integer myid = (Integer) i.getSerializableExtra("id");
 
             // and get whatever type user account id is
-
-            if (test== null) {
-
-            Toast.makeText(getApplicationContext(), "null", Toast.LENGTH_LONG).show();
-        } else {
+            if (myid != null) {
                 final RestInterface rs = WeatherGenerator.callAPI(RestInterface.class);
-            rs.getWeatherReportById(test, "f48fbd8a004dce121b1720eb6fac9fc7", new Callback<CurrentWeather>() {
-                @Override
-                public void success(CurrentWeather weather, Response response) {
-                    Toast.makeText(getApplicationContext(), String.format("OK"), Toast.LENGTH_SHORT).show();
-                    System.out.println(response.toString());
-                    setWeatherName(weather.getName());
-                    setWeatherId(weather.getId());
-                    city.setText(weather.getName() + ", " + weather.getSys().getCountry());
-                    //Get simple weather code -> first number says wich type of weather it is
-                    status.setText("Current Weather : " + weather.getWeather().get(0).getDescription());
-                    humidity.setText("humidity : " + weather.getMain().getHumidity().toString());
-                    pressure.setText("pressure : " + weather.getMain().getPressure().toString());
+                rs.getWeatherReportById(myid, "f48fbd8a004dce121b1720eb6fac9fc7", new Callback<CurrentWeather>() {
+                    @Override
+                    public void success(CurrentWeather weather, Response response) {
+                        System.out.println(response.toString());
+                        setWeatherName(weather.getName());
+                        setWeatherId(weather.getId());
+                        city.setText(weather.getName() + ", " + weather.getSys().getCountry());
+                        //Get simple weather code -> first number says wich type of weather it is
+                        status.setText("Current Weather : " + weather.getWeather().get(0).getDescription());
+                        humidity.setText("humidity : " + weather.getMain().getHumidity().toString());
+                        pressure.setText("pressure : " + weather.getMain().getPressure().toString());
+                        mLongitude.setText("Longitude : " + weather.getCoord().getLon());
+                        mLatitude.setText("Latitude : "+ weather.getCoord().getLat());
 
-                    putWeatherIcons(weather);
+                        putWeatherIcons(weather);
+                    }
 
-                }
+                    @Override
+                    public void failure(RetrofitError error) {
+                        Toast.makeText(getApplicationContext(), String.format("Problème lors du chargement"), Toast.LENGTH_SHORT).show();
 
-                @Override
-                public void failure(RetrofitError error) {
-                    Toast.makeText(getApplicationContext(), String.format("KO"), Toast.LENGTH_SHORT).show();
-
-                    String merror = error.getMessage();
-                }
-            });
-
-        Toast.makeText(getApplicationContext(), String.valueOf(test), Toast.LENGTH_LONG).show();
+                        String merror = error.getMessage();
+                    }
+                });
 
     }
-
-
-
-
 
         // ShakeDetector initialization
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
@@ -136,7 +129,7 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
     }
 
     public void handleShakeEvent(){
-        Toast.makeText(getApplicationContext(), "Refreshing " + currentCityName + " weather", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), "Raffraichissement de " + currentCityName + " .", Toast.LENGTH_SHORT).show();
         final RestInterface ri = WeatherGenerator.callAPI(RestInterface.class);
 
         //Calling method to get weather report from city name
@@ -152,6 +145,7 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
                 status.setText("Current Weather : " + weather.getWeather().get(0).getDescription());
                 humidity.setText("humidity : " + weather.getMain().getHumidity().toString());
                 pressure.setText("pressure : " + weather.getMain().getPressure().toString());
+
 
                 putWeatherIcons(weather);
 
@@ -271,6 +265,12 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
                 return true;
 
             case R.id.action_settings :
+                Toast.makeText(this, "Settings selected", Toast.LENGTH_SHORT)
+                        .show();
+                return true;
+            case R.id.action_fav :
+                Intent i = new Intent(MainActivity.this, FavCityActivity.class);
+                startActivity(i);
                 return true;
 
             default :

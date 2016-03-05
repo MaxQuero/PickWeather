@@ -20,7 +20,7 @@ public class SearchWeather {
     private Integer count;
     @SerializedName("list")
     @Expose
-    private java.util.List<List> list = new ArrayList<List>();
+    private java.util.List<CurrentWeather> list = new ArrayList<CurrentWeather>();
 
     /**
      *
@@ -81,7 +81,7 @@ public class SearchWeather {
      * @return
      * The list
      */
-    public java.util.List<List> getList() {
+    public java.util.List<CurrentWeather> getList() {
         return list;
     }
 
@@ -90,7 +90,7 @@ public class SearchWeather {
      * @param list
      * The list
      */
-    public void setList(java.util.List<List> list) {
+    public void setList(java.util.List<CurrentWeather> list) {
         this.list = list;
     }
 }
