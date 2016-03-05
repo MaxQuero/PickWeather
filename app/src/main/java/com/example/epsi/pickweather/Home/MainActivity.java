@@ -43,7 +43,6 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
     int icon, weatherCode, cityId;
     String url = "http://api.openweathermap.org/data/2.5";
     Toolbar toolbar;
-    private Context mycontext;
     // Declaring the Toolbar Object
     // The following are used for the shake detection
     private SensorManager mSensorManager;
@@ -140,11 +139,11 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
                 Toast.makeText(getApplicationContext(), String.format("bite"), Toast.LENGTH_SHORT).show();
 
 
-                AccessBDDCity myaccess = new AccessBDDCity(this);
+                AccessBDDCity myaccess = new AccessBDDCity(getApplicationContext());
                 myaccess.open();
                 try {
                     myaccess.createFav(currentWeather);
-                    Toast.makeText(getApplicationContext(), currentWeather.getName() + "a bien été rajouté à vos favoris", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), currentWeather.getName() + " a bien été rajouté à vos favoris", Toast.LENGTH_LONG).show();
 
                 } catch (Exception e) {
 
