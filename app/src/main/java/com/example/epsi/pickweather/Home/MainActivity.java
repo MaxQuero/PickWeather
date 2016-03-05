@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
     String currentCityName, mLat, mLon;
     int icon, weatherCode, cityId;
     String url = "http://api.openweathermap.org/data/2.5";
-    private Toolbar toolbar;                              // Declaring the Toolbar Object
+    Toolbar toolbar;                              // Declaring the Toolbar Object
     // The following are used for the shake detection
     private SensorManager mSensorManager;
     private Sensor mAccelerometer;
@@ -70,6 +70,10 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
         setSupportActionBar(toolbar);
 
         // Start Google Location API
+        // Set the padding to match the Status Bar height
+        toolbar.setPadding(0, getStatusBarHeight(), 0, 0);
+        // Start Google Location API
+        
         if (mGoogleApiClient == null) {
             mGoogleApiClient = new GoogleApiClient.Builder(this)
                     .addConnectionCallbacks(this)
@@ -160,6 +164,142 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
         });
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId() ){
+            case R.id.action_search :
+                Intent myIntent = new Intent(MainActivity.this, SearchCityActivity.class);
+                startActivity(myIntent);
+                return true;
+
+            case R.id.action_settings :
+                return true;
+
+            case R.id.action_geoloc :
+                displayLocation();
+                return true;
+            default :
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    protected void onStart() {
+        mGoogleApiClient.connect();
+        super.onStart();
+    }
+
+    protected void onStop() {
+        mGoogleApiClient.disconnect();
+        super.onStop();
+    }
+
+    @Override
+    public void onConnected(Bundle connectionHint) {
+        Intent i = getIntent();
+        Integer idCity = (Integer) i.getSerializableExtra("id");
+        if (idCity == null) {
+                this.displayLocation();
+
+        }
+    }
+
+    public void setWeatherName(String name){
+        currentCityName = name;
+    }
+
+    public void setWeatherId(int id){
+        cityId = id;
+    }
+
+
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        // Add the following line to register the Session Manager Listener onResume
+        mSensorManager.registerListener(mShakeDetector, mAccelerometer,	SensorManager.SENSOR_DELAY_UI);
+    }
+
+    @Override
+    public void onPause() {
+        // Add the following line to unregister the Sensor Manager onPause
+        mSensorManager.unregisterListener(mShakeDetector);
+        super.onPause();
+    }
+
+    // A method to find height of the status bar
+    public int getStatusBarHeight() {
+        int result = 0;
+        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            result = getResources().getDimensionPixelSize(resourceId);
+        }
+        return result;
+    }
+
+    private void displayLocation() {
+
+        Location mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
+                mGoogleApiClient);
+        if (mLastLocation != null) {
+            TextView mLatitudeText, mLongitudeText;
+            mLatitudeText = (TextView) findViewById(R.id.mLatitude);
+            mLongitudeText = (TextView) findViewById(R.id.mLongitude);
+            mLatitudeText.setText(String.valueOf(mLastLocation.getLatitude()));
+            mLongitudeText.setText(String.valueOf(mLastLocation.getLongitude()));
+
+            mLat = String.valueOf(mLastLocation.getLatitude());
+            mLon = String.valueOf(mLastLocation.getLongitude());
+            this.getWeatherLocation(mLat, mLon);
+        }
+    }
+
+    public void getWeatherLocation(String lat, String lon){
+        final RestInterface r = WeatherGenerator.callAPI(RestInterface.class);
+        r.getWeatherReportByCoord(lat, lon, "f48fbd8a004dce121b1720eb6fac9fc7", new Callback<CurrentWeather>() {
+            @Override
+            public void success(CurrentWeather weather, Response response) {
+                Toast.makeText(getApplicationContext(), String.format("OK"), Toast.LENGTH_SHORT).show();
+                System.out.println(response.toString());
+
+                city.setText(weather.getName() + ", " + weather.getSys().getCountry());
+                setWeatherName(weather.getName());
+                setWeatherId(weather.getId());
+                //Get simple weather code -> first number says wich type of weather it is
+                status.setText("Current Weather : " + weather.getWeather().get(0).getDescription());
+                humidity.setText("humidity : " + weather.getMain().getHumidity().toString());
+                pressure.setText("pressure : " + weather.getMain().getPressure().toString());
+
+                putWeatherIcons(weather);
+
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Toast.makeText(getApplicationContext(), String.format("KO"), Toast.LENGTH_SHORT).show();
+
+                String merror = error.getMessage();
+            }
+        });
+    }
+
     public void putWeatherIcons(CurrentWeather weather){
         weatherCode = weather.getWeather().get(0).getId();
         double c = weather.getMain().getTemp().intValue() - 273;
@@ -233,139 +373,20 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
         temp.setText(String.valueOf(celcius_degree));
         celcius_icon.setText(R.string.celcius);
 
-            if (celcius_degree < 10){
-                temp.setTextColor(Color.parseColor("#0091ea"));
-                celcius_icon.setTextColor(Color.parseColor("#0091ea"));
-            } else if (10<=celcius_degree & celcius_degree<=20){
-                temp.setTextColor(Color.parseColor("#4caf50"));
-                celcius_icon.setTextColor(Color.parseColor("#4caf50"));
-            } else if (20<celcius_degree & celcius_degree<=30){
-                temp.setTextColor(Color.parseColor("#e65100"));
-                celcius_icon.setTextColor(Color.parseColor("#e65100"));
-            } else {
-                temp.setTextColor(Color.parseColor("#b71c1c"));
-                celcius_icon.setTextColor(Color.parseColor("#b71c1c"));
-            }
-
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId() ){
-            case R.id.action_search :
-                Intent myIntent = new Intent(MainActivity.this, SearchCityActivity.class);
-                startActivity(myIntent);
-                return true;
-
-            case R.id.action_settings :
-                Toast.makeText(this, "Settings selected", Toast.LENGTH_SHORT)
-                        .show();
-                return true;
-            case R.id.action_fav :
-                Intent i = new Intent(MainActivity.this, FavCityActivity.class);
-                startActivity(i);
-                return true;
-
-            default :
-                return super.onOptionsItemSelected(item);
+        if (celcius_degree < 10){
+            temp.setTextColor(Color.parseColor("#0091ea"));
+            celcius_icon.setTextColor(Color.parseColor("#0091ea"));
+        } else if (10<=celcius_degree & celcius_degree<=20){
+            temp.setTextColor(Color.parseColor("#4caf50"));
+            celcius_icon.setTextColor(Color.parseColor("#4caf50"));
+        } else if (20<celcius_degree & celcius_degree<=30){
+            temp.setTextColor(Color.parseColor("#e65100"));
+            celcius_icon.setTextColor(Color.parseColor("#e65100"));
+        } else {
+            temp.setTextColor(Color.parseColor("#b71c1c"));
+            celcius_icon.setTextColor(Color.parseColor("#b71c1c"));
         }
-    }
-
-    protected void onStart() {
-        mGoogleApiClient.connect();
-        super.onStart();
-    }
-
-    protected void onStop() {
-        mGoogleApiClient.disconnect();
-        super.onStop();
-    }
-
-    @Override
-    public void onConnected(Bundle connectionHint) {
-        Intent i = getIntent();
-        Integer test = (Integer) i.getSerializableExtra("id");
-        if (test == null) {
-            Location mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
-                    mGoogleApiClient);
-            if (mLastLocation != null) {
-                TextView mLatitudeText, mLongitudeText;
-                mLatitudeText = (TextView) findViewById(R.id.mLatitude);
-                mLongitudeText = (TextView) findViewById(R.id.mLongitude);
-                mLatitudeText.setText(String.valueOf(mLastLocation.getLatitude()));
-                mLongitudeText.setText(String.valueOf(mLastLocation.getLongitude()));
-
-                mLat = String.valueOf(mLastLocation.getLatitude());
-                mLon = String.valueOf(mLastLocation.getLongitude());
-
-                final RestInterface r = WeatherGenerator.callAPI(RestInterface.class);
-                r.getWeatherReportByCoord(mLat, mLon, "f48fbd8a004dce121b1720eb6fac9fc7", new Callback<CurrentWeather>() {
-                    @Override
-                    public void success(CurrentWeather weather, Response response) {
-                        Toast.makeText(getApplicationContext(), String.format("OK"), Toast.LENGTH_SHORT).show();
-                        System.out.println(response.toString());
-
-                        city.setText(weather.getName() + ", " + weather.getSys().getCountry());
-                        setWeatherName(weather.getName());
-                        setWeatherId(weather.getId());
-                        //Get simple weather code -> first number says wich type of weather it is
-                        status.setText("Current Weather : " + weather.getWeather().get(0).getDescription());
-                        humidity.setText("humidity : " + weather.getMain().getHumidity().toString());
-                        pressure.setText("pressure : " + weather.getMain().getPressure().toString());
-
-                        putWeatherIcons(weather);
-
-                    }
-
-                    @Override
-                    public void failure(RetrofitError error) {
-                        Toast.makeText(getApplicationContext(), String.format("KO"), Toast.LENGTH_SHORT).show();
-
-                        String merror = error.getMessage();
-                    }
-                });
-            }
-        }
-    }
-
-    public void setWeatherName(String name){
-        currentCityName = name;
-    }
-
-    public void setWeatherId(int id){
-        cityId = id;
-    }
-
-
-
-    @Override
-    public void onConnectionSuspended(int i) {
 
     }
 
-    @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) {
-
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        // Add the following line to register the Session Manager Listener onResume
-        mSensorManager.registerListener(mShakeDetector, mAccelerometer,	SensorManager.SENSOR_DELAY_UI);
-    }
-
-    @Override
-    public void onPause() {
-        // Add the following line to unregister the Sensor Manager onPause
-        mSensorManager.unregisterListener(mShakeDetector);
-        super.onPause();
-    }
 }

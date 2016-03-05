@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -40,6 +41,8 @@ public class SearchCityActivity extends AppCompatActivity{
         this.myimagebtn = (ImageButton) findViewById(R.id.btn_search);
         this.mylistview = (ListView) findViewById(R.id.listViewCity);
         this.myedittext = (EditText) findViewById(R.id.et_search);
+        LinearLayout a =(LinearLayout) findViewById(R.id.linearCity);
+        a.setPadding(0, getStatusBarHeight()-10, 0, 0);
 
         final RestInterface myrestinterface = WeatherGenerator.callAPI(RestInterface.class);
 
@@ -75,6 +78,7 @@ public class SearchCityActivity extends AppCompatActivity{
                                       Intent i = new Intent(SearchCityActivity.this, MainActivity.class);
                                       i.putExtra("id", myarray.get(position).getId());
                                       startActivity(i);
+
                                   }
                               });
 
@@ -92,5 +96,15 @@ public class SearchCityActivity extends AppCompatActivity{
             }
 
         );
+
     }
+    public int getStatusBarHeight() {
+        int result = 0;
+        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            result = getResources().getDimensionPixelSize(resourceId);
+        }
+        return result;
+    }
+
 }
