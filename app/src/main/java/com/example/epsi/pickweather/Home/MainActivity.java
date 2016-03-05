@@ -289,6 +289,7 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
                 System.out.println(response.toString());
                 setWeatherName(weather.getName());
                 setWeatherId(weather.getId());
+                setWeather(weather);
                 city.setText(weather.getName() + ", " + weather.getSys().getCountry());
                 //Get simple weather code -> first number says wich type of weather it is
                 status.setText("Current Weather : " + weather.getWeather().get(0).getDescription());
