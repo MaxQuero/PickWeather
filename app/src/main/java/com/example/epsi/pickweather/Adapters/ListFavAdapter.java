@@ -1,4 +1,4 @@
-package com.example.epsi.pickweather.Home;
+package com.example.epsi.pickweather.Adapters;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -9,12 +9,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.epsi.pickweather.Home.POJO.CurrentWeather;
-import com.example.epsi.pickweather.Home.SQlite.AccessBDDCity;
+import com.example.epsi.pickweather.SQlite.AccessBDDCity;
 import com.example.epsi.pickweather.R;
 
 import java.util.ArrayList;

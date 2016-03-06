@@ -1,4 +1,4 @@
-package com.example.epsi.pickweather.Home;
+package com.example.epsi.pickweather.SearchCity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,9 +11,11 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.epsi.pickweather.Adapters.ListCityAdapter;
+import com.example.epsi.pickweather.Home.MainActivity;
 import com.example.epsi.pickweather.Home.POJO.CurrentWeather;
 import com.example.epsi.pickweather.Home.POJO.WeatherGenerator;
-import com.example.epsi.pickweather.Home.SQlite.AccessBDDCity;
+import com.example.epsi.pickweather.Home.RestInterface;
 import com.example.epsi.pickweather.R;
 
 import java.util.ArrayList;

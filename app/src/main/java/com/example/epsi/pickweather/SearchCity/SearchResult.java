@@ -1,4 +1,4 @@
-package com.example.epsi.pickweather.Home;
+package com.example.epsi.pickweather.SearchCity;
 
 import com.example.epsi.pickweather.Home.POJO.CurrentWeather;
 

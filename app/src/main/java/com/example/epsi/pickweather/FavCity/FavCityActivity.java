@@ -1,4 +1,4 @@
-package com.example.epsi.pickweather.Home;
+package com.example.epsi.pickweather.FavCity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -7,8 +7,9 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
+import com.example.epsi.pickweather.Adapters.ListFavAdapter;
 import com.example.epsi.pickweather.Home.POJO.CurrentWeather;
-import com.example.epsi.pickweather.Home.SQlite.AccessBDDCity;
+import com.example.epsi.pickweather.SQlite.AccessBDDCity;
 import com.example.epsi.pickweather.R;
 
 import java.util.ArrayList;

@@ -8,28 +8,34 @@
 
     <include android:id="@+id/tool_bar" layout="@layout/tool_bar"></include>
 
+
+
+
         <LinearLayout
             android:id="@+id/lin_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:weightSum="1">
+
             <TextView
                 android:id="@+id/txt_city"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="120dp"
-                android:layout_marginBottom="20dp"
+                android:layout_marginTop="70dp"
+                android:layout_marginBottom="0dp"
                 android:layout_gravity="center_horizontal"
                 android:textAlignment="gravity"
+
                 android:textSize="120px" />
+
 
             <TextView
                 android:id="@+id/weather_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:textSize="550px"
+                android:textSize="500px"
                 android:textColor="#a0dfe4de"
                 android:textIsSelectable="false" />
             <TextView
@@ -38,6 +44,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:textSize="50px" />
+
             <TextView
                 android:id="@+id/txt_humidity"
                 android:layout_width="wrap_content"
@@ -73,8 +80,7 @@
                     android:textSize="120px"
                     android:textColor="#a0e42a00" />
             </LinearLayout>
-
-            <TextView
+            <!--<TextView
                 android:id="@+id/mLatitude"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -87,16 +93,30 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
-                />
-            <TextView
-                android:id="@+id/cityNameFromCoord"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                />
+                />-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:weightSum="1">
+                <com.example.epsi.pickweather.Home.SlidingTabLayout
+                    android:id="@+id/tabs"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:elevation="2dp"
+                    android:background="@color/ColorPrimary"/>
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/pager"
+
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    ></android.support.v4.view.ViewPager>
+            </LinearLayout>
+
 
     </LinearLayout>
+
 
 </RelativeLayout>
 

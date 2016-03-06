@@ -8,6 +8,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.location.Location;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -16,10 +17,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.epsi.pickweather.Adapters.ForecastViewPagerAdapter;
+import com.example.epsi.pickweather.FavCity.FavCityActivity;
 import com.example.epsi.pickweather.Home.POJO.CurrentWeather;
 import com.example.epsi.pickweather.Home.POJO.WeatherGenerator;
-import com.example.epsi.pickweather.Home.SQlite.AccessBDDCity;
 import com.example.epsi.pickweather.R;
+import com.example.epsi.pickweather.SQlite.AccessBDDCity;
+import com.example.epsi.pickweather.SearchCity.SearchCityActivity;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
@@ -43,6 +47,13 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
     int icon, weatherCode, cityId;
     String url = "http://api.openweathermap.org/data/2.5";
     Toolbar toolbar;
+    ViewPager pager;
+    ForecastViewPagerAdapter adapter;
+    SlidingTabLayout tabs;
+    CharSequence Titles[]={"Home","Events"};
+    int Numboftabs =2;
+
+
     // Declaring the Toolbar Object
     // The following are used for the shake detection
     private SensorManager mSensorManager;
@@ -58,8 +69,8 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
         status = (TextView) findViewById(R.id.txt_status);
         humidity = (TextView) findViewById(R.id.txt_humidity);
         pressure = (TextView) findViewById(R.id.txt_press);
-        mLatitude = (TextView) findViewById(R.id.mLatitude);
-        mLongitude = (TextView) findViewById(R.id.mLongitude);
+        //mLatitude = (TextView) findViewById(R.id.mLatitude);
+        //mLongitude = (TextView) findViewById(R.id.mLongitude);
         temp = (TextView) findViewById(R.id.temp);
         weather_icon = (TextView) findViewById(R.id.weather_icon);
         celcius_icon = (TextView) findViewById(R.id.celcius_icon);
@@ -71,12 +82,39 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
         //Set toolbar as action bar
         toolbar = (Toolbar) findViewById(R.id.tool_bar); // Attaching the layout to the toolbar object
         setSupportActionBar(toolbar);
-
-        // Start Google Location API
         // Set the padding to match the Status Bar height
         toolbar.setPadding(0, getStatusBarHeight(), 0, 0);
+
+        // Creating The ViewPagerAdapter and Passing Fragment Manager, Titles fot the Tabs and Number Of Tabs.
+        adapter =  new ForecastViewPagerAdapter(getSupportFragmentManager(),Titles,Numboftabs);
+
+        // Assigning ViewPager View and setting the adapter
+        pager = (ViewPager) findViewById(R.id.pager);
+        pager.setAdapter(adapter);
+
+
+
+        // Assiging the Sliding Tab Layout View
+        tabs = (SlidingTabLayout) findViewById(R.id.tabs);
+        tabs.setDistributeEvenly(true); // To make the Tabs Fixed set this true, This makes the tabs Space Evenly in Available width
+
+        // Setting Custom Color for the Scroll bar indicator of the Tab View
+        tabs.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
+            @Override
+            public int getIndicatorColor(int position) {
+                return getResources().getColor(R.color.tabsScrollColor);
+            }
+        });
+
+        // Setting the ViewPager For the SlidingTabsLayout
+        tabs.setViewPager(pager);
+
+
+
+
+
         // Start Google Location API
-        
+
         if (mGoogleApiClient == null) {
             mGoogleApiClient = new GoogleApiClient.Builder(this)
                     .addConnectionCallbacks(this)
@@ -85,15 +123,6 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
                     .build();
         }
 
-        //Get parameters from searchcity activity
-        Intent i = getIntent();
-
-        Integer myid = (Integer) i.getSerializableExtra("id");
-
-            // and get whatever type user account id is
-            if (myid != null) {
-                getWeatherById(myid);
-    }
 
         // ShakeDetector initialization
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
@@ -125,6 +154,7 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
         switch (item.getItemId() ){
             case R.id.action_search :
                 Intent myIntent = new Intent(MainActivity.this, SearchCityActivity.class);
@@ -144,7 +174,7 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
                 try {
                     myaccess.createFav(currentWeather);
                     Toast.makeText(getApplicationContext(), currentWeather.getName() + " a bien été rajouté à vos favoris", Toast.LENGTH_LONG).show();
-
+                    item.setIcon(R.drawable.favorite_icon);
                 } catch (Exception e) {
 
                 } finally {
@@ -181,6 +211,8 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
         if (idCity == null) {
                 this.displayLocation();
 
+        }else{
+            getWeatherById(idCity);
         }
     }
 
@@ -237,10 +269,10 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
                 mGoogleApiClient);
         if (mLastLocation != null) {
             TextView mLatitudeText, mLongitudeText;
-            mLatitudeText = (TextView) findViewById(R.id.mLatitude);
+            /*mLatitudeText = (TextView) findViewById(R.id.mLatitude);
             mLongitudeText = (TextView) findViewById(R.id.mLongitude);
             mLatitudeText.setText(String.valueOf(mLastLocation.getLatitude()));
-            mLongitudeText.setText(String.valueOf(mLastLocation.getLongitude()));
+            mLongitudeText.setText(String.valueOf(mLastLocation.getLongitude()));*/
 
             mLat = String.valueOf(mLastLocation.getLatitude());
             mLon = String.valueOf(mLastLocation.getLongitude());

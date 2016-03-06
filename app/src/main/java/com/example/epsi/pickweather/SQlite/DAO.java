@@ -1,16 +1,9 @@
-package com.example.epsi.pickweather.Home.SQlite;
+package com.example.epsi.pickweather.SQlite;
 
 
-import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-
-import com.example.epsi.pickweather.Home.POJO.CurrentWeather;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Camille on 02/03/2016.

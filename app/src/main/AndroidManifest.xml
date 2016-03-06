@@ -31,12 +31,17 @@
             android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name="com.example.epsi.pickweather.Home.SearchCityActivity"
+            android:name=".SearchCity.SearchCityActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name="com.example.epsi.pickweather.Home.FavCityActivity"
+            android:name=".FavCity.FavCityActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".Home.TestActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
         </activity>

@@ -1,6 +1,7 @@
 package com.example.epsi.pickweather.Home;
 
 import com.example.epsi.pickweather.Home.POJO.CurrentWeather;
+import com.example.epsi.pickweather.SearchCity.SearchResult;
 
 import java.util.Map;
 

@@ -1,4 +1,4 @@
-package com.example.epsi.pickweather.Home.SQlite;
+package com.example.epsi.pickweather.SQlite;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

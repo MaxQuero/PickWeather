@@ -1,4 +1,4 @@
-package com.example.epsi.pickweather.Home.SQlite;
+package com.example.epsi.pickweather.SQlite;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -8,7 +8,6 @@ import android.database.SQLException;
 import com.example.epsi.pickweather.Home.POJO.CurrentWeather;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Camille on 02/03/2016.

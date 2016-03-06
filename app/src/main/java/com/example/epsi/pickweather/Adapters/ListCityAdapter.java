@@ -1,4 +1,4 @@
-package com.example.epsi.pickweather.Home;
+package com.example.epsi.pickweather.Adapters;
 
 import android.app.Activity;
 import android.content.Context;
@@ -20,9 +20,7 @@ import java.util.ArrayList;
  * Created by Camille on 27/02/2016.
  */
 public class ListCityAdapter extends ArrayAdapter<CurrentWeather>{
-
-    private Activity myActivity ;
-    private ArrayList<CurrentWeather> myArray;
+    Activity myActivity ;ArrayList<CurrentWeather> myArray;
     private static LayoutInflater myLayout = null;
     private Context mycontext;
 
@@ -69,7 +67,6 @@ public class ListCityAdapter extends ArrayAdapter<CurrentWeather>{
         if(convertView == null ){
             myview = myLayout.inflate(R.layout.element_city, null);
             holder = new ViewHolder();
-            holder.oneresult = (LinearLayout) myview.findViewById(R.id.one_result);
             holder.mytextviewname = (TextView) myview.findViewById(R.id.tv_cityname);
             holder.mytextviewcountry = (TextView) myview.findViewById(R.id.tv_country);
             holder.mytextviewtemp = (TextView) myview.findViewById(R.id.tv_temp);
