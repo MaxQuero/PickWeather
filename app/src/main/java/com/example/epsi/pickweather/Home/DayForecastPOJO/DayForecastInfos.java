@@ -8,194 +8,110 @@ import java.util.ArrayList;
 
 public class DayForecastInfos {
 
-    @SerializedName("dt")
+    @SerializedName("city")
     @Expose
-    private Integer dt;
-    @SerializedName("main")
+    private City city;
+    @SerializedName("cod")
     @Expose
-    private Main main;
-    @SerializedName("weather")
+    private String cod;
+    @SerializedName("message")
     @Expose
-    private java.util.List<Weather> weather = new ArrayList<Weather>();
-    @SerializedName("clouds")
+    private Double message;
+    @SerializedName("cnt")
     @Expose
-    private Clouds clouds;
-    @SerializedName("wind")
+    private Integer cnt;
+    @SerializedName("list")
     @Expose
-    private Wind wind;
-    @SerializedName("rain")
-    @Expose
-    private Rain rain;
-    @SerializedName("snow")
-    @Expose
-    private Snow snow;
-    @SerializedName("sys")
-    @Expose
-    private Sys_ sys;
-    @SerializedName("dt_txt")
-    @Expose
-    private String dtTxt;
+    private java.util.List<DayForecast> listInfos = new ArrayList<DayForecast>();
 
     /**
      * 
      * @return
-     *     The dt
+     *     The city
      */
-    public Integer getDt() {
-        return dt;
+    public City getCity() {
+        return city;
     }
 
     /**
      * 
-     * @param dt
-     *     The dt
+     * @param city
+     *     The city
      */
-    public void setDt(Integer dt) {
-        this.dt = dt;
+    public void setCity(City city) {
+        this.city = city;
     }
 
     /**
      * 
      * @return
-     *     The main
+     *     The cod
      */
-    public Main getMain() {
-        return main;
+    public String getCod() {
+        return cod;
     }
 
     /**
      * 
-     * @param main
-     *     The main
+     * @param cod
+     *     The cod
      */
-    public void setMain(Main main) {
-        this.main = main;
-    }
-
-    /**
-     * 
-     * @return
-     *     The weather
-     */
-    public java.util.List<Weather> getWeather() {
-        return weather;
-    }
-
-    /**
-     * 
-     * @param weather
-     *     The weather
-     */
-    public void setWeather(java.util.List<Weather> weather) {
-        this.weather = weather;
+    public void setCod(String cod) {
+        this.cod = cod;
     }
 
     /**
      * 
      * @return
-     *     The clouds
+     *     The message
      */
-    public Clouds getClouds() {
-        return clouds;
+    public Double getMessage() {
+        return message;
     }
 
     /**
      * 
-     * @param clouds
-     *     The clouds
+     * @param message
+     *     The message
      */
-    public void setClouds(Clouds clouds) {
-        this.clouds = clouds;
-    }
-
-    /**
-     * 
-     * @return
-     *     The wind
-     */
-    public Wind getWind() {
-        return wind;
-    }
-
-    /**
-     * 
-     * @param wind
-     *     The wind
-     */
-    public void setWind(Wind wind) {
-        this.wind = wind;
+    public void setMessage(Double message) {
+        this.message = message;
     }
 
     /**
      * 
      * @return
-     *     The rain
+     *     The cnt
      */
-    public Rain getRain() {
-        return rain;
+    public Integer getCnt() {
+        return cnt;
     }
 
     /**
      * 
-     * @param rain
-     *     The rain
+     * @param cnt
+     *     The cnt
      */
-    public void setRain(Rain rain) {
-        this.rain = rain;
-    }
-
-    /**
-     * 
-     * @return
-     *     The snow
-     */
-    public Snow getSnow() {
-        return snow;
-    }
-
-    /**
-     * 
-     * @param snow
-     *     The snow
-     */
-    public void setSnow(Snow snow) {
-        this.snow = snow;
+    public void setCnt(Integer cnt) {
+        this.cnt = cnt;
     }
 
     /**
      * 
      * @return
-     *     The sys
+     *     The list
      */
-    public Sys_ getSys() {
-        return sys;
+    public java.util.List<DayForecast> getListInfos() {
+        return listInfos;
     }
 
     /**
      * 
-     * @param sys
-     *     The sys
+     * @param listInfos
+     *     The list
      */
-    public void setSys(Sys_ sys) {
-        this.sys = sys;
-    }
-
-    /**
-     * 
-     * @return
-     *     The dtTxt
-     */
-    public String getDtTxt() {
-        return dtTxt;
-    }
-
-    /**
-     * 
-     * @param dtTxt
-     *     The dt_txt
-     */
-    public void setDtTxt(String dtTxt) {
-        this.dtTxt = dtTxt;
+    public void setListInfos(java.util.List<DayForecast> listInfos) {
+        this.listInfos = listInfos;
     }
 
 }

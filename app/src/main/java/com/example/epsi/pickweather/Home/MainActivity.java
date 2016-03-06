@@ -72,7 +72,6 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
         //mLatitude = (TextView) findViewById(R.id.mLatitude);
         //mLongitude = (TextView) findViewById(R.id.mLongitude);
         temp = (TextView) findViewById(R.id.temp);
-        weather_icon = (TextView) findViewById(R.id.weather_icon);
         celcius_icon = (TextView) findViewById(R.id.celcius_icon);
 
         Typeface font = Typeface.createFromAsset(getAssets(), "climacons_webfont.ttf");

@@ -1,5 +1,6 @@
 package com.example.epsi.pickweather.Home;
 
+import com.example.epsi.pickweather.DayForecast.DayForecastResult;
 import com.example.epsi.pickweather.Home.POJO.CurrentWeather;
 import com.example.epsi.pickweather.SearchCity.SearchResult;
 
@@ -27,4 +28,8 @@ public interface RestInterface {
 
     @GET("/find")
     void getCity(@QueryMap Map<String, String> c, Callback<SearchResult> callback);
+
+    @GET("/forecast")
+    void getDayForecastById(@Query("id") int id , @Query("APPID") String appid, Callback<DayForecastResult> callback);
+
 }

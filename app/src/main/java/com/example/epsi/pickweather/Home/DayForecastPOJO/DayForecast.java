@@ -8,110 +8,194 @@ import java.util.ArrayList;
 
 public class DayForecast {
 
-    @SerializedName("city")
+    @SerializedName("dt")
     @Expose
-    private City city;
-    @SerializedName("cod")
+    private Integer dt;
+    @SerializedName("main")
     @Expose
-    private String cod;
-    @SerializedName("message")
+    private Main main;
+    @SerializedName("weather")
     @Expose
-    private Double message;
-    @SerializedName("cnt")
+    private java.util.List<Weather> weather = new ArrayList<Weather>();
+    @SerializedName("clouds")
     @Expose
-    private Integer cnt;
-    @SerializedName("list")
+    private Clouds clouds;
+    @SerializedName("wind")
     @Expose
-    private java.util.List<DayForecastInfos> list = new ArrayList<DayForecastInfos>();
+    private Wind wind;
+    @SerializedName("rain")
+    @Expose
+    private Rain rain;
+    @SerializedName("snow")
+    @Expose
+    private Snow snow;
+    @SerializedName("sys")
+    @Expose
+    private Sys_ sys;
+    @SerializedName("dt_txt")
+    @Expose
+    private String dtTxt;
 
     /**
      * 
      * @return
-     *     The city
+     *     The dt
      */
-    public City getCity() {
-        return city;
+    public Integer getDt() {
+        return dt;
     }
 
     /**
      * 
-     * @param city
-     *     The city
+     * @param dt
+     *     The dt
      */
-    public void setCity(City city) {
-        this.city = city;
-    }
-
-    /**
-     * 
-     * @return
-     *     The cod
-     */
-    public String getCod() {
-        return cod;
-    }
-
-    /**
-     * 
-     * @param cod
-     *     The cod
-     */
-    public void setCod(String cod) {
-        this.cod = cod;
+    public void setDt(Integer dt) {
+        this.dt = dt;
     }
 
     /**
      * 
      * @return
-     *     The message
+     *     The main
      */
-    public Double getMessage() {
-        return message;
+    public Main getMain() {
+        return main;
     }
 
     /**
      * 
-     * @param message
-     *     The message
+     * @param main
+     *     The main
      */
-    public void setMessage(Double message) {
-        this.message = message;
-    }
-
-    /**
-     * 
-     * @return
-     *     The cnt
-     */
-    public Integer getCnt() {
-        return cnt;
-    }
-
-    /**
-     * 
-     * @param cnt
-     *     The cnt
-     */
-    public void setCnt(Integer cnt) {
-        this.cnt = cnt;
+    public void setMain(Main main) {
+        this.main = main;
     }
 
     /**
      * 
      * @return
-     *     The list
+     *     The weather
      */
-    public java.util.List<DayForecastInfos> getList() {
-        return list;
+    public java.util.List<Weather> getWeather() {
+        return weather;
     }
 
     /**
      * 
-     * @param list
-     *     The list
+     * @param weather
+     *     The weather
      */
-    public void setList(java.util.List<DayForecastInfos> list) {
-        this.list = list;
+    public void setWeather(java.util.List<Weather> weather) {
+        this.weather = weather;
+    }
+
+    /**
+     * 
+     * @return
+     *     The clouds
+     */
+    public Clouds getClouds() {
+        return clouds;
+    }
+
+    /**
+     * 
+     * @param clouds
+     *     The clouds
+     */
+    public void setClouds(Clouds clouds) {
+        this.clouds = clouds;
+    }
+
+    /**
+     * 
+     * @return
+     *     The wind
+     */
+    public Wind getWind() {
+        return wind;
+    }
+
+    /**
+     * 
+     * @param wind
+     *     The wind
+     */
+    public void setWind(Wind wind) {
+        this.wind = wind;
+    }
+
+    /**
+     * 
+     * @return
+     *     The rain
+     */
+    public Rain getRain() {
+        return rain;
+    }
+
+    /**
+     * 
+     * @param rain
+     *     The rain
+     */
+    public void setRain(Rain rain) {
+        this.rain = rain;
+    }
+
+    /**
+     * 
+     * @return
+     *     The snow
+     */
+    public Snow getSnow() {
+        return snow;
+    }
+
+    /**
+     * 
+     * @param snow
+     *     The snow
+     */
+    public void setSnow(Snow snow) {
+        this.snow = snow;
+    }
+
+    /**
+     * 
+     * @return
+     *     The sys
+     */
+    public Sys_ getSys() {
+        return sys;
+    }
+
+    /**
+     * 
+     * @param sys
+     *     The sys
+     */
+    public void setSys(Sys_ sys) {
+        this.sys = sys;
+    }
+
+    /**
+     * 
+     * @return
+     *     The dtTxt
+     */
+    public String getDtTxt() {
+        return dtTxt;
+    }
+
+    /**
+     * 
+     * @param dtTxt
+     *     The dt_txt
+     */
+    public void setDtTxt(String dtTxt) {
+        this.dtTxt = dtTxt;
     }
 
 }

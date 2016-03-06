@@ -1,14 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal" android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:theme="@style/ThemeOverlay.AppCompat.Dark"
-    >
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_marginRight="20dp"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
-
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/linear"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:weightSum="1">
+        <TextView
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="New Text"
-        android:id="@+id/day_period" />
+        android:id="@+id/day_time"
+        android:layout_gravity="center_vertical" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:textSize="500px"
+            android:textColor="#a0dfe4de"
+            android:id="@+id/weather_ic" />
+
+        <TextView
+            android:layout_width="136dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/temperature"
+            android:layout_marginTop="15dp"
+            android:layout_gravity="center_vertical" />
+        <TextView
+            android:id="@+id/celcius_ic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:textSize="120px"
+            android:textColor="#a0e42a00" />
+        </LinearLayout>
+
 </LinearLayout>
