@@ -1,5 +1,6 @@
 package com.example.epsi.pickweather.DayForecast;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -10,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.epsi.pickweather.Adapters.DayForecastAdapter;
@@ -19,7 +19,10 @@ import com.example.epsi.pickweather.Home.POJO.WeatherGenerator;
 import com.example.epsi.pickweather.Home.RestInterface;
 import com.example.epsi.pickweather.R;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -31,32 +34,25 @@ import retrofit.client.Response;
 public class DayForecastFragment extends Fragment {
     private ImageButton myimagebtn;
     private RecyclerView recyclerView;
-     TextView daytime, weather_icon, celcius_icon, temp;
-    int icon, weatherCode;
    private EditText myedittext;
-
+    Typeface font;
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View v = inflater.inflate(R.layout.day_forecast_fragment, container, false);
+         font = Typeface.createFromAsset(getActivity().getAssets(), "climacons_webfont.ttf");
+
         return v;
     }
 
     @Override
     public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
-        temp = (TextView) view.findViewById(R.id.temperature);
-        weather_icon = (TextView) view.findViewById(R.id.weather_ic);
-        daytime = (TextView) view.findViewById(R.id.day_time);
-        temp = (TextView) view.findViewById(R.id.temperature);
-
-        TextView celcius_icon = (TextView) view.findViewById((R.id.celcius_ic));
         {
 
             final RecyclerView rv = (RecyclerView) view.findViewById(R.id.rv);
 
             final LinearLayoutManager llm = new LinearLayoutManager(getContext());
             llm.setOrientation(LinearLayoutManager.HORIZONTAL);
-
 
             final RestInterface myrestinterface = WeatherGenerator.callAPI(RestInterface.class);
 
@@ -69,9 +65,18 @@ public class DayForecastFragment extends Fragment {
                     final ArrayList<DayForecast> myarray = new ArrayList<>();
                     // Toast.makeText(getApplicationContext(), sw.getMessage().toString(), Toast.LENGTH_LONG).show();
                     for (DayForecast currentDfi : listDayForecast.getResult()) {
-                        myarray.add(currentDfi);
+                        long timestamp = Long.parseLong(String.valueOf(currentDfi.getDt())) * 1000;
+
+                        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+                        String forecastDate = getDate(timestamp, false);
+
+                        String currentDate = sdf.format(new Date());
+                        if (forecastDate.equals(currentDate)) {
+                            myarray.add(currentDfi);
+                        }
                     }
                     final DayForecastAdapter adapter = new DayForecastAdapter(getActivity(), R.layout.element_dayforecast, myarray);
+
                     rv.setLayoutManager(llm);
 
                     rv.setAdapter(adapter);
@@ -84,6 +89,24 @@ public class DayForecastFragment extends Fragment {
                 }
 
             });
+        }
+    }
+    private String getDate(long timeStamp, Boolean hour){
+
+        try{
+            DateFormat sdfDate = new SimpleDateFormat("dd/MM/yyyy");
+            DateFormat sdfHour = new SimpleDateFormat("HH");
+
+            Date netDate = (new Date(timeStamp));
+
+            if(hour) {
+                return sdfHour.format(netDate);
+            }else {
+                return sdfDate.format(netDate);
+            }
+        }
+        catch(Exception ex){
+            return "xx";
         }
     }
 }
