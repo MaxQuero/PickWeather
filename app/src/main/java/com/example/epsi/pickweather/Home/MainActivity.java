@@ -1,5 +1,7 @@
 package com.example.epsi.pickweather.Home;
 
+import android.app.ActionBar;
+import android.app.Notification;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -12,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,6 +40,7 @@ import retrofit.client.Response;
 public class MainActivity extends AppCompatActivity implements ConnectionCallbacks, OnConnectionFailedListener {
     GoogleApiClient mGoogleApiClient=null;
 
+    Menu menu;
     TextView city, status, weather_icon, celcius_icon, humidity, pressure, temp, nameFromLocation, mLatitude, mLongitude;
     String currentCityName, mLat, mLon;
     CurrentWeather currentWeather;
@@ -85,15 +89,6 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
                     .build();
         }
 
-        //Get parameters from searchcity activity
-        Intent i = getIntent();
-
-        Integer myid = (Integer) i.getSerializableExtra("id");
-
-            // and get whatever type user account id is
-            if (myid != null) {
-                getWeatherById(myid);
-    }
 
         // ShakeDetector initialization
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
@@ -120,6 +115,7 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        this.menu = menu;
         return true;
     }
 
@@ -134,27 +130,46 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
             case R.id.action_settings :
                 Toast.makeText(this, "Settings selected", Toast.LENGTH_SHORT).show();
                 return true;
-            case R.id.action_favorite :
-                Toast.makeText(getApplicationContext(), String.format("bite"), Toast.LENGTH_SHORT).show();
 
+            case R.id.action_favorite :
 
                 AccessBDDCity myaccess = new AccessBDDCity(getApplicationContext());
                 myaccess.open();
-                try {
-                    myaccess.createFav(currentWeather);
-                    Toast.makeText(getApplicationContext(), currentWeather.getName() + " a bien été rajouté à vos favoris", Toast.LENGTH_LONG).show();
 
-                } catch (Exception e) {
-                    Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_LONG).show();
-                } finally {
-                    myaccess.close();
+                if (myaccess.isAlreadyInsert(currentWeather)){
+                   Toast.makeText(getApplicationContext(), "Cette ville a été supprimé de vos favoris", Toast.LENGTH_LONG).show();
+
+                    try {
+                        myaccess.deleteFav(currentWeather);
+                        item.setIcon(R.drawable.ic_favorite_white_18dp);
+                        Toast.makeText(getApplicationContext(), "Suppression réussi !", Toast.LENGTH_LONG).show();
+
+                    } catch (Exception e) {
+                        Toast.makeText(getApplicationContext(), "Erreur lors de la suppression !", Toast.LENGTH_LONG).show();
+                    } finally {
+                        myaccess.close();
+                    }
+                }else {
+                    try {
+                        myaccess.createFav(currentWeather);
+                        item.setIcon(R.drawable.favorite_icon);
+                        Toast.makeText(getApplicationContext(), currentWeather.getName() + " a bien été rajouté à vos favoris", Toast.LENGTH_LONG).show();
+                    } catch (Exception e) {
+                        Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_LONG).show();
+                    } finally {
+                        myaccess.close();
+                    }
                 }
+
+                return true;
+            case R.id.action_viewfav :
+                Intent in = new Intent(MainActivity.this, ViewFavActivity.class);
+                startActivity(in);
                 return true;
             case R.id.action_fav :
                 Intent i = new Intent(MainActivity.this, FavCityActivity.class);
                 startActivity(i);
                 return true;
-
             case R.id.action_geoloc :
                 displayLocation();
                 return true;
@@ -175,11 +190,13 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
 
     @Override
     public void onConnected(Bundle connectionHint) {
+        //Get parameters from others activities
         Intent i = getIntent();
         Integer idCity = (Integer) i.getSerializableExtra("id");
         if (idCity == null) {
-                this.displayLocation();
-
+            this.displayLocation();
+        }else {
+            getWeatherById(idCity);
         }
     }
 
@@ -193,8 +210,6 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
     public void setWeather(CurrentWeather w){
         currentWeather = w;
     }
-
-
 
     @Override
     public void onConnectionSuspended(int i) {
@@ -252,7 +267,6 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
         r.getWeatherReportByCoord(lat, lon, "f48fbd8a004dce121b1720eb6fac9fc7", new Callback<CurrentWeather>() {
             @Override
             public void success(CurrentWeather weather, Response response) {
-                Toast.makeText(getApplicationContext(), String.format("OK"), Toast.LENGTH_SHORT).show();
                 System.out.println(response.toString());
 
                 city.setText(weather.getName() + ", " + weather.getSys().getCountry());
@@ -265,7 +279,6 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
                 pressure.setText("pressure : " + weather.getMain().getPressure().toString());
 
                 putWeatherIcons(weather);
-
             }
 
             @Override
@@ -295,9 +308,7 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
                 humidity.setText("humidity : " + weather.getMain().getHumidity().toString());
                 pressure.setText("pressure : " + weather.getMain().getPressure().toString());
 
-
                 putWeatherIcons(weather);
-
             }
 
             @Override
@@ -310,6 +321,15 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
     }
     public void putWeatherIcons(CurrentWeather weather){
         weatherCode = weather.getWeather().get(0).getId();
+
+        AccessBDDCity myaccess = new AccessBDDCity(getApplicationContext());
+        myaccess.open();
+
+        if (myaccess.isAlreadyInsert(weather)){
+            MenuItem item = menu.findItem(R.id.action_favorite);
+            item.setIcon(R.drawable.favorite_icon);
+        }
+
         double c = weather.getMain().getTemp().intValue() - 273;
         int celcius_degree = (int) c;
              LinearLayout view = (LinearLayout) findViewById(R.id.lin_layout);

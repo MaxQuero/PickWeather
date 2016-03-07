@@ -39,6 +39,18 @@ public class AccessBDDCity extends DAO {
                 + " = " + id, null);
     }
 
+    public boolean isAlreadyInsert(CurrentWeather cw){
+        long id = cw.getId();
+        boolean isAlready = false;
+        String rawquery = "SELECT * FROM " + MySQLiteHelper.TABLE_WEATHER + " WHERE " + MySQLiteHelper.COLUMN_ID  + "= '" + id + "';";
+        Cursor c = super.database.rawQuery(rawquery, null);
+
+        if (c.getCount() > 0){
+            isAlready = true;
+        }
+        return isAlready;
+    }
+
     public ArrayList<CurrentWeather> getAllFav() {
         String rawquery = "SELECT * FROM " + MySQLiteHelper.TABLE_WEATHER + ";";
         Cursor c = super.database.rawQuery(rawquery, null);

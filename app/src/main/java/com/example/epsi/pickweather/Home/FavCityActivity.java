@@ -1,8 +1,11 @@
 package com.example.epsi.pickweather.Home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -29,20 +32,29 @@ public class FavCityActivity extends AppCompatActivity{
         a.setPadding(0, getStatusBarHeight(), 0, 0);
         this.mylistview = (ListView) findViewById(R.id.listViewCityFav);
 
-        ArrayList<CurrentWeather> mylist = new ArrayList<>();
+        final ArrayList<CurrentWeather> mylist = new ArrayList<CurrentWeather>();
 
         AccessBDDCity myaccess = new AccessBDDCity(getApplicationContext());
 
         myaccess.open();
 
         try {
-           /* for (CurrentWeather cw : myaccess.getAllFav()) {
-                Toast.makeText(getApplicationContext(), cw.getName(), Toast.LENGTH_LONG).show();
-            }*/
+            for (CurrentWeather cw : myaccess.getAllFav()) {
+               mylist.add(cw);
+            }
             //Toast.makeText(this, "fav selected", Toast.LENGTH_SHORT).show();
-            mylist = myaccess.getAllFav();
             final ListFavAdapter myadapt = new ListFavAdapter(FavCityActivity.this, R.layout.element_fav, mylist);
             mylistview.setAdapter(myadapt);
+
+            mylistview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+
+                    Intent i = new Intent(FavCityActivity.this, MainActivity.class);
+                    i.putExtra("id", mylist.get(position).getId());
+                    startActivity(i);
+
+                }
+            });
 
         } catch (Exception e) {
 

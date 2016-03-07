@@ -4,12 +4,15 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -61,31 +64,12 @@ public class ListFavAdapter extends ArrayAdapter<CurrentWeather> {
         public ImageButton myfavbtndelete;
     }
 
-    private void createDialog(){
-        AlertDialog.Builder alert = new AlertDialog.Builder(mycontext);
-        alert.setMessage("Etes vous sur de vouloir supprimer cette ville");
-        alert.setCancelable(false);
-        alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(mycontext, "cest ok", Toast.LENGTH_LONG).show();
-            }
-        });
-        alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-            }
-        });
-        alert.create().show();
-    }
-
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         View myview = convertView;
         final ViewHolder holder;
 
-        if(convertView == null ){
+        if(myview == null ){
             myview = myLayout.inflate(R.layout.element_fav, null);
             holder = new ViewHolder();
             holder.mytextviewname = (TextView) myview.findViewById(R.id.tv_cityname_fav);
@@ -103,26 +87,44 @@ public class ListFavAdapter extends ArrayAdapter<CurrentWeather> {
         holder.myfavbtndelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               // createDialog();
-
-                                AccessBDDCity myaccess = new AccessBDDCity(mycontext);
+                                final AccessBDDCity myaccess = new AccessBDDCity(mycontext);
                                 myaccess.open();
                                 try {
+
                                     myaccess.deleteFav(myArray.get(position));
                                     myActivity.finish();
                                     myActivity.startActivity(myActivity.getIntent());
                                     Toast.makeText(mycontext, "Suppression réussi !", Toast.LENGTH_LONG).show();
+
+                                    /*AlertDialog alert= new AlertDialog.Builder(getContext())
+                                            .setIcon(android.R.drawable.ic_dialog_alert)
+                                            .setTitle("Suppression d'un favorie.")
+                                            .setMessage("Êtes-vous sûr de vouloir supprimer  de vos favoris ?")
+                                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    //ici supprimer
+                                                    myActivity.runOnUiThread(new Runnable() {
+                                                        @Override
+                                                        public void run() {
+
+                                                        }
+                                                    });
+                                                }
+
+                                            }).setNegativeButton("No", null)
+                                            .show();
+*/
 
                                 } catch (Exception e) {
                                     Toast.makeText(mycontext, "Erreur lors de la suppression !", Toast.LENGTH_LONG).show();
                                 } finally {
                                     myaccess.close();
                                 }
-
-
-
             }
         });
+
+
 
         return myview;
     }
