@@ -1,11 +1,33 @@
 <resources>
     <string name="app_name">PickWeather</string>
 
-    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="action_fav">Gerer mes favoris</string>
     <string name="city">@android:string/ok</string>
     <string name="title_activity_splashscreen">SplashscreenActivity</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="title_activity_main">MainActivity</string>
+
+    <string name="sunny">&#xe028;</string>
+    <string name="cloudy">&#xe000;</string>
+    <string name="few_clouds">&#xe001;</string>
+    <string name="clear_night">&#xe02d;</string>
+    <string name="foggy">&#xe01b;</string>
+    <string name="cloud">&#xe000;</string>
+    <string name="light_rain">&#xe004;</string>
+    <string name="rainy">&#xe003;</string>
+    <string name="snowy">&#xe018;</string>
+    <string name="thunder">&#xe025;</string>
+    <string name="drizzle">&#xe00c;</string>
+    <string name="windy">&#xe021;</string>
+
+    <string name="celcius">&#xe03e;</string>
+    <string name="title_activity_main2">Main2Activity</string>
+
+    <string name="hello_world">Hello world!</string>
+
+
+
+
 </resources>

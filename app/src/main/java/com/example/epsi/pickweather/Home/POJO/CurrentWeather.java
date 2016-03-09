@@ -4,192 +4,44 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
-import java.util.List;
-
-
 
 /**
- * Created by MaxQ on 29/01/2016.
+ * Created by Camille on 28/02/2016.
  */
 public class CurrentWeather {
-
-    @SerializedName("coord")
-    @Expose
-    private Coord coord;
-    @SerializedName("weather")
-    @Expose
-    private List<Weather> weather = new ArrayList<Weather>();
-    @SerializedName("base")
-    @Expose
-    private String base;
-    @SerializedName("main")
-    @Expose
-    private Main main;
-    @SerializedName("wind")
-    @Expose
-    private Wind wind;
-    @SerializedName("clouds")
-    @Expose
-    private Clouds clouds;
-    @SerializedName("dt")
-    @Expose
-    private Integer dt;
-    @SerializedName("sys")
-    @Expose
-    private Sys sys;
     @SerializedName("id")
     @Expose
     private Integer id;
     @SerializedName("name")
     @Expose
     private String name;
+    @SerializedName("coord")
+    @Expose
+    private com.example.epsi.pickweather.Home.POJO.Coord coord;
+    @SerializedName("main")
+    @Expose
+    private com.example.epsi.pickweather.Home.POJO.Main main;
+    @SerializedName("dt")
+    @Expose
+    private Integer dt;
+    @SerializedName("wind")
+    @Expose
+    private com.example.epsi.pickweather.Home.POJO.Wind wind;
+    @SerializedName("sys")
+    @Expose
+    private com.example.epsi.pickweather.Home.POJO.Sys sys;
+    @SerializedName("clouds")
+    @Expose
+    private com.example.epsi.pickweather.Home.POJO.Clouds clouds;
+    @SerializedName("weather")
+    @Expose
+    private java.util.List<com.example.epsi.pickweather.Home.POJO.Weather> weather = new ArrayList<com.example.epsi.pickweather.Home.POJO.Weather>();
     @SerializedName("cod")
     @Expose
     private Integer cod;
-
-    /**
-     *
-     * @return
-     * The coord
-     */
-    public Coord getCoord() {
-        return coord;
-    }
-
-    /**
-     *
-     * @param coord
-     * The coord
-     */
-    public void setCoord(Coord coord) {
-        this.coord = coord;
-    }
-
-    /**
-     *
-     * @return
-     * The weather
-     */
-    public List<Weather> getWeather() {
-        return weather;
-    }
-
-    /**
-     *
-     * @param weather
-     * The weather
-     */
-    public void setWeather(List<Weather> weather) {
-        this.weather = weather;
-    }
-
-    /**
-     *
-     * @return
-     * The base
-     */
-    public String getBase() {
-        return base;
-    }
-
-    /**
-     *
-     * @param base
-     * The base
-     */
-    public void setBase(String base) {
-        this.base = base;
-    }
-
-    /**
-     *
-     * @return
-     * The main
-     */
-    public Main getMain() {
-        return main;
-    }
-
-    /**
-     *
-     * @param main
-     * The main
-     */
-    public void setMain(Main main) {
-        this.main = main;
-    }
-
-    /**
-     *
-     * @return
-     * The wind
-     */
-    public Wind getWind() {
-        return wind;
-    }
-
-    /**
-     *
-     * @param wind
-     * The wind
-     */
-    public void setWind(Wind wind) {
-        this.wind = wind;
-    }
-
-    /**
-     *
-     * @return
-     * The clouds
-     */
-    public Clouds getClouds() {
-        return clouds;
-    }
-
-    /**
-     *
-     * @param clouds
-     * The clouds
-     */
-    public void setClouds(Clouds clouds) {
-        this.clouds = clouds;
-    }
-
-    /**
-     *
-     * @return
-     * The dt
-     */
-    public Integer getDt() {
-        return dt;
-    }
-
-    /**
-     *
-     * @param dt
-     * The dt
-     */
-    public void setDt(Integer dt) {
-        this.dt = dt;
-    }
-
-    /**
-     *
-     * @return
-     * The sys
-     */
-    public Sys getSys() {
-        return sys;
-    }
-
-    /**
-     *
-     * @param sys
-     * The sys
-     */
-    public void setSys(Sys sys) {
-        this.sys = sys;
-    }
+    @SerializedName("base")
+    @Expose
+    private String base;
 
     /**
      *
@@ -230,19 +82,143 @@ public class CurrentWeather {
     /**
      *
      * @return
-     * The cod
+     * The coord
      */
-    public Integer getCod() {
-        return cod;
+    public com.example.epsi.pickweather.Home.POJO.Coord getCoord() {
+        return coord;
     }
 
     /**
      *
-     * @param cod
-     * The cod
+     * @param coord
+     * The coord
      */
+    public void setCoord(com.example.epsi.pickweather.Home.POJO.Coord coord) {
+        this.coord = coord;
+    }
+
+    /**
+     *
+     * @return
+     * The main
+     */
+    public com.example.epsi.pickweather.Home.POJO.Main getMain() {
+        return main;
+    }
+
+    /**
+     *
+     * @param main
+     * The main
+     */
+    public void setMain(Main main) {
+        this.main = main;
+    }
+
+    /**
+     *
+     * @return
+     * The dt
+     */
+    public Integer getDt() {
+        return dt;
+    }
+
+    /**
+     *
+     * @param dt
+     * The dt
+     */
+    public void setDt(Integer dt) {
+        this.dt = dt;
+    }
+
+    /**
+     *
+     * @return
+     * The wind
+     */
+    public com.example.epsi.pickweather.Home.POJO.Wind getWind() {
+        return wind;
+    }
+
+    /**
+     *
+     * @param wind
+     * The wind
+     */
+    public void setWind(Wind wind) {
+        this.wind = wind;
+    }
+
+    /**
+     *
+     * @return
+     * The sys
+     */
+    public com.example.epsi.pickweather.Home.POJO.Sys getSys() {
+        return sys;
+    }
+
+    /**
+     *
+     * @param sys
+     * The sys
+     */
+    public void setSys(Sys sys) {
+        this.sys = sys;
+    }
+
+    /**
+     *
+     * @return
+     * The clouds
+     */
+    public com.example.epsi.pickweather.Home.POJO.Clouds getClouds() {
+        return clouds;
+    }
+
+    /**
+     *
+     * @param clouds
+     * The clouds
+     */
+    public void setClouds(Clouds clouds) {
+        this.clouds = clouds;
+    }
+
+    /**
+     *
+     * @return
+     * The weather
+     */
+    public java.util.List<com.example.epsi.pickweather.Home.POJO.Weather> getWeather() {
+        return weather;
+    }
+
+    /**
+     *
+     * @param weather
+     * The weather
+     */
+    public void setWeather(java.util.List<Weather> weather) {
+        this.weather = weather;
+    }
+
+    public Integer getCod() {
+        return cod;
+    }
+
     public void setCod(Integer cod) {
         this.cod = cod;
+    }
+
+    public String getBase() {
+        return base;
+    }
+
+    public void setBase(String base) {
+        this.base = base;
     }
 
 }
