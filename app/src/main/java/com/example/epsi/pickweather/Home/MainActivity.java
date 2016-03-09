@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
     ViewPager pager;
     ForecastViewPagerAdapter adapter;
     SlidingTabLayout tabs;
-    CharSequence Titles[]={"Home","Events"};
+    CharSequence Titles[]={"Day","Week"};
     int Numboftabs =2;
 
 
@@ -226,8 +226,23 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
         currentWeather = w;
     }
 
+    public int getWeatherId() {
+        return cityId;
+    }
 
+    public String getLat(){
+        return mLat;
+    }
+    public String getLon(){
+        return mLon;
+    }
 
+    public void setLat(String l){
+       mLat = l;
+    }
+    public void setLon(String lo){
+        mLon = lo;
+    }
     @Override
     public void onConnectionSuspended(int i) {
 
@@ -275,6 +290,8 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
 
             mLat = String.valueOf(mLastLocation.getLatitude());
             mLon = String.valueOf(mLastLocation.getLongitude());
+            setLat(mLat);
+            setLon(mLon);
             this.getWeatherLocation(mLat, mLon);
         }
     }

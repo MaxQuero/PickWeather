@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.epsi.pickweather.Home.DayForecastPOJO.DayForecast;
+import com.example.epsi.pickweather.Home.WeekForecastPOJO.WeekForecast;
 import com.example.epsi.pickweather.R;
 
 import java.text.DateFormat;
@@ -20,17 +20,16 @@ import java.util.ArrayList;
 import java.util.Date;
 
 /**
- * Created by MaxQ on 06/03/2016.
+ * Created by MaxQ on 09/03/2016.
  */
-public class DayForecastAdapter extends RecyclerView.Adapter<DayForecastAdapter.DayWeatherViewHolder>{
-
+public class WeekForecastAdapter extends RecyclerView.Adapter<WeekForecastAdapter.WeekWeatherViewHolder> {
     Activity myActivity ;
 
-    private ArrayList<DayForecast> myArray;
+    private ArrayList<WeekForecast> myArray;
     private static LayoutInflater myLayout = null;
     private Context mycontext;
     int icon, weatherCode;
-    public DayForecastAdapter(Activity myactivity, int resource, ArrayList<DayForecast> myarray){
+    public WeekForecastAdapter(Activity myactivity, int resource, ArrayList<WeekForecast> myarray){
         this.myActivity = myactivity;
         this.myArray = myarray;
         this.mycontext = myactivity.getApplicationContext();
@@ -38,7 +37,7 @@ public class DayForecastAdapter extends RecyclerView.Adapter<DayForecastAdapter.
     }
 
 
-    public DayForecast getItem(int position) {
+    public WeekForecast getItem(int position) {
         return this.myArray.get(position);
     }
 
@@ -48,13 +47,13 @@ public class DayForecastAdapter extends RecyclerView.Adapter<DayForecastAdapter.
         return position;
     }
 
-    public static class DayWeatherViewHolder extends RecyclerView.ViewHolder {
+    public static class WeekWeatherViewHolder extends RecyclerView.ViewHolder {
         TextView daytime, weather_icon, celcius_icon, temp;
         LinearLayout lin;
         Typeface font;
         double c;
         int celcius_degree;
-        DayWeatherViewHolder(View itemView) {
+        WeekWeatherViewHolder(View itemView) {
             super(itemView);
             temp = (TextView) itemView.findViewById(R.id.temperature);
             weather_icon = (TextView) itemView.findViewById(R.id.weather_ic);
@@ -70,24 +69,24 @@ public class DayForecastAdapter extends RecyclerView.Adapter<DayForecastAdapter.
     }
 
     @Override
-    public DayWeatherViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.element_day_forecast, viewGroup, false);
-        DayWeatherViewHolder pvh = new DayWeatherViewHolder(v);
+    public WeekWeatherViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.element_week_forecast, viewGroup, false);
+        WeekWeatherViewHolder pvh = new WeekWeatherViewHolder(v);
         return pvh;
     }
 
     @Override
-    public void onBindViewHolder(DayWeatherViewHolder twViewHolder, int i) {
-        DayForecast df = this.myArray.get(i);
-        twViewHolder.c = df.getMain().getTemp().intValue() - 273 ;
+    public void onBindViewHolder(WeekWeatherViewHolder twViewHolder, int i) {
+        WeekForecast wf = this.myArray.get(i);
+        long timestamp = Long.parseLong(String.valueOf(wf.getDt())) * 1000;
+        twViewHolder.c = wf.getTemp().getDay().intValue() - 273 ;
         twViewHolder.celcius_degree = (int) twViewHolder.c;
-        long timestamp = Long.parseLong(String.valueOf(df.getDt())) * 1000;
-            String forecastHour = getDate(timestamp, true);
-            twViewHolder.daytime.setText(forecastHour+'h');
-            twViewHolder.temp.setText(String.valueOf(twViewHolder.celcius_degree) + "°C");
-            twViewHolder.weather_icon.setTypeface(twViewHolder.font);
-            twViewHolder.celcius_icon.setTypeface(twViewHolder.font);
-            putWeatherIcons(this.myArray.get(i), twViewHolder);
+        String forecastDay = getDate(timestamp, false);
+        twViewHolder.daytime.setText(forecastDay);
+        twViewHolder.temp.setText(String.valueOf(twViewHolder.celcius_degree) + "°C");
+        twViewHolder.weather_icon.setTypeface(twViewHolder.font);
+        twViewHolder.celcius_icon.setTypeface(twViewHolder.font);
+        putWeatherIcons(this.myArray.get(i), twViewHolder);
     }
 
     @Override
@@ -103,7 +102,7 @@ public class DayForecastAdapter extends RecyclerView.Adapter<DayForecastAdapter.
     private String getDate(long timeStamp, Boolean hour){
 
         try{
-            DateFormat sdfDate = new SimpleDateFormat("dd/MM/yyyy");
+            DateFormat sdfDate = new SimpleDateFormat("dd/MM");
             DateFormat sdfHour = new SimpleDateFormat("HH");
 
             Date netDate = (new Date(timeStamp));
@@ -118,9 +117,9 @@ public class DayForecastAdapter extends RecyclerView.Adapter<DayForecastAdapter.
             return "xx";
         }
     }
-    public void putWeatherIcons(DayForecast df, DayWeatherViewHolder tw){
+    public void putWeatherIcons(WeekForecast wf, WeekWeatherViewHolder tw){
 
-        weatherCode = df.getWeather().get(0).getId();
+        weatherCode = wf.getWeather().get(0).getId();
 
 
         switch (weatherCode){

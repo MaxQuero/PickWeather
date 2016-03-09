@@ -2,8 +2,8 @@
 
     <color name="black_overlay">#66000000</color>
 
-    <color name="ColorPrimary">#03a9f4</color>
-    <color name="ColorPrimaryDark">#d10014</color>
-    <color name="tabsScrollColor">#8a140e</color>
+    <color name="ColorPrimary">@android:color/transparent</color>
+    <color name="ColorPrimaryDark">@android:color/transparent</color>
+    <color name="tabsScrollColor">#fffef6</color>
 
 </resources>

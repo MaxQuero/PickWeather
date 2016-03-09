@@ -4,7 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.example.epsi.pickweather.Home.WeekForecastFragment;
+import com.example.epsi.pickweather.WeekForecast.WeekForecastFragment;
 import com.example.epsi.pickweather.DayForecast.DayForecastFragment;
 
 /**

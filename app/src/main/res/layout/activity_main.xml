@@ -8,9 +8,6 @@
 
     <include android:id="@+id/tool_bar" layout="@layout/tool_bar"></include>
 
-
-
-
         <LinearLayout
             android:id="@+id/lin_layout"
                 android:layout_width="match_parent"
