@@ -4,7 +4,8 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:theme="@style/ThemeOverlay.AppCompat.Dark"
-    android:id="@+id/linearCity">
+    android:id="@+id/linearCity"
+    android:background="@drawable/monuments">
 
     <LinearLayout
         android:orientation="horizontal"
