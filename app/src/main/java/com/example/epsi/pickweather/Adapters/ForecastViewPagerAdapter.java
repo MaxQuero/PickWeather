@@ -41,7 +41,7 @@ public class ForecastViewPagerAdapter extends FragmentStatePagerAdapter {
                     day_forecast.loadLatLon(cityId, lat, lon);
 
                 }
-            }, 5000);
+            }, 1000);
             return day_forecast;
 
 
@@ -56,7 +56,7 @@ public class ForecastViewPagerAdapter extends FragmentStatePagerAdapter {
                     week_forecast.loadLatLon(cityId, lat, lon);
 
                 }
-            }, 10000);
+            }, 500);
             return week_forecast;
 
 

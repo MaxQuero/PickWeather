@@ -91,12 +91,6 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
         // Set the padding to match the Status Bar height
         toolbar.setPadding(0, getStatusBarHeight(), 0, 0);
 
-
-
-
-
-
-
         // Start Google Location API
 
         if (mGoogleApiClient == null) {
@@ -152,14 +146,9 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
 
                 AccessBDDCity myaccess = new AccessBDDCity(getApplicationContext());
                 myaccess.open();
-                try {
-                    myaccess.createFav(currentWeather);
-                    Toast.makeText(getApplicationContext(), currentWeather.getName() + " a bien été rajouté à vos favoris", Toast.LENGTH_LONG).show();
-                    item.setIcon(R.drawable.favorite_icon);
-                } catch (Exception e) {
 
-                if (myaccess.isAlreadyInsert(currentWeather)){
-                   Toast.makeText(getApplicationContext(), "Cette ville a été supprimé de vos favoris", Toast.LENGTH_LONG).show();
+                if (myaccess.isAlreadyInsert(currentWeather)) {
+                    Toast.makeText(getApplicationContext(), "Cette ville a été supprimé de vos favoris", Toast.LENGTH_LONG).show();
 
                     try {
                         myaccess.deleteFav(currentWeather);
@@ -171,7 +160,7 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
                     } finally {
                         myaccess.close();
                     }
-                }else {
+                } else {
                     try {
                         myaccess.createFav(currentWeather);
                         item.setIcon(R.drawable.favorite_icon);
@@ -226,14 +215,13 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                adapter =  new ForecastViewPagerAdapter(getSupportFragmentManager(),Titles,Numboftabs,idCity, mLat, mLon);
+                adapter = new ForecastViewPagerAdapter(getSupportFragmentManager(), Titles, Numboftabs, idCity, mLat, mLon);
 
 // Creating The ViewPagerAdapter and Passing Fragment Manager, Titles fot the Tabs and Number Of Tabs.
 
                 // Assigning ViewPager View and setting the adapter
                 pager = (ViewPager) findViewById(R.id.pager);
                 pager.setAdapter(adapter);
-
 
 
                 // Assiging the Sliding Tab Layout View
@@ -251,7 +239,7 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
                 // Setting the ViewPager For the SlidingTabsLayout
                 tabs.setViewPager(pager);
             }
-        }, 5000);
+        }, 500);
 
     }
 
