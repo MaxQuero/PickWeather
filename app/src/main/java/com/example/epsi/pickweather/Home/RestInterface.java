@@ -1,6 +1,9 @@
 package com.example.epsi.pickweather.Home;
 
+import com.example.epsi.pickweather.DayForecast.DayForecastResult;
 import com.example.epsi.pickweather.Home.POJO.CurrentWeather;
+import com.example.epsi.pickweather.SearchCity.SearchResult;
+import com.example.epsi.pickweather.WeekForecast.WeekForecastResult;
 
 import java.util.Map;
 
@@ -26,4 +29,18 @@ public interface RestInterface {
 
     @GET("/find")
     void getCity(@QueryMap Map<String, String> c, Callback<SearchResult> callback);
+
+    @GET("/forecast")
+    void getDayForecastById(@Query("id") int id ,@Query("cnt") int cnt, @Query("APPID") String appid, Callback<DayForecastResult> callback);
+
+    @GET("/forecast")
+    void getDayForecastByLatLon(@Query("lat") String lat, @Query("lon") String lon ,@Query("cnt") int cnt, @Query("APPID") String appid, Callback<DayForecastResult> callback);
+
+    @GET("/forecast/daily")
+    void getWeekForecastById(@Query("id") int id ,@Query("cnt") int cnt, @Query("APPID") String appid, Callback<WeekForecastResult> callback);
+
+    @GET("/forecast/daily")
+    void getWeekForecastByLatLon(@Query("lat") String lat, @Query("lon") String lon ,@Query("cnt") int cnt, @Query("APPID") String appid, Callback<WeekForecastResult> callback);
+
+
 }

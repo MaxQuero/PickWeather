@@ -1,7 +1,5 @@
 package com.example.epsi.pickweather.Home;
 
-import android.app.ActionBar;
-import android.app.Notification;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -10,19 +8,25 @@ import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.epsi.pickweather.Adapters.ForecastViewPagerAdapter;
+import com.example.epsi.pickweather.FavCity.FavCityActivity;
 import com.example.epsi.pickweather.Home.POJO.CurrentWeather;
 import com.example.epsi.pickweather.Home.POJO.WeatherGenerator;
-import com.example.epsi.pickweather.Home.SQlite.AccessBDDCity;
 import com.example.epsi.pickweather.R;
+import com.example.epsi.pickweather.SQlite.AccessBDDCity;
+import com.example.epsi.pickweather.SearchCity.SearchCityActivity;
+import com.example.epsi.pickweather.Utils.ShakeDetector;
+import com.example.epsi.pickweather.Utils.SlidingTabLayout;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
@@ -42,11 +46,21 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
 
     Menu menu;
     TextView city, status, weather_icon, celcius_icon, humidity, pressure, temp, nameFromLocation, mLatitude, mLongitude;
-    String currentCityName, mLat, mLon;
+    String currentCityName;
+    String mLat = null;
+    String mLon = null;
     CurrentWeather currentWeather;
-    int icon, weatherCode, cityId;
+    int icon, weatherCode;
+    Integer cityId = null;
     String url = "http://api.openweathermap.org/data/2.5";
     Toolbar toolbar;
+    ViewPager pager;
+    ForecastViewPagerAdapter adapter;
+    SlidingTabLayout tabs;
+    CharSequence Titles[]={"Day","Week"};
+    int Numboftabs =2;
+
+
     // Declaring the Toolbar Object
     // The following are used for the shake detection
     private SensorManager mSensorManager;
@@ -62,10 +76,9 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
         status = (TextView) findViewById(R.id.txt_status);
         humidity = (TextView) findViewById(R.id.txt_humidity);
         pressure = (TextView) findViewById(R.id.txt_press);
-        mLatitude = (TextView) findViewById(R.id.mLatitude);
-        mLongitude = (TextView) findViewById(R.id.mLongitude);
+        //mLatitude = (TextView) findViewById(R.id.mLatitude);
+        //mLongitude = (TextView) findViewById(R.id.mLongitude);
         temp = (TextView) findViewById(R.id.temp);
-        weather_icon = (TextView) findViewById(R.id.weather_icon);
         celcius_icon = (TextView) findViewById(R.id.celcius_icon);
 
         Typeface font = Typeface.createFromAsset(getAssets(), "climacons_webfont.ttf");
@@ -75,12 +88,17 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
         //Set toolbar as action bar
         toolbar = (Toolbar) findViewById(R.id.tool_bar); // Attaching the layout to the toolbar object
         setSupportActionBar(toolbar);
-
-        // Start Google Location API
         // Set the padding to match the Status Bar height
         toolbar.setPadding(0, getStatusBarHeight(), 0, 0);
+
+
+
+
+
+
+
         // Start Google Location API
-        
+
         if (mGoogleApiClient == null) {
             mGoogleApiClient = new GoogleApiClient.Builder(this)
                     .addConnectionCallbacks(this)
@@ -130,11 +148,15 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
             case R.id.action_settings :
                 Toast.makeText(this, "Settings selected", Toast.LENGTH_SHORT).show();
                 return true;
-
             case R.id.action_favorite :
 
                 AccessBDDCity myaccess = new AccessBDDCity(getApplicationContext());
                 myaccess.open();
+                try {
+                    myaccess.createFav(currentWeather);
+                    Toast.makeText(getApplicationContext(), currentWeather.getName() + " a bien été rajouté à vos favoris", Toast.LENGTH_LONG).show();
+                    item.setIcon(R.drawable.favorite_icon);
+                } catch (Exception e) {
 
                 if (myaccess.isAlreadyInsert(currentWeather)){
                    Toast.makeText(getApplicationContext(), "Cette ville a été supprimé de vos favoris", Toast.LENGTH_LONG).show();
@@ -160,7 +182,6 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
                         myaccess.close();
                     }
                 }
-
                 return true;
             case R.id.action_viewfav :
                 Intent in = new Intent(MainActivity.this, ViewFavActivity.class);
@@ -191,13 +212,47 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
     @Override
     public void onConnected(Bundle connectionHint) {
         //Get parameters from others activities
+        cityId=null;
+        mLat = null;
+        mLon = null;
         Intent i = getIntent();
-        Integer idCity = (Integer) i.getSerializableExtra("id");
+        final Integer idCity = (Integer) i.getSerializableExtra("id");
         if (idCity == null) {
             this.displayLocation();
-        }else {
+        }else{
             getWeatherById(idCity);
+
         }
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                adapter =  new ForecastViewPagerAdapter(getSupportFragmentManager(),Titles,Numboftabs,idCity, mLat, mLon);
+
+// Creating The ViewPagerAdapter and Passing Fragment Manager, Titles fot the Tabs and Number Of Tabs.
+
+                // Assigning ViewPager View and setting the adapter
+                pager = (ViewPager) findViewById(R.id.pager);
+                pager.setAdapter(adapter);
+
+
+
+                // Assiging the Sliding Tab Layout View
+                tabs = (SlidingTabLayout) findViewById(R.id.tabs);
+                tabs.setDistributeEvenly(true); // To make the Tabs Fixed set this true, This makes the tabs Space Evenly in Available width
+
+                // Setting Custom Color for the Scroll bar indicator of the Tab View
+                tabs.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
+                    @Override
+                    public int getIndicatorColor(int position) {
+                        return getResources().getColor(R.color.tabsScrollColor);
+                    }
+                });
+
+                // Setting the ViewPager For the SlidingTabsLayout
+                tabs.setViewPager(pager);
+            }
+        }, 5000);
+
     }
 
     public void setWeatherName(String name){
@@ -211,6 +266,23 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
         currentWeather = w;
     }
 
+    public int getWeatherId() {
+        return cityId;
+    }
+
+    public String getLat(){
+        return mLat;
+    }
+    public String getLon(){
+        return mLon;
+    }
+
+    public void setLat(String l){
+       mLat = l;
+    }
+    public void setLon(String lo){
+        mLon = lo;
+    }
     @Override
     public void onConnectionSuspended(int i) {
 
@@ -251,13 +323,15 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
                 mGoogleApiClient);
         if (mLastLocation != null) {
             TextView mLatitudeText, mLongitudeText;
-            mLatitudeText = (TextView) findViewById(R.id.mLatitude);
+            /*mLatitudeText = (TextView) findViewById(R.id.mLatitude);
             mLongitudeText = (TextView) findViewById(R.id.mLongitude);
             mLatitudeText.setText(String.valueOf(mLastLocation.getLatitude()));
-            mLongitudeText.setText(String.valueOf(mLastLocation.getLongitude()));
+            mLongitudeText.setText(String.valueOf(mLastLocation.getLongitude()));*/
 
             mLat = String.valueOf(mLastLocation.getLatitude());
             mLon = String.valueOf(mLastLocation.getLongitude());
+            setLat(mLat);
+            setLon(mLon);
             this.getWeatherLocation(mLat, mLon);
         }
     }
@@ -308,7 +382,9 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
                 humidity.setText("humidity : " + weather.getMain().getHumidity().toString());
                 pressure.setText("pressure : " + weather.getMain().getPressure().toString());
 
+
                 putWeatherIcons(weather);
+
             }
 
             @Override
