@@ -96,7 +96,7 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:weightSum="1">
-                <com.example.epsi.pickweather.Home.SlidingTabLayout
+                <com.example.epsi.pickweather.Utils.SlidingTabLayout
                     android:id="@+id/tabs"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

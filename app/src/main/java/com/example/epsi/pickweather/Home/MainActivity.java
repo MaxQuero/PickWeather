@@ -8,6 +8,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -24,6 +25,8 @@ import com.example.epsi.pickweather.Home.POJO.WeatherGenerator;
 import com.example.epsi.pickweather.R;
 import com.example.epsi.pickweather.SQlite.AccessBDDCity;
 import com.example.epsi.pickweather.SearchCity.SearchCityActivity;
+import com.example.epsi.pickweather.Utils.ShakeDetector;
+import com.example.epsi.pickweather.Utils.SlidingTabLayout;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
@@ -42,9 +45,12 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
     GoogleApiClient mGoogleApiClient=null;
 
     TextView city, status, weather_icon, celcius_icon, humidity, pressure, temp, nameFromLocation, mLatitude, mLongitude;
-    String currentCityName, mLat, mLon;
+    String currentCityName;
+    String mLat = null;
+    String mLon = null;
     CurrentWeather currentWeather;
-    int icon, weatherCode, cityId;
+    int icon, weatherCode;
+    Integer cityId = null;
     String url = "http://api.openweathermap.org/data/2.5";
     Toolbar toolbar;
     ViewPager pager;
@@ -84,29 +90,7 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
         // Set the padding to match the Status Bar height
         toolbar.setPadding(0, getStatusBarHeight(), 0, 0);
 
-        // Creating The ViewPagerAdapter and Passing Fragment Manager, Titles fot the Tabs and Number Of Tabs.
-        adapter =  new ForecastViewPagerAdapter(getSupportFragmentManager(),Titles,Numboftabs);
 
-        // Assigning ViewPager View and setting the adapter
-        pager = (ViewPager) findViewById(R.id.pager);
-        pager.setAdapter(adapter);
-
-
-
-        // Assiging the Sliding Tab Layout View
-        tabs = (SlidingTabLayout) findViewById(R.id.tabs);
-        tabs.setDistributeEvenly(true); // To make the Tabs Fixed set this true, This makes the tabs Space Evenly in Available width
-
-        // Setting Custom Color for the Scroll bar indicator of the Tab View
-        tabs.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
-            @Override
-            public int getIndicatorColor(int position) {
-                return getResources().getColor(R.color.tabsScrollColor);
-            }
-        });
-
-        // Setting the ViewPager For the SlidingTabsLayout
-        tabs.setViewPager(pager);
 
 
 
@@ -205,14 +189,47 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
 
     @Override
     public void onConnected(Bundle connectionHint) {
+        cityId=null;
+        mLat = null;
+        mLon = null;
         Intent i = getIntent();
-        Integer idCity = (Integer) i.getSerializableExtra("id");
+        final Integer idCity = (Integer) i.getSerializableExtra("id");
         if (idCity == null) {
-                this.displayLocation();
-
+            this.displayLocation();
         }else{
             getWeatherById(idCity);
+
         }
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                adapter =  new ForecastViewPagerAdapter(getSupportFragmentManager(),Titles,Numboftabs,idCity, mLat, mLon);
+
+// Creating The ViewPagerAdapter and Passing Fragment Manager, Titles fot the Tabs and Number Of Tabs.
+
+                // Assigning ViewPager View and setting the adapter
+                pager = (ViewPager) findViewById(R.id.pager);
+                pager.setAdapter(adapter);
+
+
+
+                // Assiging the Sliding Tab Layout View
+                tabs = (SlidingTabLayout) findViewById(R.id.tabs);
+                tabs.setDistributeEvenly(true); // To make the Tabs Fixed set this true, This makes the tabs Space Evenly in Available width
+
+                // Setting Custom Color for the Scroll bar indicator of the Tab View
+                tabs.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
+                    @Override
+                    public int getIndicatorColor(int position) {
+                        return getResources().getColor(R.color.tabsScrollColor);
+                    }
+                });
+
+                // Setting the ViewPager For the SlidingTabsLayout
+                tabs.setViewPager(pager);
+            }
+        }, 5000);
+
     }
 
     public void setWeatherName(String name){
@@ -294,36 +311,6 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
             setLon(mLon);
             this.getWeatherLocation(mLat, mLon);
         }
-    }
-
-    public void getWeatherLocation(String lat, String lon) {
-        final RestInterface r = WeatherGenerator.callAPI(RestInterface.class);
-        r.getWeatherReportByCoord(lat, lon, "f48fbd8a004dce121b1720eb6fac9fc7", new Callback<CurrentWeather>() {
-            @Override
-            public void success(CurrentWeather weather, Response response) {
-                Toast.makeText(getApplicationContext(), String.format("OK"), Toast.LENGTH_SHORT).show();
-                System.out.println(response.toString());
-
-                city.setText(weather.getName() + ", " + weather.getSys().getCountry());
-                setWeatherName(weather.getName());
-                setWeatherId(weather.getId());
-                setWeather(weather);
-                //Get simple weather code -> first number says wich type of weather it is
-                status.setText("Current Weather : " + weather.getWeather().get(0).getDescription());
-                humidity.setText("humidity : " + weather.getMain().getHumidity().toString());
-                pressure.setText("pressure : " + weather.getMain().getPressure().toString());
-
-                putWeatherIcons(weather);
-
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-                Toast.makeText(getApplicationContext(), String.format("KO"), Toast.LENGTH_SHORT).show();
-
-                String merror = error.getMessage();
-            }
-        });
     }
 
     public void getWeatherById(int id) {

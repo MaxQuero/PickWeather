@@ -37,11 +37,6 @@ public class WeekForecastAdapter extends RecyclerView.Adapter<WeekForecastAdapte
     }
 
 
-    public WeekForecast getItem(int position) {
-        return this.myArray.get(position);
-    }
-
-
     @Override
     public long getItemId(int position) {
         return position;

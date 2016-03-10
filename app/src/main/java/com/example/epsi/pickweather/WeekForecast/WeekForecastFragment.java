@@ -10,8 +10,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,30 +33,18 @@ import retrofit.client.Response;
  * Created by MaxQ on 09/03/2016.
  */
 public class WeekForecastFragment extends Fragment implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
-    private ImageButton myimagebtn;
-    private RecyclerView recyclerView;
-    private EditText myedittext;
     GoogleApiClient mGoogleApiClient = null;
-
+    String lat, lon;
     Typeface font;
+    public void loadLatLon(Integer cityId, String lat, String lon) {
+        final RecyclerView rv = (RecyclerView) getView().findViewById(R.id.rv_week);
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.week_forecast_fragment, container, false);
-        font = Typeface.createFromAsset(getActivity().getAssets(), "climacons_webfont.ttf");
-        return v;
-    }
-
-    @Override
-    public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
-        { // Start Google Location API
-            final RecyclerView rv = (RecyclerView) view.findViewById(R.id.rv_week);
-
-            final LinearLayoutManager llm = new LinearLayoutManager(getContext());
-            llm.setOrientation(LinearLayoutManager.HORIZONTAL);
-            final RestInterface myrestinterface = WeatherGenerator.callAPI(RestInterface.class);
-            MainActivity a = new MainActivity();
-            myrestinterface.getWeekForecastById(4517009, 5, "f48fbd8a004dce121b1720eb6fac9fc7", new Callback<WeekForecastResult>() {
+        final LinearLayoutManager llm = new LinearLayoutManager(getContext());
+        llm.setOrientation(LinearLayoutManager.HORIZONTAL);
+        final RestInterface myrestinterface = WeatherGenerator.callAPI(RestInterface.class);
+        MainActivity a = new MainActivity();
+        if (cityId == null){
+            myrestinterface.getWeekForecastByLatLon(lat, lon, 5, "f48fbd8a004dce121b1720eb6fac9fc7", new Callback<WeekForecastResult>() {
 
                 @Override
                 public void success(WeekForecastResult listDayForecast, Response response) {
@@ -84,6 +70,48 @@ public class WeekForecastFragment extends Fragment implements GoogleApiClient.Co
                 }
 
             });
+        }else if (lon==null && lat==null){
+            myrestinterface.getWeekForecastById(cityId, 5, "f48fbd8a004dce121b1720eb6fac9fc7", new Callback<WeekForecastResult>() {
+
+                @Override
+                public void success(WeekForecastResult listDayForecast, Response response) {
+//System.out.println(response.toString());
+//System.out.println(sw.getMessage().toString());
+                    final ArrayList<WeekForecast> myarray = new ArrayList<>();
+                    // Toast.makeText(getApplicationContext(), sw.getMessage().toString(), Toast.LENGTH_LONG).show();
+                    for (WeekForecast currentDfi : listDayForecast.getResult()) {
+                        long timestamp = Long.parseLong(String.valueOf(currentDfi.getDt())) * 1000;
+                        myarray.add(currentDfi);
+                    }
+                    final WeekForecastAdapter adapter = new WeekForecastAdapter(getActivity(), R.layout.element_week_forecast, myarray);
+
+                    rv.setLayoutManager(llm);
+
+                    rv.setAdapter(adapter);
+
+                }
+
+                @Override
+                public void failure(RetrofitError error) {
+                    Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_LONG).show();
+                }
+
+            });
+        }
+
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.week_forecast_fragment, container, false);
+        font = Typeface.createFromAsset(getActivity().getAssets(), "climacons_webfont.ttf");
+        return v;
+    }
+
+    @Override
+    public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
+        { // Start Google Location API
+
         }
     }
 
