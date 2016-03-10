@@ -2,10 +2,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
 
-    <item android:id="@+id/action_viewfav"
-        android:title="@string/action_viewfav"
-        android:orderInCategory="100"
-        app:showAsAction="never" />
     <item android:id="@+id/action_fav"
         android:title="@string/action_fav"
         android:orderInCategory="100"
@@ -17,6 +13,13 @@
         app:showAsAction="never" 
         android:icon="@drawable/ic_more_vert_white_18dp"/>
 
+    <item
+        android:id="@+id/action_viewfav"
+        android:orderInCategory="199"
+        android:title="Mes favoris"
+        android:icon="@drawable/ic_burst_mode_white_48dp"
+        app:showAsAction="always"
+        ></item>
     <item
         android:id="@+id/action_geoloc"
         android:orderInCategory="199"

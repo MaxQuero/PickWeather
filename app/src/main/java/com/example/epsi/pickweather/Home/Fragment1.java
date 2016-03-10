@@ -1,28 +1,20 @@
 package com.example.epsi.pickweather.Home;
 
-import android.content.Intent;
+
 import android.graphics.Color;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
+import android.graphics.Typeface;
 
 import com.example.epsi.pickweather.Home.POJO.CurrentWeather;
 import com.example.epsi.pickweather.Home.POJO.WeatherGenerator;
-import com.example.epsi.pickweather.Home.SQlite.AccessBDDCity;
 import com.example.epsi.pickweather.R;
 
-import org.w3c.dom.Text;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -80,15 +72,19 @@ public class Fragment1 extends Fragment {
         temp = (TextView) v.findViewById(R.id.temp_frag);
         celcius_icon = (TextView) v.findViewById(R.id.celcius_icon_frag);
 
+        Typeface font = Typeface.createFromAsset(getActivity().getAssets(), "climacons_webfont.ttf");
+        weather_icon.setTypeface(font);
+        celcius_icon.setTypeface(font);
+
         weatherCode = weather.getWeather().get(0).getId();
 
         double c = weather.getMain().getTemp().intValue() - 273;
         int celcius_degree = (int) c;
         LinearLayout view = (LinearLayout) v.findViewById(R.id.lin_layout);
-        int bottom = view.getPaddingBottom();
-        int top = view.getPaddingTop();
-        int right = view.getPaddingRight();
-        int left = view.getPaddingLeft();
+        int bottom = v.getPaddingBottom();
+        int top = v.getPaddingTop();
+        int right = v.getPaddingRight();
+        int left = v.getPaddingLeft();
         switch (weatherCode){
             case 500 :
                 icon=R.string.light_rain;
