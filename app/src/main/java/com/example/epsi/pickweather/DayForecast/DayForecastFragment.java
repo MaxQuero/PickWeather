@@ -53,7 +53,7 @@ public class DayForecastFragment extends Fragment {
         final RestInterface myrestinterface = WeatherGenerator.callAPI(RestInterface.class);
         MainActivity a = new MainActivity();
         if (cityId == null){
-            myrestinterface.getDayForecastByLatLon(lat, lon, 5, "f48fbd8a004dce121b1720eb6fac9fc7", new Callback<DayForecastResult>() {
+            myrestinterface.getDayForecastByLatLon(lat, lon, "fr", 5, "f48fbd8a004dce121b1720eb6fac9fc7", new Callback<DayForecastResult>() {
 
                 @Override
                 public void success(DayForecastResult listDayForecast, Response response) {
@@ -86,7 +86,7 @@ public class DayForecastFragment extends Fragment {
 
             });
         }else if (lon== null && lat==null){
-            myrestinterface.getDayForecastById(cityId, 5, "f48fbd8a004dce121b1720eb6fac9fc7", new Callback<DayForecastResult>() {
+            myrestinterface.getDayForecastById(cityId, "fr", 5, "f48fbd8a004dce121b1720eb6fac9fc7", new Callback<DayForecastResult>() {
 
                 @Override
                 public void success(DayForecastResult listDayForecast, Response response) {

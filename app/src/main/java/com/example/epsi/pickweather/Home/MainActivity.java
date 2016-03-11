@@ -326,7 +326,7 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
 
     public void getWeatherLocation(String lat, String lon) {
         final RestInterface r = WeatherGenerator.callAPI(RestInterface.class);
-        r.getWeatherReportByCoord(lat, lon, "f48fbd8a004dce121b1720eb6fac9fc7", new Callback<CurrentWeather>() {
+        r.getWeatherReportByCoord(lat, lon, "fr", "f48fbd8a004dce121b1720eb6fac9fc7", new Callback<CurrentWeather>() {
             @Override
             public void success(CurrentWeather weather, Response response) {
                 System.out.println(response.toString());
@@ -336,9 +336,9 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
                 setWeatherId(weather.getId());
                 setWeather(weather);
                 //Get simple weather code -> first number says wich type of weather it is
-                status.setText("Current Weather : " + weather.getWeather().get(0).getDescription());
-                humidity.setText("humidity : " + weather.getMain().getHumidity().toString());
-                pressure.setText("pressure : " + weather.getMain().getPressure().toString());
+                status.setText("Temps actuel : " + weather.getWeather().get(0).getDescription());
+                humidity.setText("Humidité : " + weather.getMain().getHumidity().intValue()  + " %");
+                pressure.setText("Pression : " + weather.getMain().getPressure().intValue() + " hpa" );
 
                 putWeatherIcons(weather);
             }
@@ -356,7 +356,7 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
         final RestInterface ri = WeatherGenerator.callAPI(RestInterface.class);
 
         //Calling method to get weather report from city name
-        ri.getWeatherReportById(id, "f48fbd8a004dce121b1720eb6fac9fc7", new Callback<CurrentWeather>() {
+        ri.getWeatherReportById(id, "fr", "f48fbd8a004dce121b1720eb6fac9fc7", new Callback<CurrentWeather>() {
             @Override
             public void success(CurrentWeather weather, Response response) {
                 Toast.makeText(getApplicationContext(), String.format("OK"), Toast.LENGTH_SHORT).show();

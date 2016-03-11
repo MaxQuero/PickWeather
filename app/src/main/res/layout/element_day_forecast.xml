@@ -27,7 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:textSize="200px"
+            android:textSize="180px"
             android:layout_marginTop="10dp"
             android:textColor="#a0dfe4de"
             android:id="@+id/weather_ic" />

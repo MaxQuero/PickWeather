@@ -44,7 +44,7 @@ public class WeekForecastFragment extends Fragment implements GoogleApiClient.Co
         final RestInterface myrestinterface = WeatherGenerator.callAPI(RestInterface.class);
         MainActivity a = new MainActivity();
         if (cityId == null){
-            myrestinterface.getWeekForecastByLatLon(lat, lon, 5, "f48fbd8a004dce121b1720eb6fac9fc7", new Callback<WeekForecastResult>() {
+            myrestinterface.getWeekForecastByLatLon(lat, lon, "fr", 5, "f48fbd8a004dce121b1720eb6fac9fc7", new Callback<WeekForecastResult>() {
 
                 @Override
                 public void success(WeekForecastResult listDayForecast, Response response) {
@@ -71,7 +71,7 @@ public class WeekForecastFragment extends Fragment implements GoogleApiClient.Co
 
             });
         }else if (lon==null && lat==null){
-            myrestinterface.getWeekForecastById(cityId, 5, "f48fbd8a004dce121b1720eb6fac9fc7", new Callback<WeekForecastResult>() {
+            myrestinterface.getWeekForecastById(cityId, "fr", 5, "f48fbd8a004dce121b1720eb6fac9fc7", new Callback<WeekForecastResult>() {
 
                 @Override
                 public void success(WeekForecastResult listDayForecast, Response response) {

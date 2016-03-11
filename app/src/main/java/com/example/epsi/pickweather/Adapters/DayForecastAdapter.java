@@ -28,12 +28,10 @@ public class DayForecastAdapter extends RecyclerView.Adapter<DayForecastAdapter.
 
     private ArrayList<DayForecast> myArray;
     private static LayoutInflater myLayout = null;
-    private Context mycontext;
     int icon, weatherCode;
     public DayForecastAdapter(Activity myactivity, int resource, ArrayList<DayForecast> myarray){
         this.myActivity = myactivity;
         this.myArray = myarray;
-        this.mycontext = myactivity.getApplicationContext();
         myLayout = (LayoutInflater) myactivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
