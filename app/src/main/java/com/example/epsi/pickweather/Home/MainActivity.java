@@ -120,22 +120,17 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
                 Intent myIntent = new Intent(MainActivity.this, SearchCityActivity.class);
                 startActivity(myIntent);
                 return true;
-
-            case R.id.action_settings :
-                Toast.makeText(this, "Settings selected", Toast.LENGTH_SHORT).show();
-                return true;
             case R.id.action_favorite :
 
                 AccessBDDCity myaccess = new AccessBDDCity(getApplicationContext());
                 myaccess.open();
 
                 if (myaccess.isAlreadyInsert(urls.getWeather())) {
-                    Toast.makeText(getApplicationContext(), "Cette ville a été supprimé de vos favoris", Toast.LENGTH_LONG).show();
 
                     try {
                         myaccess.deleteFav(urls.getWeather());
                         item.setIcon(R.drawable.ic_favorite_white_18dp);
-                        Toast.makeText(getApplicationContext(), "Suppression réussi !", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), urls.getWeatherName() + "a été supprimé de vos favoris", Toast.LENGTH_LONG).show();
 
                     } catch (Exception e) {
                         Toast.makeText(getApplicationContext(), "Erreur lors de la suppression !", Toast.LENGTH_LONG).show();

@@ -6,12 +6,6 @@
         android:title="@string/action_fav"
         android:orderInCategory="100"
         app:showAsAction="never" />
-   
-    <item android:id="@+id/action_settings" 
-        android:title="@string/action_settings"
-        android:orderInCategory="100" 
-        app:showAsAction="never" 
-        android:icon="@drawable/ic_more_vert_white_18dp"/>
 
     <item
         android:id="@+id/action_viewfav"
