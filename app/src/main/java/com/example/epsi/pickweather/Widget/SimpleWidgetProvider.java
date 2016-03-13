@@ -48,7 +48,7 @@ public class SimpleWidgetProvider extends AppWidgetProvider {
 
                     remoteViews.setTextViewText(R.id.widget_city, weather.getName());
                     remoteViews.setTextViewText(R.id.widget_status, weather.getWeather().get(0).getDescription());
-                    remoteViews.setTextViewText(R.id.widget_temp,String.valueOf(celcius_degree)+"°C)");
+                    remoteViews.setTextViewText(R.id.widget_temp,String.valueOf(celcius_degree)+"°C");
 
                     Intent intent = new Intent(context, SimpleWidgetProvider.class);
                     intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
