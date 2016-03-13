@@ -34,6 +34,7 @@ public class ViewFavActivity extends FragmentActivity {
         mypageadapt = new PagerAdapter(getSupportFragmentManager(), myaccess.getAllFav());
         vppager.setAdapter(mypageadapt);
 
+
         myaccess.close();
     }
 }

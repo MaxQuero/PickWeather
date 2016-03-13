@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.epsi.pickweather.Adapters.ForecastViewPagerAdapter;
 import com.example.epsi.pickweather.Home.POJO.CurrentWeather;
@@ -34,12 +35,13 @@ public class Fragment1 extends Fragment {
     SlidingTabLayout tabs;
     CharSequence Titles[]={"Day","Week"};
     int Numboftabs =2;
+    private boolean _hasLoadedOnce= false; // your boolean field
+
     public static Fragment1 newInstance(CurrentWeather cw) {
         Fragment1 f1= new Fragment1();
         f1.currentw = cw;
         return f1;
     }
-    private boolean _hasLoadedOnce= false; // your boolean field
 
     @Override
     public void setUserVisibleHint(boolean isFragmentVisible_) {
@@ -54,6 +56,7 @@ public class Fragment1 extends Fragment {
             }
         }
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View v = inflater.inflate(R.layout.element_pageview, container, false);
@@ -67,16 +70,48 @@ public class Fragment1 extends Fragment {
         final RestInterface myrestinterface = WeatherGenerator.callAPI(RestInterface.class);
         myrestinterface.getWeatherReportById(currentw.getId(), "fr", "f48fbd8a004dce121b1720eb6fac9fc7", new Callback<CurrentWeather>() {
             @Override
-            public void success(CurrentWeather weather, Response response) {
+            public void success(final CurrentWeather weather, Response response) {
 
                 tvname.setText(weather.getName() + ", " + weather.getSys().getCountry());
 
-                //Get simple weather code -> first number says wich type of weather it is
+                //Get simple weather code -> first number says which type of weather it is
                 status.setText("Temps actuel : " + weather.getWeather().get(0).getDescription());
                 tvhumid.setText("Humidité : " + weather.getMain().getHumidity().intValue() + " %");
-                press.setText("Pression : " + weather.getMain().getPressure().intValue() + " hpa" );
+                press.setText("Pression : " + weather.getMain().getPressure().intValue() + " hpa");
+
+               /* v.OnScrollChangeListener(new View.OnScrollChangeListener(){
+
+                });*/
+
+               /* new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {*/
+                        adapter = new ForecastViewPagerAdapter(getChildFragmentManager(), Titles, Numboftabs, weather.getId(), null, null);
+
+                        // Creating The ViewPagerAdapter and Passing Fragment Manager, Titles fot the Tabs and Number Of Tabs.
+
+                        // Assigning ViewPager View and setting the adapter
+                        pager = (ViewPager) v.findViewById(R.id.pager);
+                        pager.setAdapter(adapter);
+
+                        tabs = (SlidingTabLayout) v.findViewById(R.id.tabs);
+                        tabs.setDistributeEvenly(true); // To make the Tabs Fixed set this true, This makes the tabs Space Evenly in Available width
+
+                        // Setting Custom Color for the Scroll bar indicator of the Tab View
+                        tabs.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
+                            @Override
+                            public int getIndicatorColor(int position) {
+                                return getResources().getColor(R.color.tabsScrollColor);
+                            }
+                        });
+                        tabs.setViewPager(pager);
+                  /* }
+                }, 2000);*/
+                // Setting the ViewPager For the SlidingTabsLayout
 
                 putWeatherIcons(weather, v);
+
+
             }
 
             @Override
@@ -84,31 +119,8 @@ public class Fragment1 extends Fragment {
                 String merror = error.getMessage();
             }
         });
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                adapter = new ForecastViewPagerAdapter(getFragmentManager(), Titles, Numboftabs, 6429064, null, null);
 
-                // Creating The ViewPagerAdapter and Passing Fragment Manager, Titles fot the Tabs and Number Of Tabs.
 
-                // Assigning ViewPager View and setting the adapter
-                pager = (ViewPager) v.findViewById(R.id.pager);
-                pager.setAdapter(adapter);
-
-                tabs = (SlidingTabLayout) v.findViewById(R.id.tabs);
-                tabs.setDistributeEvenly(true); // To make the Tabs Fixed set this true, This makes the tabs Space Evenly in Available width
-
-                // Setting Custom Color for the Scroll bar indicator of the Tab View
-                tabs.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
-                    @Override
-                    public int getIndicatorColor(int position) {
-                        return getResources().getColor(R.color.tabsScrollColor);
-                    }
-                });
-                tabs.setViewPager(pager);
-            }
-        }, 2000);
-        // Setting the ViewPager For the SlidingTabsLayout
         return v;
     }
 
