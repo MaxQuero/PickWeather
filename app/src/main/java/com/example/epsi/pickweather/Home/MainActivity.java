@@ -97,7 +97,10 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
     }
 
     public void handleShakeEvent(){
+        Integer i = urls.cityId;
         urls.getWeatherById(urls.getWeatherId());
+        updateForecastData(i, null, null);
+
         Toast.makeText(getApplicationContext(), "Raffraichissement de " + urls.getWeatherName() + " .", Toast.LENGTH_SHORT).show();
 
     }
@@ -161,7 +164,7 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
                 return true;
             case R.id.action_geoloc :
                 displayLocation();
-                updateForecastData(null);
+                updateForecastData(null, urls.getLat(), urls.getLon());
                 return true;
             default :
                 return super.onOptionsItemSelected(item);
@@ -190,7 +193,7 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
         }else{
             urls.getWeatherById(idCity);
         }
-        updateForecastData(idCity);
+        updateForecastData(idCity, urls.getLat(), urls.getLon());
     }
 
 
@@ -228,11 +231,11 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
         return result;
     }
 
-    private void updateForecastData(final Integer id){
+    private void updateForecastData(final Integer id, final String lat, final String lon){
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                adapter = new ForecastViewPagerAdapter(getSupportFragmentManager(), Titles, Numboftabs, id, urls.getLat(), urls.getLon());
+                adapter = new ForecastViewPagerAdapter(getSupportFragmentManager(), Titles, Numboftabs, id, lat, lon);
 
 // Creating The ViewPagerAdapter and Passing Fragment Manager, Titles fot the Tabs and Number Of Tabs.
 

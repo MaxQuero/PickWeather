@@ -46,7 +46,7 @@ public class DayForecastFragment extends Fragment {
 
     public void loadLatLon(Integer cityId, String lat, String lon) {
 
-        final RecyclerView rv_day = (RecyclerView) getView().findViewById(R.id.rv_day);
+        final RecyclerView rv_day = (RecyclerView) this.getView().findViewById(R.id.rv_day);
 
         final LinearLayoutManager llm = new LinearLayoutManager(getContext());
         llm.setOrientation(LinearLayoutManager.HORIZONTAL);
