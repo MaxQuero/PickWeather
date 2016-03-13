@@ -9,11 +9,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.epsi.pickweather.Home.POJO.CurrentWeather;
-import com.example.epsi.pickweather.Home.POJO.WeatherGenerator;
 import com.example.epsi.pickweather.Home.RestInterface;
 import com.example.epsi.pickweather.R;
 import com.example.epsi.pickweather.SQlite.AccessBDDCity;
-
+import com.example.epsi.pickweather.Home.POJO.WeatherGenerator;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -47,10 +46,6 @@ public class URLCalls {
         celcius_icon.setTypeface(font);
     }
 
-    public URLCalls(RemoteViews v) {
-
-
-    }
 
 
     public void getWeatherLocation(String lat, String lon) {

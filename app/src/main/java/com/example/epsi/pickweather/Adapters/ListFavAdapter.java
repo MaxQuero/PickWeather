@@ -4,21 +4,17 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.epsi.pickweather.Home.POJO.CurrentWeather;
-import com.example.epsi.pickweather.SQlite.AccessBDDCity;
 import com.example.epsi.pickweather.R;
+import com.example.epsi.pickweather.SQlite.AccessBDDCity;
 
 import java.util.ArrayList;
 
@@ -107,23 +103,19 @@ public class ListFavAdapter extends ArrayAdapter<CurrentWeather> {
             @Override
             public void onClick(View v) {
                // createDialog();
+            AccessBDDCity myaccess = new AccessBDDCity(mycontext);
+            myaccess.open();
+            try {
+                myaccess.deleteFav(myArray.get(position));
+                myActivity.finish();
+                myActivity.startActivity(myActivity.getIntent());
+                Toast.makeText(mycontext, "Suppression réussi !", Toast.LENGTH_LONG).show();
 
-                                AccessBDDCity myaccess = new AccessBDDCity(mycontext);
-                                myaccess.open();
-                                try {
-                                    myaccess.deleteFav(myArray.get(position));
-                                    myActivity.finish();
-                                    myActivity.startActivity(myActivity.getIntent());
-                                    Toast.makeText(mycontext, "Suppression réussi !", Toast.LENGTH_LONG).show();
-
-                                } catch (Exception e) {
-                                    Toast.makeText(mycontext, "Erreur lors de la suppression !", Toast.LENGTH_LONG).show();
-                                } finally {
-                                    myaccess.close();
-                                }
-
-
-
+            } catch (Exception e) {
+                Toast.makeText(mycontext, "Erreur lors de la suppression !", Toast.LENGTH_LONG).show();
+            } finally {
+                myaccess.close();
+            }
             }
         });
 

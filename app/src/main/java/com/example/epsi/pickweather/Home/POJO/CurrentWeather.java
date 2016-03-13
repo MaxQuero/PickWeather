@@ -17,25 +17,25 @@ public class CurrentWeather {
     private String name;
     @SerializedName("coord")
     @Expose
-    private com.example.epsi.pickweather.Home.POJO.Coord coord;
+    private Coord coord;
     @SerializedName("main")
     @Expose
-    private com.example.epsi.pickweather.Home.POJO.Main main;
+    private Main main;
     @SerializedName("dt")
     @Expose
     private Integer dt;
     @SerializedName("wind")
     @Expose
-    private com.example.epsi.pickweather.Home.POJO.Wind wind;
+    private Wind wind;
     @SerializedName("sys")
     @Expose
-    private com.example.epsi.pickweather.Home.POJO.Sys sys;
+    private Sys sys;
     @SerializedName("clouds")
     @Expose
-    private com.example.epsi.pickweather.Home.POJO.Clouds clouds;
+    private Clouds clouds;
     @SerializedName("weather")
     @Expose
-    private java.util.List<com.example.epsi.pickweather.Home.POJO.Weather> weather = new ArrayList<com.example.epsi.pickweather.Home.POJO.Weather>();
+    private java.util.List<Weather> weather = new ArrayList<Weather>();
     @SerializedName("cod")
     @Expose
     private Integer cod;
@@ -84,7 +84,7 @@ public class CurrentWeather {
      * @return
      * The coord
      */
-    public com.example.epsi.pickweather.Home.POJO.Coord getCoord() {
+    public Coord getCoord() {
         return coord;
     }
 
@@ -93,7 +93,7 @@ public class CurrentWeather {
      * @param coord
      * The coord
      */
-    public void setCoord(com.example.epsi.pickweather.Home.POJO.Coord coord) {
+    public void setCoord(Coord coord) {
         this.coord = coord;
     }
 
@@ -102,7 +102,7 @@ public class CurrentWeather {
      * @return
      * The main
      */
-    public com.example.epsi.pickweather.Home.POJO.Main getMain() {
+    public Main getMain() {
         return main;
     }
 
@@ -138,7 +138,7 @@ public class CurrentWeather {
      * @return
      * The wind
      */
-    public com.example.epsi.pickweather.Home.POJO.Wind getWind() {
+    public Wind getWind() {
         return wind;
     }
 
@@ -156,7 +156,7 @@ public class CurrentWeather {
      * @return
      * The sys
      */
-    public com.example.epsi.pickweather.Home.POJO.Sys getSys() {
+    public Sys getSys() {
         return sys;
     }
 
@@ -174,7 +174,7 @@ public class CurrentWeather {
      * @return
      * The clouds
      */
-    public com.example.epsi.pickweather.Home.POJO.Clouds getClouds() {
+    public Clouds getClouds() {
         return clouds;
     }
 
@@ -192,7 +192,7 @@ public class CurrentWeather {
      * @return
      * The weather
      */
-    public java.util.List<com.example.epsi.pickweather.Home.POJO.Weather> getWeather() {
+    public java.util.List<Weather> getWeather() {
         return weather;
     }
 

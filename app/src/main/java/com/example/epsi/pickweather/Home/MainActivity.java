@@ -161,6 +161,7 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
                 return true;
             case R.id.action_geoloc :
                 displayLocation();
+                updateForecastData(null);
                 return true;
             default :
                 return super.onOptionsItemSelected(item);
@@ -188,37 +189,8 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
             this.displayLocation();
         }else{
             urls.getWeatherById(idCity);
-
         }
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                adapter = new ForecastViewPagerAdapter(getSupportFragmentManager(), Titles, Numboftabs, idCity, urls.getLat(), urls.getLon());
-
-// Creating The ViewPagerAdapter and Passing Fragment Manager, Titles fot the Tabs and Number Of Tabs.
-
-                // Assigning ViewPager View and setting the adapter
-                pager = (ViewPager) findViewById(R.id.pager);
-                pager.setAdapter(adapter);
-
-
-                // Assiging the Sliding Tab Layout View
-                tabs = (SlidingTabLayout) findViewById(R.id.tabs);
-                tabs.setDistributeEvenly(true); // To make the Tabs Fixed set this true, This makes the tabs Space Evenly in Available width
-
-                // Setting Custom Color for the Scroll bar indicator of the Tab View
-                tabs.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
-                    @Override
-                    public int getIndicatorColor(int position) {
-                        return getResources().getColor(R.color.tabsScrollColor);
-                    }
-                });
-
-                // Setting the ViewPager For the SlidingTabsLayout
-                tabs.setViewPager(pager);
-            }
-        }, 200);
-
+        updateForecastData(idCity);
     }
 
 
@@ -254,6 +226,37 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
             result = getResources().getDimensionPixelSize(resourceId);
         }
         return result;
+    }
+
+    private void updateForecastData(final Integer id){
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                adapter = new ForecastViewPagerAdapter(getSupportFragmentManager(), Titles, Numboftabs, id, urls.getLat(), urls.getLon());
+
+// Creating The ViewPagerAdapter and Passing Fragment Manager, Titles fot the Tabs and Number Of Tabs.
+
+                // Assigning ViewPager View and setting the adapter
+                pager = (ViewPager) findViewById(R.id.pager);
+                pager.setAdapter(adapter);
+
+
+                // Assiging the Sliding Tab Layout View
+                tabs = (SlidingTabLayout) findViewById(R.id.tabs);
+                tabs.setDistributeEvenly(true); // To make the Tabs Fixed set this true, This makes the tabs Space Evenly in Available width
+
+                // Setting Custom Color for the Scroll bar indicator of the Tab View
+                tabs.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
+                    @Override
+                    public int getIndicatorColor(int position) {
+                        return getResources().getColor(R.color.tabsScrollColor);
+                    }
+                });
+
+                // Setting the ViewPager For the SlidingTabsLayout
+                tabs.setViewPager(pager);
+            }
+        }, 200);
     }
 
     private void displayLocation() {
