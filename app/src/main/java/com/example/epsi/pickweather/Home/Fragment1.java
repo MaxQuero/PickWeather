@@ -79,9 +79,6 @@ public class Fragment1 extends Fragment {
                 tvhumid.setText("Humidité : " + weather.getMain().getHumidity().intValue() + " %");
                 press.setText("Pression : " + weather.getMain().getPressure().intValue() + " hpa");
 
-               /* v.OnScrollChangeListener(new View.OnScrollChangeListener(){
-
-                });*/
 
                /* new Handler().postDelayed(new Runnable() {
                     @Override

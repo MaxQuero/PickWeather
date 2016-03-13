@@ -6,6 +6,8 @@ import android.support.v4.view.ViewPager;
 
 import com.example.epsi.pickweather.R;
 import com.example.epsi.pickweather.SQlite.AccessBDDCity;
+import com.viewpagerindicator.TitlePageIndicator;
+import com.viewpagerindicator.UnderlinePageIndicator;
 
 /**
  * Created by Camille on 07/03/2016.
@@ -14,6 +16,7 @@ public class ViewFavActivity extends FragmentActivity {
 
     private PagerAdapter mypageadapt;
     private ViewPager vppager;
+    private UnderlinePageIndicator mIndicator;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +36,10 @@ public class ViewFavActivity extends FragmentActivity {
 
         mypageadapt = new PagerAdapter(getSupportFragmentManager(), myaccess.getAllFav());
         vppager.setAdapter(mypageadapt);
+
+        // ViewPager Indicator
+        mIndicator = (UnderlinePageIndicator) findViewById(R.id.indicator);
+        mIndicator.setViewPager(vppager);
 
 
         myaccess.close();
