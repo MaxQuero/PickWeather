@@ -124,7 +124,7 @@ public class WeekForecastFragment extends Fragment implements GoogleApiClient.Co
 
                 }
             }
-        }, 500);
+        }, 600);
            return v;
 
         }
