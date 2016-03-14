@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.example.epsi.pickweather.Adapters.ForecastViewPagerAdapter;
 import com.example.epsi.pickweather.FavCity.FavCityActivity;
+import com.example.epsi.pickweather.Home.POJO.CurrentWeather;
 import com.example.epsi.pickweather.R;
 import com.example.epsi.pickweather.SQlite.AccessBDDCity;
 import com.example.epsi.pickweather.SearchCity.SearchCityActivity;
@@ -99,7 +100,7 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
     public void handleShakeEvent(){
         Integer i = urls.cityId;
         urls.getWeatherById(urls.getWeatherId());
-        updateForecastData(i, null, null);
+        updateForecastData(urls.getWeather());
 
         Toast.makeText(getApplicationContext(), "Raffraichissement de " + urls.getWeatherName() + " .", Toast.LENGTH_SHORT).show();
 
@@ -159,7 +160,7 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
                 return true;
             case R.id.action_geoloc :
                 displayLocation();
-                updateForecastData(null, urls.getLat(), urls.getLon());
+                updateForecastData(urls.getWeather());
                 return true;
             default :
                 return super.onOptionsItemSelected(item);
@@ -188,7 +189,7 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
         }else{
             urls.getWeatherById(idCity);
         }
-        updateForecastData(idCity, urls.getLat(), urls.getLon());
+        updateForecastData(urls.getWeather());
     }
 
 
@@ -226,11 +227,11 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
         return result;
     }
 
-    private void updateForecastData(final Integer id, final String lat, final String lon){
+    private void updateForecastData(final CurrentWeather cw){
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                adapter = new ForecastViewPagerAdapter(getSupportFragmentManager(), Titles, Numboftabs, id, lat, lon);
+                adapter = new ForecastViewPagerAdapter(getSupportFragmentManager(), Titles, Numboftabs, cw);
 
 // Creating The ViewPagerAdapter and Passing Fragment Manager, Titles fot the Tabs and Number Of Tabs.
 

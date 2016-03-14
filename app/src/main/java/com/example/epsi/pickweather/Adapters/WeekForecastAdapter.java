@@ -112,6 +112,7 @@ public class WeekForecastAdapter extends RecyclerView.Adapter<WeekForecastAdapte
             return "xx";
         }
     }
+
     public void putWeatherIcons(WeekForecast wf, WeekWeatherViewHolder tw){
 
         weatherCode = wf.getWeather().get(0).getId();

@@ -1,6 +1,5 @@
 package com.example.epsi.pickweather.Home;
 
-import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -29,5 +28,9 @@ public class PagerAdapter extends FragmentPagerAdapter {
     @Override
     public int getCount() {
         return this.cw.size();
+
     }
+
+
+
 }

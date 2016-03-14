@@ -14,7 +14,6 @@ public class ViewFavActivity extends FragmentActivity {
 
     private PagerAdapter mypageadapt;
     private ViewPager vppager;
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
@@ -22,6 +21,7 @@ public class ViewFavActivity extends FragmentActivity {
 
         initial();
     }
+
 
     private void initial() {
 
@@ -32,6 +32,7 @@ public class ViewFavActivity extends FragmentActivity {
         vppager = (ViewPager) findViewById(R.id.viewpager);
 
         mypageadapt = new PagerAdapter(getSupportFragmentManager(), myaccess.getAllFav());
+
         vppager.setAdapter(mypageadapt);
 
 

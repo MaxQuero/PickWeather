@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.example.epsi.pickweather.Adapters.WeekForecastAdapter;
 import com.example.epsi.pickweather.Home.MainActivity;
+import com.example.epsi.pickweather.Home.POJO.CurrentWeather;
 import com.example.epsi.pickweather.Home.POJO.WeatherGenerator;
 import com.example.epsi.pickweather.Home.RestInterface;
 import com.example.epsi.pickweather.Home.WeekForecastPOJO.WeekForecast;
@@ -34,16 +35,36 @@ import retrofit.client.Response;
  */
 public class WeekForecastFragment extends Fragment implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
     GoogleApiClient mGoogleApiClient = null;
-    String lat, lon;
     Typeface font;
-    public void loadLatLon(Integer cityId, String lat, String lon) {
-        final RecyclerView rv = (RecyclerView) getView().findViewById(R.id.rv_week);
+    private RecyclerView rv_week;
+    private LinearLayoutManager llm;
+    CurrentWeather current;
 
-        final LinearLayoutManager llm = new LinearLayoutManager(getContext());
+
+    public static WeekForecastFragment newInstance(CurrentWeather cw) {
+        WeekForecastFragment f1= new WeekForecastFragment();
+        f1.current = cw;
+        return f1;
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.week_forecast_fragment, container, false);
+        font = Typeface.createFromAsset(getActivity().getAssets(), "climacons_webfont.ttf");
+
+
+        rv_week = (RecyclerView) v.findViewById(R.id.rv_week);
+        llm = new LinearLayoutManager(getContext());
         llm.setOrientation(LinearLayoutManager.HORIZONTAL);
+
+        String lat = "4";
+        String lon = "3";
+        Integer id = null;
         final RestInterface myrestinterface = WeatherGenerator.callAPI(RestInterface.class);
         MainActivity a = new MainActivity();
-        if (cityId == null){
+        if (id == null){
+            lat = String.valueOf(current.getCoord().getLat());
+            lon = String.valueOf(current.getCoord().getLon());
             myrestinterface.getWeekForecastByLatLon(lat, lon, "fr", 5, "f48fbd8a004dce121b1720eb6fac9fc7", new Callback<WeekForecastResult>() {
 
                 @Override
@@ -58,10 +79,10 @@ public class WeekForecastFragment extends Fragment implements GoogleApiClient.Co
                     }
                     final WeekForecastAdapter adapter = new WeekForecastAdapter(getActivity(), R.layout.element_week_forecast, myarray);
 
-                    rv.setLayoutManager(llm);
 
-                    rv.setAdapter(adapter);
+                    rv_week.setLayoutManager(llm);
 
+                    rv_week.setAdapter(adapter);
                 }
 
                 @Override
@@ -71,7 +92,9 @@ public class WeekForecastFragment extends Fragment implements GoogleApiClient.Co
 
             });
         }else if (lon==null && lat==null){
-            myrestinterface.getWeekForecastById(cityId, "fr", 5, "f48fbd8a004dce121b1720eb6fac9fc7", new Callback<WeekForecastResult>() {
+            id = current.getId();
+
+            myrestinterface.getWeekForecastById(id, "fr", 5, "f48fbd8a004dce121b1720eb6fac9fc7", new Callback<WeekForecastResult>() {
 
                 @Override
                 public void success(WeekForecastResult listDayForecast, Response response) {
@@ -85,9 +108,9 @@ public class WeekForecastFragment extends Fragment implements GoogleApiClient.Co
                     }
                     final WeekForecastAdapter adapter = new WeekForecastAdapter(getActivity(), R.layout.element_week_forecast, myarray);
 
-                    rv.setLayoutManager(llm);
+                    rv_week.setLayoutManager(llm);
 
-                    rv.setAdapter(adapter);
+                    rv_week.setAdapter(adapter);
 
                 }
 
@@ -99,12 +122,6 @@ public class WeekForecastFragment extends Fragment implements GoogleApiClient.Co
             });
         }
 
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.week_forecast_fragment, container, false);
-        font = Typeface.createFromAsset(getActivity().getAssets(), "climacons_webfont.ttf");
         return v;
     }
 

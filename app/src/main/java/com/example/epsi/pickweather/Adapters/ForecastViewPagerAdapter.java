@@ -1,11 +1,11 @@
 package com.example.epsi.pickweather.Adapters;
 
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.example.epsi.pickweather.DayForecast.DayForecastFragment;
+import com.example.epsi.pickweather.Home.POJO.CurrentWeather;
 import com.example.epsi.pickweather.WeekForecast.WeekForecastFragment;
 
 /**
@@ -16,6 +16,7 @@ public class ForecastViewPagerAdapter extends FragmentStatePagerAdapter {
     CharSequence Titles[]; // This will Store the Titles of the Tabs which are Going to be passed when ViewPagerAdapter is created
     int NumbOfTabs; // Store the number of tabs, this will also be passed when the ViewPagerAdapter is created
     String lat, lon;
+    CurrentWeather current;
     Integer cityId;
     // Build a Constructor and assign the passed Values to appropriate values in the class
     public ForecastViewPagerAdapter(FragmentManager fm, CharSequence mTitles[], int mNumbOfTabsumb, Integer id, String lat, String lon) {
@@ -27,38 +28,29 @@ public class ForecastViewPagerAdapter extends FragmentStatePagerAdapter {
         this.lon = lon;
     }
 
+
+    public ForecastViewPagerAdapter(FragmentManager fm, CharSequence mTitles[], int mNumbOfTabsumb, CurrentWeather cw) {
+        super(fm);
+        this.current = cw;
+    }
+    public int getItemPosition(Object object) {
+
+        return POSITION_NONE;
+    }
+
     //This method return the fragment for the every position in the View Pager
     @Override
     public Fragment getItem(int position) {
 
         if(position == 0) // if the position is 0 we are returning the First tab
         {
-            final DayForecastFragment day_forecast = new DayForecastFragment();
-
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    day_forecast.loadLatLon(cityId, lat, lon);
-
-                }
-            }, 1300);
-            return day_forecast;
-
+            return DayForecastFragment.newInstance(current);
 
         }
+
         else // As we are having 2 tabs if the position is now 0 it must be 1 so we are returning second tab
         {
-            final WeekForecastFragment week_forecast = new WeekForecastFragment();
-
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    week_forecast.loadLatLon(cityId, lat, lon);
-
-                }
-            }, 500);
-            return week_forecast;
-
+            return WeekForecastFragment.newInstance(current);
 
         }
     }

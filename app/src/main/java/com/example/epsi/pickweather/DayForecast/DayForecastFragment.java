@@ -16,9 +16,11 @@ import android.widget.Toast;
 import com.example.epsi.pickweather.Adapters.DayForecastAdapter;
 import com.example.epsi.pickweather.Home.DayForecastPOJO.DayForecast;
 import com.example.epsi.pickweather.Home.MainActivity;
+import com.example.epsi.pickweather.Home.POJO.CurrentWeather;
 import com.example.epsi.pickweather.Home.POJO.WeatherGenerator;
 import com.example.epsi.pickweather.Home.RestInterface;
 import com.example.epsi.pickweather.R;
+import com.example.epsi.pickweather.Utils.URLCalls;
 import com.google.android.gms.common.api.GoogleApiClient;
 
 import java.text.DateFormat;
@@ -39,20 +41,37 @@ public class DayForecastFragment extends Fragment {
    private EditText myedittext;
     GoogleApiClient mGoogleApiClient=null;
     Typeface font;
+    CurrentWeather current;
+    private RecyclerView rv_day;
+    private LinearLayoutManager llm;
 
     public DayForecastFragment() {
         super();
     }
 
-    public void loadLatLon(Integer cityId, String lat, String lon) {
 
-        final RecyclerView rv_day = (RecyclerView) this.getView().findViewById(R.id.rv_day);
+    public static DayForecastFragment newInstance(CurrentWeather cw) {
+        DayForecastFragment f1= new DayForecastFragment();
+        f1.current = cw;
+        return f1;
+    }
 
-        final LinearLayoutManager llm = new LinearLayoutManager(getContext());
-        llm.setOrientation(LinearLayoutManager.HORIZONTAL);
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+        View v = inflater.inflate(R.layout.day_forecast_fragment, container, false);
+         font = Typeface.createFromAsset(getActivity().getAssets(), "climacons_webfont.ttf");
+        rv_day = (RecyclerView) v.findViewById(R.id.rv_day);
+
+        String lat = null;
+        String lon = null;
+        Integer id=null;
+        URLCalls u  = new URLCalls(this.getActivity());
         final RestInterface myrestinterface = WeatherGenerator.callAPI(RestInterface.class);
         MainActivity a = new MainActivity();
-        if (cityId == null){
+        if (id == null){
+             lat = String.valueOf(current.getCoord().getLat());
+             lon = String.valueOf(current.getCoord().getLon());
             myrestinterface.getDayForecastByLatLon(lat, lon, "fr", 5, "f48fbd8a004dce121b1720eb6fac9fc7", new Callback<DayForecastResult>() {
 
                 @Override
@@ -64,14 +83,11 @@ public class DayForecastFragment extends Fragment {
                     for (DayForecast currentDfi : listDayForecast.getResult()) {
                         long timestamp = Long.parseLong(String.valueOf(currentDfi.getDt())) * 1000;
 
-                        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-                        String forecastDate = getDate(timestamp, false);
-
-                        String currentDate = sdf.format(new Date());
                         myarray.add(currentDfi);
 
                     }
                     final DayForecastAdapter adapter = new DayForecastAdapter(getActivity(), R.layout.element_day_forecast, myarray);
+                    adapter.notifyDataSetChanged();
 
                     rv_day.setLayoutManager(llm);
 
@@ -85,8 +101,10 @@ public class DayForecastFragment extends Fragment {
                 }
 
             });
-        }else if (lon== null && lat==null){
-            myrestinterface.getDayForecastById(cityId, "fr", 5, "f48fbd8a004dce121b1720eb6fac9fc7", new Callback<DayForecastResult>() {
+        }else if (lat== null && lon==null){
+             id = current.getId();
+
+            myrestinterface.getDayForecastById(id, "fr", 5, "f48fbd8a004dce121b1720eb6fac9fc7", new Callback<DayForecastResult>() {
 
                 @Override
                 public void success(DayForecastResult listDayForecast, Response response) {
@@ -119,13 +137,8 @@ public class DayForecastFragment extends Fragment {
 
             });
         }
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
-        View v = inflater.inflate(R.layout.day_forecast_fragment, container, false);
-         font = Typeface.createFromAsset(getActivity().getAssets(), "climacons_webfont.ttf");
+        llm = new LinearLayoutManager(getContext());
+        llm.setOrientation(LinearLayoutManager.HORIZONTAL);
 
         return v;
     }
