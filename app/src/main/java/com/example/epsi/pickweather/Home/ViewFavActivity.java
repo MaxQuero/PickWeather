@@ -3,9 +3,12 @@ package com.example.epsi.pickweather.Home;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
+import android.widget.Toast;
 
 import com.example.epsi.pickweather.R;
 import com.example.epsi.pickweather.SQlite.AccessBDDCity;
+import com.viewpagerindicator.CirclePageIndicator;
+import com.viewpagerindicator.LinePageIndicator;
 import com.viewpagerindicator.TitlePageIndicator;
 import com.viewpagerindicator.UnderlinePageIndicator;
 
@@ -16,7 +19,7 @@ public class ViewFavActivity extends FragmentActivity {
 
     private PagerAdapter mypageadapt;
     private ViewPager vppager;
-    private UnderlinePageIndicator mIndicator;
+    private LinePageIndicator mIndicator;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,8 +41,10 @@ public class ViewFavActivity extends FragmentActivity {
         vppager.setAdapter(mypageadapt);
 
         // ViewPager Indicator
-        mIndicator = (UnderlinePageIndicator) findViewById(R.id.indicator);
+        mIndicator = (LinePageIndicator) findViewById(R.id.indicator);
+        //mIndicator.setFades(false);
         mIndicator.setViewPager(vppager);
+
 
 
         myaccess.close();

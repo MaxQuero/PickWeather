@@ -1,21 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
     <android.support.v4.view.ViewPager
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:id="@+id/viewpager"
         android:layout_gravity="center">
+
     </android.support.v4.view.ViewPager>
 
-    <com.viewpagerindicator.UnderlinePageIndicator
+    <com.viewpagerindicator.LinePageIndicator
         android:id="@+id/indicator"
-        android:layout_height="wrap_content"
         android:layout_width="fill_parent"
-        android:layout_gravity="center"></com.viewpagerindicator.UnderlinePageIndicator>
+        android:layout_height="wrap_content"
+        android:padding="10dip"
+        app:fillColor="@android:color/transparent"
+        app:radius="5dp"
+        app:strokeColor="#F04F2D"
+        app:strokeWidth="1dp"
+        android:layout_alignParentBottom="true"
+        android:background="@android:color/transparent" />
 
 
 </LinearLayout>
