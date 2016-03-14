@@ -6,7 +6,6 @@ import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.location.Location;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -17,7 +16,6 @@ import android.widget.Toast;
 
 import com.example.epsi.pickweather.Adapters.ForecastViewPagerAdapter;
 import com.example.epsi.pickweather.FavCity.FavCityActivity;
-import com.example.epsi.pickweather.Home.POJO.CurrentWeather;
 import com.example.epsi.pickweather.R;
 import com.example.epsi.pickweather.SQlite.AccessBDDCity;
 import com.example.epsi.pickweather.SearchCity.SearchCityActivity;
@@ -100,7 +98,7 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
     public void handleShakeEvent(){
         Integer i = urls.cityId;
         urls.getWeatherById(urls.getWeatherId());
-        updateForecastData(urls.getWeather());
+        updateForecastData(urls.cityId, null, null);
 
         Toast.makeText(getApplicationContext(), "Raffraichissement de " + urls.getWeatherName() + " .", Toast.LENGTH_SHORT).show();
 
@@ -160,7 +158,7 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
                 return true;
             case R.id.action_geoloc :
                 displayLocation();
-                updateForecastData(urls.getWeather());
+                updateForecastData(null, urls.getLat(), urls.getLon());
                 return true;
             default :
                 return super.onOptionsItemSelected(item);
@@ -186,10 +184,13 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
         final Integer idCity = (Integer) i.getSerializableExtra("id");
         if (idCity == null) {
             this.displayLocation();
+            updateForecastData(null, urls.getLat(), urls.getLon());
+
         }else{
             urls.getWeatherById(idCity);
+            updateForecastData(idCity, null, null);
+
         }
-        updateForecastData(urls.getWeather());
     }
 
 
@@ -227,11 +228,9 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
         return result;
     }
 
-    private void updateForecastData(final CurrentWeather cw){
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                adapter = new ForecastViewPagerAdapter(getSupportFragmentManager(), Titles, Numboftabs, cw);
+    private void updateForecastData(final Integer id, final String lat, final String lon){
+
+                adapter = new ForecastViewPagerAdapter(getSupportFragmentManager(), Titles, Numboftabs, id, lat, lon);
 
 // Creating The ViewPagerAdapter and Passing Fragment Manager, Titles fot the Tabs and Number Of Tabs.
 
@@ -254,8 +253,7 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
 
                 // Setting the ViewPager For the SlidingTabsLayout
                 tabs.setViewPager(pager);
-            }
-        }, 200);
+
     }
 
     private void displayLocation() {

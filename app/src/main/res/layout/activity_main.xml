@@ -32,7 +32,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:textSize="500px"
+                android:textSize="450px"
                 android:textColor="#a0dfe4de"
                 android:textIsSelectable="false" />
             <TextView

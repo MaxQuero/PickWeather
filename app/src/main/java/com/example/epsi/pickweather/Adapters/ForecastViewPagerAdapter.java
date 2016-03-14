@@ -44,13 +44,13 @@ public class ForecastViewPagerAdapter extends FragmentStatePagerAdapter {
 
         if(position == 0) // if the position is 0 we are returning the First tab
         {
-            return DayForecastFragment.newInstance(current);
+            return DayForecastFragment.newInstance(cityId, lat, lon);
 
         }
 
         else // As we are having 2 tabs if the position is now 0 it must be 1 so we are returning second tab
         {
-            return WeekForecastFragment.newInstance(current);
+            return WeekForecastFragment.newInstance(cityId, lat, lon);
 
         }
     }

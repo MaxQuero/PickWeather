@@ -3,6 +3,7 @@ package com.example.epsi.pickweather.WeekForecast;
 import android.graphics.Typeface;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,7 +16,6 @@ import android.widget.Toast;
 
 import com.example.epsi.pickweather.Adapters.WeekForecastAdapter;
 import com.example.epsi.pickweather.Home.MainActivity;
-import com.example.epsi.pickweather.Home.POJO.CurrentWeather;
 import com.example.epsi.pickweather.Home.POJO.WeatherGenerator;
 import com.example.epsi.pickweather.Home.RestInterface;
 import com.example.epsi.pickweather.Home.WeekForecastPOJO.WeekForecast;
@@ -38,12 +38,14 @@ public class WeekForecastFragment extends Fragment implements GoogleApiClient.Co
     Typeface font;
     private RecyclerView rv_week;
     private LinearLayoutManager llm;
-    CurrentWeather current;
+    String lat, lon;
+    Integer id;
 
-
-    public static WeekForecastFragment newInstance(CurrentWeather cw) {
+    public static WeekForecastFragment newInstance(Integer id, String lat, String lon) {
         WeekForecastFragment f1= new WeekForecastFragment();
-        f1.current = cw;
+        f1.id = id;
+        f1.lat = lat;
+        f1.lon = lon;
         return f1;
     }
 
@@ -57,73 +59,75 @@ public class WeekForecastFragment extends Fragment implements GoogleApiClient.Co
         llm = new LinearLayoutManager(getContext());
         llm.setOrientation(LinearLayoutManager.HORIZONTAL);
 
-        String lat = "4";
-        String lon = "3";
-        Integer id = null;
-        final RestInterface myrestinterface = WeatherGenerator.callAPI(RestInterface.class);
-        MainActivity a = new MainActivity();
-        if (id == null){
-            lat = String.valueOf(current.getCoord().getLat());
-            lon = String.valueOf(current.getCoord().getLon());
-            myrestinterface.getWeekForecastByLatLon(lat, lon, "fr", 5, "f48fbd8a004dce121b1720eb6fac9fc7", new Callback<WeekForecastResult>() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                final RestInterface myrestinterface = WeatherGenerator.callAPI(RestInterface.class);
+                MainActivity a = new MainActivity();
+                if (id == null) {
+                    myrestinterface.getWeekForecastByLatLon(lat, lon, "fr", 5, "f48fbd8a004dce121b1720eb6fac9fc7", new Callback<WeekForecastResult>() {
 
-                @Override
-                public void success(WeekForecastResult listDayForecast, Response response) {
-//System.out.println(response.toString());
-//System.out.println(sw.getMessage().toString());
-                    final ArrayList<WeekForecast> myarray = new ArrayList<>();
-                    // Toast.makeText(getApplicationContext(), sw.getMessage().toString(), Toast.LENGTH_LONG).show();
-                    for (WeekForecast currentDfi : listDayForecast.getResult()) {
-                        long timestamp = Long.parseLong(String.valueOf(currentDfi.getDt())) * 1000;
-                        myarray.add(currentDfi);
-                    }
-                    final WeekForecastAdapter adapter = new WeekForecastAdapter(getActivity(), R.layout.element_week_forecast, myarray);
+                        @Override
+                        public void success(WeekForecastResult listDayForecast, Response response) {
+                            //System.out.println(response.toString());
+                            //System.out.println(sw.getMessage().toString());
+                            final ArrayList<WeekForecast> myarray = new ArrayList<>();
+                            // Toast.makeText(getApplicationContext(), sw.getMessage().toString(), Toast.LENGTH_LONG).show();
+                            for (WeekForecast currentDfi : listDayForecast.getResult()) {
+                                long timestamp = Long.parseLong(String.valueOf(currentDfi.getDt())) * 1000;
+                                myarray.add(currentDfi);
+                            }
+                            final WeekForecastAdapter adapter = new WeekForecastAdapter(getActivity(), R.layout.element_week_forecast, myarray);
 
 
-                    rv_week.setLayoutManager(llm);
+                            rv_week.setLayoutManager(llm);
 
-                    rv_week.setAdapter(adapter);
+                            rv_week.setAdapter(adapter);
+                        }
+
+                        @Override
+                        public void failure(RetrofitError error) {
+                            Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_LONG).show();
+                        }
+
+                    });
+                } else if (lon == null && lat == null) {
+
+                    myrestinterface.getWeekForecastById(id, "fr", 5, "f48fbd8a004dce121b1720eb6fac9fc7", new Callback<WeekForecastResult>() {
+
+                        @Override
+                        public void success(WeekForecastResult listDayForecast, Response response) {
+                            //System.out.println(response.toString());
+                            //System.out.println(sw.getMessage().toString());
+                            final ArrayList<WeekForecast> myarray = new ArrayList<>();
+                            // Toast.makeText(getApplicationContext(), sw.getMessage().toString(), Toast.LENGTH_LONG).show();
+                            for (WeekForecast currentDfi : listDayForecast.getResult()) {
+                                long timestamp = Long.parseLong(String.valueOf(currentDfi.getDt())) * 1000;
+                                myarray.add(currentDfi);
+                            }
+                            final WeekForecastAdapter adapter = new WeekForecastAdapter(getActivity(), R.layout.element_week_forecast, myarray);
+
+                            rv_week.setLayoutManager(llm);
+
+                            rv_week.setAdapter(adapter);
+
+                        }
+
+                        @Override
+                        public void failure(RetrofitError error) {
+                            Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_LONG).show();
+                        }
+
+                    });
+                    llm = new LinearLayoutManager(getContext());
+                    llm.setOrientation(LinearLayoutManager.HORIZONTAL);
+
                 }
+            }
+        }, 500);
+           return v;
 
-                @Override
-                public void failure(RetrofitError error) {
-                    Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_LONG).show();
-                }
-
-            });
-        }else if (lon==null && lat==null){
-            id = current.getId();
-
-            myrestinterface.getWeekForecastById(id, "fr", 5, "f48fbd8a004dce121b1720eb6fac9fc7", new Callback<WeekForecastResult>() {
-
-                @Override
-                public void success(WeekForecastResult listDayForecast, Response response) {
-//System.out.println(response.toString());
-//System.out.println(sw.getMessage().toString());
-                    final ArrayList<WeekForecast> myarray = new ArrayList<>();
-                    // Toast.makeText(getApplicationContext(), sw.getMessage().toString(), Toast.LENGTH_LONG).show();
-                    for (WeekForecast currentDfi : listDayForecast.getResult()) {
-                        long timestamp = Long.parseLong(String.valueOf(currentDfi.getDt())) * 1000;
-                        myarray.add(currentDfi);
-                    }
-                    final WeekForecastAdapter adapter = new WeekForecastAdapter(getActivity(), R.layout.element_week_forecast, myarray);
-
-                    rv_week.setLayoutManager(llm);
-
-                    rv_week.setAdapter(adapter);
-
-                }
-
-                @Override
-                public void failure(RetrofitError error) {
-                    Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_LONG).show();
-                }
-
-            });
         }
-
-        return v;
-    }
 
     @Override
     public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
