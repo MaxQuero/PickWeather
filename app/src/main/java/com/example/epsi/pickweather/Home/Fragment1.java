@@ -58,6 +58,13 @@ public class Fragment1 extends Fragment {
     }
 
     @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        Toast.makeText(getActivity().getApplicationContext(), "je repasse ici", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View v = inflater.inflate(R.layout.element_pageview, container, false);
 
@@ -79,9 +86,6 @@ public class Fragment1 extends Fragment {
                 tvhumid.setText("Humidité : " + weather.getMain().getHumidity().intValue() + " %");
                 press.setText("Pression : " + weather.getMain().getPressure().intValue() + " hpa");
 
-               /* v.OnScrollChangeListener(new View.OnScrollChangeListener(){
-
-                });*/
 
                /* new Handler().postDelayed(new Runnable() {
                     @Override
@@ -93,6 +97,7 @@ public class Fragment1 extends Fragment {
                         // Assigning ViewPager View and setting the adapter
                         pager = (ViewPager) v.findViewById(R.id.pager);
                         pager.setAdapter(adapter);
+
 
                         tabs = (SlidingTabLayout) v.findViewById(R.id.tabs);
                         tabs.setDistributeEvenly(true); // To make the Tabs Fixed set this true, This makes the tabs Space Evenly in Available width
