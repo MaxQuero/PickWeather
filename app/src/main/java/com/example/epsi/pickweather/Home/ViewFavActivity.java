@@ -6,10 +6,7 @@ import android.support.v4.view.ViewPager;
 
 import com.example.epsi.pickweather.R;
 import com.example.epsi.pickweather.SQlite.AccessBDDCity;
-import com.viewpagerindicator.CirclePageIndicator;
 import com.viewpagerindicator.LinePageIndicator;
-import com.viewpagerindicator.TitlePageIndicator;
-import com.viewpagerindicator.UnderlinePageIndicator;
 
 /**
  * Created by Camille on 07/03/2016.
