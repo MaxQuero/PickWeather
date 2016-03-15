@@ -4,6 +4,7 @@ package com.example.epsi.pickweather.Home;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
@@ -69,7 +70,9 @@ public class Fragment1 extends Fragment {
         final TextView status = (TextView) v.findViewById(R.id.txt_status_frag);
         final TextView press = (TextView) v.findViewById(R.id.txt_press_frag);
 
-
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
         final RestInterface myrestinterface = WeatherGenerator.callAPI(RestInterface.class);
         myrestinterface.getWeatherReportById(currentw.getId(), "fr", "f48fbd8a004dce121b1720eb6fac9fc7", new Callback<CurrentWeather>() {
             @Override
@@ -120,7 +123,8 @@ public class Fragment1 extends Fragment {
                 String merror = error.getMessage();
             }
         });
-
+            }
+        }, 100);
 
         return v;
     }

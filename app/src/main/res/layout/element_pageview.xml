@@ -12,9 +12,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="50dp"
+            android:layout_marginBottom="10dp"
             android:layout_gravity="center_horizontal"
             android:textAlignment="gravity"
-            android:textSize="100px" />
+            android:textSize="50dp" />
 
         <TextView
             android:id="@+id/weather_icon_frag"
@@ -22,7 +23,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="-10dp"
             android:layout_gravity="center_horizontal"
-            android:textSize="450px"
+            android:textSize="120dp"
             android:textColor="#a0dfe4de"
             android:textIsSelectable="false" />
         <TextView
@@ -30,20 +31,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:textSize="50px" />
+            android:textSize="20dp"/>
         <TextView
             android:id="@+id/txt_humidity_frag"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:textSize="40px" />
+            android:textSize="15dp" />
 
         <TextView
             android:id="@+id/txt_press_frag"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:textSize="40px" />
+            android:textSize="15dp" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -56,14 +57,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:textSize="100px"
+                android:textSize="35dp"
                 android:textColor="#a0e42a00" />
             <TextView
                 android:id="@+id/celcius_icon_frag"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:textSize="100px"
+                android:textSize="35dp"
                 android:textColor="#a0e42a00" />
         </LinearLayout>
 
@@ -71,6 +72,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
+            android:layout_marginTop="-10dp"
             android:weightSum="1">
             <com.example.epsi.pickweather.Utils.SlidingTabLayout
                 android:id="@+id/tabs"
