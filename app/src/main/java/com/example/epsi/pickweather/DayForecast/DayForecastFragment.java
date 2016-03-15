@@ -117,9 +117,6 @@ public class DayForecastFragment extends Fragment {
                                 long timestamp = Long.parseLong(String.valueOf(currentDfi.getDt())) * 1000;
 
                                 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-                                String forecastDate = getDate(timestamp, false);
-
-                                String currentDate = sdf.format(new Date());
                                 myarray.add(currentDfi);
 
                             }

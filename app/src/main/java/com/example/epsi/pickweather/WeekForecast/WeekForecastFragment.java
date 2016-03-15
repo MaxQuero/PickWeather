@@ -121,13 +121,11 @@ public class WeekForecastFragment extends Fragment implements GoogleApiClient.Co
                     });
                     llm = new LinearLayoutManager(getContext());
                     llm.setOrientation(LinearLayoutManager.HORIZONTAL);
-
                 }
             }
         }, 600);
-           return v;
-
-        }
+        return v;
+     }
 
     @Override
     public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {

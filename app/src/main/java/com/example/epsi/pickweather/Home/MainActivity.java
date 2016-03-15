@@ -370,10 +370,11 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
         AccessBDDCity myaccess = new AccessBDDCity(getApplicationContext());
         myaccess.open();
 
-        /*if (myaccess.isAlreadyInsert(weather)) {
+        if (myaccess.isAlreadyInsert(weather)) {
             MenuItem item = menu.findItem(R.id.action_favorite);
             item.setIcon(R.drawable.favorite_icon);
-        }*/
+        }
+        myaccess.close();
 
         double c = weather.getMain().getTemp().intValue() - 273;
         int celcius_degree = (int) c;
