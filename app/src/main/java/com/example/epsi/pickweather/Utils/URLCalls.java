@@ -3,8 +3,9 @@ package com.example.epsi.pickweather.Utils;
 import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.LinearLayout;
-import android.widget.RemoteViews;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -12,7 +13,7 @@ import com.example.epsi.pickweather.Home.POJO.CurrentWeather;
 import com.example.epsi.pickweather.Home.RestInterface;
 import com.example.epsi.pickweather.R;
 import com.example.epsi.pickweather.SQlite.AccessBDDCity;
-import com.example.epsi.pickweather.Home.POJO.WeatherGenerator;
+import com.example.epsi.pickweather.Home.POJO.CallAPIWeather;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -49,7 +50,7 @@ public class URLCalls {
 
 
     public void getWeatherLocation(String lat, String lon) {
-        final RestInterface r = WeatherGenerator.callAPI(RestInterface.class);
+        final RestInterface r = CallAPIWeather.callAPI(RestInterface.class);
         r.getWeatherReportByCoord(lat, lon, "fr", "f48fbd8a004dce121b1720eb6fac9fc7", new Callback<CurrentWeather>() {
             @Override
             public void success(CurrentWeather weather, Response response) {
@@ -110,7 +111,7 @@ public class URLCalls {
         return mLon;
     }
     public void getWeatherById(int id) {
-        final RestInterface ri = WeatherGenerator.callAPI(RestInterface.class);
+        final RestInterface ri = CallAPIWeather.callAPI(RestInterface.class);
 
 
         //Calling method to get weather report from city name
@@ -152,6 +153,7 @@ public class URLCalls {
             MenuItem item = menu.findItem(R.id.action_favorite);
             item.setIcon(R.drawable.favorite_icon);
         }*/
+        myaccess.close();
 
         double c = weather.getMain().getTemp().intValue() - 273;
         int celcius_degree = (int) c;

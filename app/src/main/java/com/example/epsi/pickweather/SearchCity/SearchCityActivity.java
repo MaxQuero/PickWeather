@@ -17,7 +17,7 @@ import android.widget.Toast;
 import com.example.epsi.pickweather.Adapters.ListCityAdapter;
 import com.example.epsi.pickweather.Home.MainActivity;
 import com.example.epsi.pickweather.Home.POJO.CurrentWeather;
-import com.example.epsi.pickweather.Home.POJO.WeatherGenerator;
+import com.example.epsi.pickweather.Home.POJO.CallAPIWeather;
 import com.example.epsi.pickweather.Home.RestInterface;
 import com.example.epsi.pickweather.R;
 
@@ -81,7 +81,7 @@ public class SearchCityActivity extends AppCompatActivity{
     }
 
     public void performSearch(){
-        final RestInterface myrestinterface = WeatherGenerator.callAPI(RestInterface.class);
+        final RestInterface myrestinterface = CallAPIWeather.callAPI(RestInterface.class);
 
 
         Map<String, String> p = new HashMap<String, String>();

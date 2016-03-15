@@ -13,7 +13,7 @@ import android.widget.RemoteViews;
 import android.widget.Toast;
 
 import com.example.epsi.pickweather.Home.POJO.CurrentWeather;
-import com.example.epsi.pickweather.Home.POJO.WeatherGenerator;
+import com.example.epsi.pickweather.Home.POJO.CallAPIWeather;
 import com.example.epsi.pickweather.Home.RestInterface;
 import com.example.epsi.pickweather.R;
 
@@ -32,7 +32,7 @@ public class SimpleWidgetProvider extends AppWidgetProvider {
         for (int i = 0; i < count; i++) {
             final int widgetId = appWidgetIds[i];
 
-            final RestInterface ri = WeatherGenerator.callAPI(RestInterface.class);
+            final RestInterface ri = CallAPIWeather.callAPI(RestInterface.class);
 
 
             //Calling method to get weather report from city name

@@ -9,7 +9,7 @@ import retrofit.client.OkClient;
 /**
  * Created by Camille on 27/02/2016.
  */
-public class WeatherGenerator {
+public class CallAPIWeather {
     public static final String API_URL_CITY = "http://api.openweathermap.org/data/2.5/";
 
     private static RestAdapter.Builder builderAutoCompletionCity = new RestAdapter.Builder()

@@ -48,7 +48,7 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.example.epsi.pickweather.Home.ViewFavActivity"
+            android:name=".FavCity.ViewFavActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
         </activity>

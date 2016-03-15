@@ -16,7 +16,7 @@ import android.widget.Toast;
 
 import com.example.epsi.pickweather.Adapters.WeekForecastAdapter;
 import com.example.epsi.pickweather.Home.MainActivity;
-import com.example.epsi.pickweather.Home.POJO.WeatherGenerator;
+import com.example.epsi.pickweather.Home.POJO.CallAPIWeather;
 import com.example.epsi.pickweather.Home.RestInterface;
 import com.example.epsi.pickweather.Home.WeekForecastPOJO.WeekForecast;
 import com.example.epsi.pickweather.R;
@@ -62,7 +62,7 @@ public class WeekForecastFragment extends Fragment implements GoogleApiClient.Co
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                final RestInterface myrestinterface = WeatherGenerator.callAPI(RestInterface.class);
+                final RestInterface myrestinterface = CallAPIWeather.callAPI(RestInterface.class);
                 MainActivity a = new MainActivity();
                 if (id == null) {
                     myrestinterface.getWeekForecastByLatLon(lat, lon, "fr", 5, "f48fbd8a004dce121b1720eb6fac9fc7", new Callback<WeekForecastResult>() {

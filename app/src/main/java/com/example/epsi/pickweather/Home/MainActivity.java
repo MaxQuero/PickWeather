@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.example.epsi.pickweather.Adapters.ForecastViewPagerAdapter;
 import com.example.epsi.pickweather.FavCity.FavCityActivity;
+import com.example.epsi.pickweather.FavCity.ViewFavActivity;
 import com.example.epsi.pickweather.R;
 import com.example.epsi.pickweather.SQlite.AccessBDDCity;
 import com.example.epsi.pickweather.SearchCity.SearchCityActivity;
@@ -149,8 +150,17 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
                 }
                 return true;
             case R.id.action_viewfav :
-                Intent in = new Intent(MainActivity.this, ViewFavActivity.class);
-                startActivity(in);
+                AccessBDDCity myacce = new AccessBDDCity(getApplicationContext());
+                myacce.open();
+
+                if (myacce.getAllFav() != null) {
+                    Intent in = new Intent(MainActivity.this, ViewFavActivity.class);
+                    startActivity(in);
+                }
+                else{
+                    Toast.makeText(getApplicationContext(), "Vous n'avez pas de favoris", Toast.LENGTH_LONG).show();
+                }
+                myacce.close();
                 return true;
             case R.id.action_fav :
                 Intent i = new Intent(MainActivity.this, FavCityActivity.class);
