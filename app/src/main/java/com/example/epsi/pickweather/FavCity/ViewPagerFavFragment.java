@@ -74,56 +74,56 @@ public class ViewPagerFavFragment extends Fragment {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-        final RestInterface myrestinterface = CallAPIWeather.callAPI(RestInterface.class);
-        myrestinterface.getWeatherReportById(currentw.getId(), "fr", "f48fbd8a004dce121b1720eb6fac9fc7", new Callback<CurrentWeather>() {
-            @Override
-            public void success(final CurrentWeather weather, Response response) {
-
-                tvname.setText(weather.getName() + ", " + weather.getSys().getCountry());
-
-                //Get simple weather code -> first number says which type of weather it is
-                status.setText("Temps actuel : " + weather.getWeather().get(0).getDescription());
-                tvhumid.setText("Humidité : " + weather.getMain().getHumidity().intValue() + " %");
-                press.setText("Pression : " + weather.getMain().getPressure().intValue() + " hpa");
-
-
-               /* new Handler().postDelayed(new Runnable() {
+                final RestInterface myrestinterface = CallAPIWeather.callAPI(RestInterface.class);
+                myrestinterface.getWeatherReportById(currentw.getId(), "fr", "f48fbd8a004dce121b1720eb6fac9fc7", new Callback<CurrentWeather>() {
                     @Override
-                    public void run() {*/
-                        adapter = new ForecastViewPagerAdapter(getChildFragmentManager(), Titles, Numboftabs, weather.getId(), null, null);
+                    public void success(final CurrentWeather weather, Response response) {
 
-                        // Creating The ViewPagerAdapter and Passing Fragment Manager, Titles fot the Tabs and Number Of Tabs.
+                        tvname.setText(weather.getName() + ", " + weather.getSys().getCountry());
 
-                        // Assigning ViewPager View and setting the adapter
-                        pager = (ViewPager) v.findViewById(R.id.pager);
-                        pager.setAdapter(adapter);
+                        //Get simple weather code -> first number says which type of weather it is
+                        status.setText("Temps actuel : " + weather.getWeather().get(0).getDescription());
+                        tvhumid.setText("Humidité : " + weather.getMain().getHumidity().intValue() + " %");
+                        press.setText("Pression : " + weather.getMain().getPressure().intValue() + " hpa");
 
 
-                        tabs = (SlidingTabLayout) v.findViewById(R.id.tabs);
-                        tabs.setDistributeEvenly(true); // To make the Tabs Fixed set this true, This makes the tabs Space Evenly in Available width
-
-                        // Setting Custom Color for the Scroll bar indicator of the Tab View
-                        tabs.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
+                       /* new Handler().postDelayed(new Runnable() {
                             @Override
-                            public int getIndicatorColor(int position) {
-                                return getResources().getColor(R.color.tabsScrollColor);
-                            }
-                        });
-                        tabs.setViewPager(pager);
-                  /* }
-                }, 2000);*/
-                // Setting the ViewPager For the SlidingTabsLayout
+                            public void run() {*/
+                                adapter = new ForecastViewPagerAdapter(getChildFragmentManager(), Titles, Numboftabs, weather.getId(), null, null);
 
-                putWeatherIcons(weather, v);
+                                // Creating The ViewPagerAdapter and Passing Fragment Manager, Titles fot the Tabs and Number Of Tabs.
+
+                                // Assigning ViewPager View and setting the adapter
+                                pager = (ViewPager) v.findViewById(R.id.pager);
+                                pager.setAdapter(adapter);
 
 
-            }
+                                tabs = (SlidingTabLayout) v.findViewById(R.id.tabs);
+                                tabs.setDistributeEvenly(true); // To make the Tabs Fixed set this true, This makes the tabs Space Evenly in Available width
 
-            @Override
-            public void failure(RetrofitError error) {
-                String merror = error.getMessage();
-            }
-        });
+                                // Setting Custom Color for the Scroll bar indicator of the Tab View
+                                tabs.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
+                                    @Override
+                                    public int getIndicatorColor(int position) {
+                                        return getResources().getColor(R.color.tabsScrollColor);
+                                    }
+                                });
+                                tabs.setViewPager(pager);
+                          /* }
+                        }, 2000);*/
+                        // Setting the ViewPager For the SlidingTabsLayout
+
+                        putWeatherIcons(weather, v);
+
+
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        String merror = error.getMessage();
+                    }
+                });
             }
         }, 100);
         return v;
