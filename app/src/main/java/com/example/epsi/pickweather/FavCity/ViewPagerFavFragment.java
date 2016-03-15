@@ -124,8 +124,8 @@ public class ViewPagerFavFragment extends Fragment {
                 String merror = error.getMessage();
             }
         });
-
-
+            }
+        }, 100);
         return v;
     }
 

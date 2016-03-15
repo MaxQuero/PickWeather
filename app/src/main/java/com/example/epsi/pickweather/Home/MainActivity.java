@@ -19,9 +19,9 @@ import android.widget.Toast;
 
 import com.example.epsi.pickweather.Adapters.ForecastViewPagerAdapter;
 import com.example.epsi.pickweather.FavCity.FavCityActivity;
-import com.example.epsi.pickweather.Home.POJO.CurrentWeather;
-import com.example.epsi.pickweather.Home.POJO.WeatherGenerator;
 import com.example.epsi.pickweather.FavCity.ViewFavActivity;
+import com.example.epsi.pickweather.Home.POJO.CallAPIWeather;
+import com.example.epsi.pickweather.Home.POJO.CurrentWeather;
 import com.example.epsi.pickweather.R;
 import com.example.epsi.pickweather.SQlite.AccessBDDCity;
 import com.example.epsi.pickweather.SearchCity.SearchCityActivity;
@@ -53,7 +53,6 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
     SlidingTabLayout tabs;
     CharSequence Titles[]={"Day","Week"};
     int Numboftabs =2;
-    public Activity a = new Activity();
     public TextView city, status, weather_icon, celcius_icon, humidity, pressure, temp, nameFromLocation, mLatitude, mLongitude;
     public int icon, weatherCode;
     public String currentCityName;
@@ -305,7 +304,7 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
     }
 
     public void getWeatherLocation(String lat, String lon) {
-        final RestInterface r = WeatherGenerator.callAPI(RestInterface.class);
+        final RestInterface r = CallAPIWeather.callAPI(RestInterface.class);
         r.getWeatherReportByCoord(lat, lon, "fr", "f48fbd8a004dce121b1720eb6fac9fc7", new Callback<CurrentWeather>() {
             @Override
             public void success(CurrentWeather weather, Response response) {
@@ -333,7 +332,7 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
     }
 
     public void getWeatherById(int id) {
-        final RestInterface ri = WeatherGenerator.callAPI(RestInterface.class);
+        final RestInterface ri = CallAPIWeather.callAPI(RestInterface.class);
 
 
         //Calling method to get weather report from city name
