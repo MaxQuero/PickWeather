@@ -48,7 +48,7 @@ public class FavCityActivity extends AppCompatActivity{
             final ListFavAdapter myadapt = new ListFavAdapter(FavCityActivity.this, R.layout.element_fav, mylist);
             mylistview.setAdapter(myadapt);
 
-            mylistview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+         /*   mylistview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
 
                     Intent i = new Intent(FavCityActivity.this, MainActivity.class);
@@ -56,7 +56,7 @@ public class FavCityActivity extends AppCompatActivity{
                     startActivity(i);
 
                 }
-            });
+            });*/
 
         } catch (Exception e) {
 

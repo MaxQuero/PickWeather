@@ -1,4 +1,4 @@
-package com.example.epsi.pickweather.Home;
+package com.example.epsi.pickweather.FavCity;
 
 
 import android.graphics.Color;
@@ -15,7 +15,8 @@ import android.widget.TextView;
 
 import com.example.epsi.pickweather.Adapters.ForecastViewPagerAdapter;
 import com.example.epsi.pickweather.Home.POJO.CurrentWeather;
-import com.example.epsi.pickweather.Home.POJO.WeatherGenerator;
+import com.example.epsi.pickweather.Home.POJO.CallAPIWeather;
+import com.example.epsi.pickweather.Home.RestInterface;
 import com.example.epsi.pickweather.R;
 import com.example.epsi.pickweather.Utils.SlidingTabLayout;
 
@@ -27,7 +28,7 @@ import retrofit.client.Response;
 /**
  * Created by Camille on 07/03/2016.
  */
-public class Fragment1 extends Fragment {
+public class ViewPagerFavFragment extends Fragment {
     private CurrentWeather currentw;
     ViewPager pager;
     ForecastViewPagerAdapter adapter;
@@ -36,8 +37,8 @@ public class Fragment1 extends Fragment {
     int Numboftabs =2;
     private boolean _hasLoadedOnce= false; // your boolean field
 
-    public static Fragment1 newInstance(CurrentWeather cw) {
-        Fragment1 f1= new Fragment1();
+    public static ViewPagerFavFragment newInstance(CurrentWeather cw) {
+        ViewPagerFavFragment f1= new ViewPagerFavFragment();
         f1.currentw = cw;
         return f1;
     }
@@ -73,7 +74,7 @@ public class Fragment1 extends Fragment {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-        final RestInterface myrestinterface = WeatherGenerator.callAPI(RestInterface.class);
+        final RestInterface myrestinterface = CallAPIWeather.callAPI(RestInterface.class);
         myrestinterface.getWeatherReportById(currentw.getId(), "fr", "f48fbd8a004dce121b1720eb6fac9fc7", new Callback<CurrentWeather>() {
             @Override
             public void success(final CurrentWeather weather, Response response) {
@@ -123,8 +124,7 @@ public class Fragment1 extends Fragment {
                 String merror = error.getMessage();
             }
         });
-            }
-        }, 100);
+
 
         return v;
     }

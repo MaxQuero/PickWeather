@@ -1,6 +1,5 @@
 package com.example.epsi.pickweather.Home;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -22,6 +21,7 @@ import com.example.epsi.pickweather.Adapters.ForecastViewPagerAdapter;
 import com.example.epsi.pickweather.FavCity.FavCityActivity;
 import com.example.epsi.pickweather.Home.POJO.CurrentWeather;
 import com.example.epsi.pickweather.Home.POJO.WeatherGenerator;
+import com.example.epsi.pickweather.FavCity.ViewFavActivity;
 import com.example.epsi.pickweather.R;
 import com.example.epsi.pickweather.SQlite.AccessBDDCity;
 import com.example.epsi.pickweather.SearchCity.SearchCityActivity;
@@ -73,7 +73,6 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        weather_icon = (TextView) findViewById(R.id.weather_icon);
         city = (TextView) findViewById(R.id.txt_city);
         weather_icon = (TextView) findViewById(R.id.weather_icon);
         status = (TextView) findViewById(R.id.txt_status);
@@ -172,8 +171,17 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
                 }
                 return true;
             case R.id.action_viewfav :
-                Intent in = new Intent(MainActivity.this, ViewFavActivity.class);
-                startActivity(in);
+                AccessBDDCity myacce = new AccessBDDCity(getApplicationContext());
+                myacce.open();
+
+                if (myacce.getAllFav() != null) {
+                    Intent in = new Intent(MainActivity.this, ViewFavActivity.class);
+                    startActivity(in);
+                }
+                else{
+                    Toast.makeText(getApplicationContext(), "Vous n'avez pas de favoris", Toast.LENGTH_LONG).show();
+                }
+                myacce.close();
                 return true;
             case R.id.action_fav :
                 Intent i = new Intent(MainActivity.this, FavCityActivity.class);

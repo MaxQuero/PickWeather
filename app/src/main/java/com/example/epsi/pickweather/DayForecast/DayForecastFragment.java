@@ -17,7 +17,7 @@ import android.widget.Toast;
 import com.example.epsi.pickweather.Adapters.DayForecastAdapter;
 import com.example.epsi.pickweather.Home.DayForecastPOJO.DayForecast;
 import com.example.epsi.pickweather.Home.MainActivity;
-import com.example.epsi.pickweather.Home.POJO.WeatherGenerator;
+import com.example.epsi.pickweather.Home.POJO.CallAPIWeather;
 import com.example.epsi.pickweather.Home.RestInterface;
 import com.example.epsi.pickweather.R;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -70,7 +70,7 @@ public class DayForecastFragment extends Fragment {
             @Override
             public void run() {
 
-                final RestInterface myrestinterface = WeatherGenerator.callAPI(RestInterface.class);
+                final RestInterface myrestinterface = CallAPIWeather.callAPI(RestInterface.class);
                 MainActivity a = new MainActivity();
                 if (id == null){
 
