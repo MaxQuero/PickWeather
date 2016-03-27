@@ -74,7 +74,7 @@ public class ViewPagerFavFragment extends Fragment {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                final RestInterface myrestinterface = CallAPIWeather.callAPI(RestInterface.class);
+                final RestInterface myrestinterface = CallAPIWeather.callAPI(RestInterface.class, getActivity().getApplicationContext());
                 myrestinterface.getWeatherReportById(currentw.getId(), "fr", "f48fbd8a004dce121b1720eb6fac9fc7", new Callback<CurrentWeather>() {
                     @Override
                     public void success(final CurrentWeather weather, Response response) {

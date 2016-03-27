@@ -70,7 +70,7 @@ public class DayForecastFragment extends Fragment {
             @Override
             public void run() {
 
-                final RestInterface myrestinterface = CallAPIWeather.callAPI(RestInterface.class);
+            final RestInterface myrestinterface = CallAPIWeather.callAPI(RestInterface.class, getActivity().getApplicationContext());
                 MainActivity a = new MainActivity();
                 if (id == null){
 

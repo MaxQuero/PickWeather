@@ -32,7 +32,7 @@ public class SimpleWidgetProvider extends AppWidgetProvider {
         for (int i = 0; i < count; i++) {
             final int widgetId = appWidgetIds[i];
 
-            final RestInterface ri = CallAPIWeather.callAPI(RestInterface.class);
+            final RestInterface ri = CallAPIWeather.callAPI(RestInterface.class, context);
 
 
             //Calling method to get weather report from city name

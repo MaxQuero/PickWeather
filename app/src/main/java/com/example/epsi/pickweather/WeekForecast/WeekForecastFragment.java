@@ -62,7 +62,7 @@ public class WeekForecastFragment extends Fragment implements GoogleApiClient.Co
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                final RestInterface myrestinterface = CallAPIWeather.callAPI(RestInterface.class);
+                final RestInterface myrestinterface = CallAPIWeather.callAPI(RestInterface.class, getActivity().getApplicationContext());
                 MainActivity a = new MainActivity();
                 if (id == null) {
                     myrestinterface.getWeekForecastByLatLon(lat, lon, "fr", 5, "f48fbd8a004dce121b1720eb6fac9fc7", new Callback<WeekForecastResult>() {

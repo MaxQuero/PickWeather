@@ -304,7 +304,7 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
     }
 
     public void getWeatherLocation(String lat, String lon) {
-        final RestInterface r = CallAPIWeather.callAPI(RestInterface.class);
+        final RestInterface r = CallAPIWeather.callAPI(RestInterface.class, getApplicationContext());
         r.getWeatherReportByCoord(lat, lon, "fr", "f48fbd8a004dce121b1720eb6fac9fc7", new Callback<CurrentWeather>() {
             @Override
             public void success(CurrentWeather weather, Response response) {
@@ -332,7 +332,7 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
     }
 
     public void getWeatherById(int id) {
-        final RestInterface ri = CallAPIWeather.callAPI(RestInterface.class);
+        final RestInterface ri = CallAPIWeather.callAPI(RestInterface.class, getApplicationContext());
 
 
         //Calling method to get weather report from city name

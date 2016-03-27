@@ -81,7 +81,7 @@ public class SearchCityActivity extends AppCompatActivity{
     }
 
     public void performSearch(){
-        final RestInterface myrestinterface = CallAPIWeather.callAPI(RestInterface.class);
+        final RestInterface myrestinterface = CallAPIWeather.callAPI(RestInterface.class, getApplicationContext());
 
 
         Map<String, String> p = new HashMap<String, String>();
