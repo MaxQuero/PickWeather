@@ -27,9 +27,7 @@ public class CallAPIWeather {
 
         File httpCacheDirectory = new File(context.getCacheDir(), "responses");
         mContext = context;
-        Cache cache = null;
-
-            cache = new Cache(httpCacheDirectory, 10 * 1024 * 1024);
+        final Cache cache =  new Cache(httpCacheDirectory, 10 * 1024 * 1024);
 
 
             okHttpCli = new OkHttpClient();
@@ -47,8 +45,11 @@ public class CallAPIWeather {
                         public void intercept(RequestFacade request) {
                             request.addHeader("Accept", "application/json;versions=1");
                             if (Utils.isNetworkAvailable(context)) {
-                                int maxAge = 60; // read from cache for 1 minute
-                                request.addHeader("Cache-Control", "public, max-age=" + maxAge);
+
+                                    int maxStale = 60 * 60; // tolerate 4-weeks stale
+                                request.addHeader("Cache-Control",
+                                        "public, max-stale=" + maxStale);
+
                             } else {
                                 int maxStale = 60 * 60 * 24 * 28; // tolerate 4-weeks stale
                                 request.addHeader("Cache-Control",

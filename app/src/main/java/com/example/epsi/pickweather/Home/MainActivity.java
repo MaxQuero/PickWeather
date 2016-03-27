@@ -425,7 +425,7 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
                         break;
                     case 6:
                         icon = R.string.snowy;
-                        weather_icon.setTextColor(Color.parseColor("#a0dfe4de"));
+                        weather_icon.setTextColor(Color.parseColor("#ffffff"));
                         view.setBackgroundResource(R.drawable.snowy);
                         break;
                     case 7:
